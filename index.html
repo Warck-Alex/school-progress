@@ -14,10 +14,8 @@
   --shadow:0 4px 18px rgba(24,39,75,.08);
 }
 html,body{margin:0;padding:0;min-height:100%}
-body{
-  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
-  background:var(--bg);color:var(--text);font-size:15px;line-height:1.45;padding-bottom:40px
-}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+  background:var(--bg);color:var(--text);font-size:15px;line-height:1.45;padding-bottom:40px}
 button{font-family:inherit;font-size:14px;cursor:pointer;border:none;border-radius:10px;
   background:var(--accent);color:#fff;padding:9px 14px;transition:.15s;font-weight:600}
 button:hover{filter:brightness(1.07)}
@@ -26,10 +24,8 @@ button.secondary{background:#eef1f8;color:var(--text)}
 button.danger{background:var(--danger)}
 button.ghost{background:#eef1f8;color:var(--accent);padding:6px 10px;font-size:12.5px}
 button:disabled{opacity:.45;cursor:not-allowed}
-input,select,textarea{
-  font-family:inherit;font-size:14px;padding:9px 11px;border:1px solid var(--border);
-  border-radius:10px;background:#fff;color:var(--text);width:100%;outline:none;transition:.15s
-}
+input,select,textarea{font-family:inherit;font-size:14px;padding:9px 11px;border:1px solid var(--border);
+  border-radius:10px;background:#fff;color:var(--text);width:100%;outline:none;transition:.15s}
 input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(79,124,255,.13)}
 textarea{resize:vertical}
 label{display:block;font-size:13px;color:var(--muted);font-weight:600;margin-bottom:10px}
@@ -37,82 +33,67 @@ label > span{display:block;margin-bottom:4px}
 .muted{color:var(--muted)}
 .small{font-size:12.5px}
 
-/* ============================ ШАПКА ============================ */
-header.app-header{
-  position:sticky;top:0;z-index:60;
-  background:linear-gradient(135deg,#4f7cff,#7c5cff);
-  color:#fff;padding:10px 14px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;
-  box-shadow:0 4px 20px rgba(79,124,255,.28)
-}
+header.app-header{position:sticky;top:0;z-index:60;
+  background:linear-gradient(135deg,#4f7cff,#7c5cff);color:#fff;
+  padding:10px 14px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;
+  box-shadow:0 4px 20px rgba(79,124,255,.28)}
 .brand{font-weight:800;font-size:16px;white-space:nowrap}
 .header-spacer{flex:1}
-.name-field{flex:1 1 200px;min-width:160px;max-width:340px}
-.name-field input{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);color:#fff;font-weight:600}
-.name-field input::placeholder{color:rgba(255,255,255,.7)}
-.gpa-chip{
-  background:rgba(255,255,255,.22);
-  border:1px solid rgba(255,255,255,.4);
-  border-radius:999px;
-  padding:7px 16px;
-  font-size:15px;
-  font-weight:700;
-  white-space:nowrap;
-  display:flex;align-items:center;gap:8px;
-  text-shadow:0 1px 2px rgba(0,0,0,.15);
-}
+.student-slot{flex:1 1 220px;min-width:160px;max-width:380px}
+.student-slot select{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);
+  color:#fff;font-weight:600;padding:7px 11px}
+.student-slot select option{color:#151a2d;background:#fff}
+.student-slot .student-label{
+  background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);
+  border-radius:10px;padding:7px 12px;font-weight:600;font-size:14px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gpa-chip{background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.4);
+  border-radius:999px;padding:7px 16px;font-size:15px;font-weight:700;white-space:nowrap;
+  display:flex;align-items:center;gap:8px;text-shadow:0 1px 2px rgba(0,0,0,.15)}
 .gpa-chip .gpa-label{font-size:15px;font-weight:700;opacity:.95}
-.gpa-chip b{
-  font-size:22px;
-  font-weight:900;
-  letter-spacing:.3px;
-  padding:0 4px;
-  line-height:1;
-}
+.gpa-chip b{font-size:22px;font-weight:900;letter-spacing:.3px;padding:0 4px;line-height:1}
 .user-chip{display:flex;align-items:center;gap:8px;font-size:12.5px;white-space:nowrap}
 .user-chip button{background:rgba(255,255,255,.2);padding:6px 11px;font-size:12.5px;border-radius:999px}
 
-/* ============================ ТАБЫ ============================ */
 nav.tabs{display:flex;gap:6px;padding:10px 14px 0;max-width:1400px;margin:0 auto;flex-wrap:wrap}
-nav.tabs button{background:transparent;color:var(--muted);padding:9px 16px;border-radius:10px 10px 0 0;font-weight:700;font-size:14px}
+nav.tabs button{background:transparent;color:var(--muted);padding:9px 16px;
+  border-radius:10px 10px 0 0;font-weight:700;font-size:14px}
 nav.tabs button.active{background:var(--card);color:var(--accent);box-shadow:var(--shadow)}
+nav.tabs button .badge-pending{display:inline-block;background:#ef4444;color:#fff;
+  border-radius:999px;padding:0 6px;font-size:11px;font-weight:800;margin-left:6px;
+  vertical-align:middle;min-width:18px;text-align:center;line-height:18px;height:18px}
 main{max-width:1400px;margin:0 auto;padding:0 14px}
-.tab-panel{display:none;background:var(--card);border-radius:0 var(--radius) var(--radius) var(--radius);padding:16px;box-shadow:var(--shadow)}
+.tab-panel{display:none;background:var(--card);border-radius:0 var(--radius) var(--radius) var(--radius);
+  padding:16px;box-shadow:var(--shadow)}
 .tab-panel.active{display:block}
 
-/* ============================ ОЦЕНКИ ============================ */
-.section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;
+  margin-bottom:12px;flex-wrap:wrap}
 .section-head h2{margin:0;font-size:17px}
 .grades-table-wrap{overflow-x:auto}
 table.grades-table{border-collapse:separate;border-spacing:6px;width:100%;min-width:520px}
-table.grades-table th{font-size:12px;color:var(--muted);font-weight:700;padding:4px 6px;text-align:center;white-space:nowrap}
+table.grades-table th{font-size:12px;color:var(--muted);font-weight:700;padding:4px 6px;
+  text-align:center;white-space:nowrap}
 table.grades-table th.th-subject{text-align:left;min-width:190px}
 table.grades-table td{background:#f7f9fe;border-radius:10px;padding:6px;text-align:center;vertical-align:middle}
-td.subject-cell{text-align:left!important;background:#eef2fd!important;padding:8px 10px!important;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+td.subject-cell{text-align:left!important;background:#eef2fd!important;padding:8px 10px!important;
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .subject-name{font-weight:700}
-.avg{background:#fff;border-radius:999px;padding:2px 9px;font-size:12.5px;font-weight:800;color:var(--accent);border:1px solid var(--border)}
-.del-subject{background:transparent;color:var(--danger);font-size:17px;padding:0 6px;font-weight:800;line-height:1}
+.avg{background:#fff;border-radius:999px;padding:2px 9px;font-size:12.5px;font-weight:800;
+  color:var(--accent);border:1px solid var(--border)}
+.del-subject{background:transparent;color:var(--danger);font-size:17px;padding:0 6px;
+  font-weight:800;line-height:1}
 
-/* -------- Оценка с бейджем (для КР, ДЗ, теста и т.п.) -------- */
-.grade{
-  display:inline-flex;flex-direction:column;align-items:center;gap:2px;
-  background:#fff;border:1px solid var(--border);border-radius:10px;padding:4px 7px 3px;
-  cursor:pointer;user-select:none;-webkit-user-select:none;transition:.12s;min-width:44px
-}
+.grade{display:inline-flex;flex-direction:column;align-items:center;gap:2px;background:#fff;
+  border:1px solid var(--border);border-radius:10px;padding:4px 7px 3px;cursor:pointer;
+  user-select:none;-webkit-user-select:none;transition:.12s;min-width:44px}
 .grade:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(79,124,255,.18);border-color:var(--accent)}
 .grade-value{font-weight:900;font-size:16px;line-height:1;letter-spacing:.2px}
-.badge{font-size:9.5px;font-weight:800;padding:1px 5px;border-radius:5px;color:#fff;letter-spacing:.2px;white-space:nowrap}
+.badge{font-size:9.5px;font-weight:800;padding:1px 5px;border-radius:5px;color:#fff;
+  letter-spacing:.2px;white-space:nowrap}
 .t0{background:#ef4444}.t1{background:#f97316}.t2{background:#f59e0b}.t3{background:#10b981}
 .t4{background:#06b6d4}.t5{background:#7c5cff}.t6{background:#ec4899}.t7{background:#64748b}
-
-/* -------- Оценка без бейджа («Другое»): крупная цифра во весь квадрат -------- */
-.grade.plain{
-  padding:0;
-  width:48px;
-  height:48px;
-  min-width:48px;
-  justify-content:center;
-  background:#fff;
-}
+.grade.plain{padding:0;width:48px;height:48px;min-width:48px;justify-content:center;background:#fff}
 .grade.plain .grade-value{font-size:24px}
 
 .add-grade{background:#e7ecfb;color:var(--accent);font-weight:800;font-size:17px;line-height:1;
@@ -123,12 +104,13 @@ td.subject-cell{text-align:left!important;background:#eef2fd!important;padding:8
 .grades-wrap{display:flex;flex-wrap:wrap;gap:7px}
 .empty{text-align:center;color:var(--muted);padding:36px 14px;font-size:14px}
 
-/* ============================ РАСПИСАНИЕ ============================ */
 .schedule-grid{display:grid;grid-template-columns:repeat(6,minmax(150px,1fr));gap:10px;overflow-x:auto}
 .day-col{background:#f7f9fe;border-radius:12px;padding:10px;min-width:150px}
-.day-col h3{margin:0 0 9px;font-size:13.5px;text-align:center;color:var(--accent);font-weight:800;text-transform:uppercase;letter-spacing:.3px}
+.day-col h3{margin:0 0 9px;font-size:13.5px;text-align:center;color:var(--accent);
+  font-weight:800;text-transform:uppercase;letter-spacing:.3px}
 .lessons{display:flex;flex-direction:column;gap:8px}
-.lesson{background:#fff;border:1px solid var(--border);border-radius:10px;padding:8px 9px;cursor:pointer;transition:.12s}
+.lesson{background:#fff;border:1px solid var(--border);border-radius:10px;padding:8px 9px;
+  cursor:pointer;transition:.12s}
 .lesson:hover{border-color:var(--accent);box-shadow:0 4px 12px rgba(79,124,255,.14)}
 .lesson-subject{font-weight:800;font-size:13.5px}
 .lesson-meta{font-size:11.5px;color:var(--muted);margin-top:2px}
@@ -136,7 +118,6 @@ td.subject-cell{text-align:left!important;background:#eef2fd!important;padding:8
   white-space:pre-wrap;word-break:break-word;color:#38405a}
 .add-lesson{width:100%;background:#e7ecfb;color:var(--accent);font-size:12.5px;padding:7px;margin-top:8px}
 
-/* ============================ ЛИЧНЫЙ КАБИНЕТ ============================ */
 .panel{background:#f7f9fe;border-radius:12px;padding:14px;margin-bottom:12px}
 .panel h3{margin:0 0 10px;font-size:14.5px}
 .kv{display:flex;justify-content:space-between;gap:10px;padding:2px 0;line-height:1.25;font-size:13.5px}
@@ -153,18 +134,28 @@ td.subject-cell{text-align:left!important;background:#eef2fd!important;padding:8
 .row input,.row select{flex:1 1 160px;width:auto}
 .invite-list{list-style:none;margin:10px 0 0;padding:0}
 .invite-list li{display:flex;justify-content:space-between;align-items:center;gap:8px;
-  background:#fff;border:1px solid var(--border);border-radius:9px;padding:7px 11px;margin-bottom:6px;font-size:13.5px;flex-wrap:wrap}
+  background:#fff;border:1px solid var(--border);border-radius:9px;padding:7px 11px;
+  margin-bottom:6px;font-size:13.5px;flex-wrap:wrap}
 .invite-list li .invite-info{flex:1 1 160px;min-width:0}
 .invite-list li .invite-actions{display:flex;gap:6px;flex-wrap:wrap}
 button.wide{width:100%;margin-top:10px}
 .hint-box{background:#fff8e6;border:1px solid #ffe1a8;border-radius:10px;padding:9px 11px;
   font-size:12.5px;color:#7a5b00;margin:8px 0 0;line-height:1.4}
 
-/* ============================ АВТОРИЗАЦИЯ ============================ */
+.pending-panel{background:#fff8e6;border:2px solid #f59e0b;border-radius:12px;
+  padding:14px;margin-bottom:12px}
+.pending-panel h3{margin:0 0 10px;font-size:14.5px;color:#7a5b00}
+.pending-item{background:#fff;border:1px solid #ffe1a8;border-radius:9px;padding:9px 11px;
+  margin-bottom:7px;font-size:13px;line-height:1.4}
+.pending-item .pending-head{font-weight:700;margin-bottom:3px}
+.pending-item .pending-meta{color:#7a5b00;font-size:12px;margin-bottom:4px}
+.pending-item .pending-grade{margin:5px 0}
+.pending-item .pending-actions{display:flex;gap:6px;margin-top:7px;flex-wrap:wrap}
+
 .auth-screen{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;
   background:linear-gradient(135deg,#4f7cff,#7c5cff);padding:18px;overflow-y:auto}
 .auth-screen.show{display:flex}
-.auth-card{background:#fff;border-radius:18px;padding:26px 22px;width:100%;max-width:380px;
+.auth-card{background:#fff;border-radius:18px;padding:26px 22px;width:100%;max-width:400px;
   box-shadow:0 20px 50px rgba(20,30,70,.3);margin:auto}
 .auth-card h1{margin:0 0 4px;font-size:20px;text-align:center}
 .auth-card p{margin:0 0 18px;text-align:center;font-size:13px}
@@ -173,6 +164,7 @@ button.wide{width:100%;margin-top:10px}
 .error{color:var(--danger);font-size:12.5px;min-height:16px;text-align:center;margin-top:6px}
 .invite-banner{background:#e7f6ec;border:1px solid #b6e2c4;color:#0f6a33;border-radius:10px;
   padding:10px 12px;font-size:13px;margin-bottom:12px;text-align:center;line-height:1.4}
+.auth-hint{font-size:12px;color:var(--muted);text-align:center;margin-top:6px;line-height:1.35}
 
 #modal-root{display:none}
 #modal-root.open{display:block}
@@ -198,7 +190,7 @@ button.wide{width:100%;margin-top:10px}
   .grades-cards{display:block}
   header.app-header{padding:9px 11px;gap:7px}
   .brand{font-size:14.5px}
-  .name-field{flex:1 1 100%;max-width:none;order:3}
+  .student-slot{flex:1 1 100%;max-width:none;order:3}
   .gpa-chip{font-size:13px;padding:6px 12px}
   .gpa-chip b{font-size:19px}
   .gpa-chip .gpa-label{font-size:13px}
@@ -220,8 +212,13 @@ button.wide{width:100%;margin-top:10px}
     <div id="invite-banner-slot"></div>
     <input id="auth-email" type="email" placeholder="Email" autocomplete="email">
     <input id="auth-password" type="password" placeholder="Пароль (мин. 6 символов)" autocomplete="current-password">
+    <input id="auth-student-name" placeholder="ФИО учащегося (для регистрации)" maxlength="120">
     <button id="btn-login">Войти</button>
     <button id="btn-register" class="secondary">Зарегистрироваться</button>
+    <div class="auth-hint">
+      При регистрации укажите ФИО учащегося — вы привяжетесь к существующему профилю
+      или создадите новый. При входе ФИО указывать не нужно.
+    </div>
     <div class="error" id="auth-error"></div>
   </div>
 </div>
@@ -229,9 +226,7 @@ button.wide{width:100%;margin-top:10px}
 <!-- ======================= ШАПКА ======================= -->
 <header class="app-header" id="app-header" style="display:none">
   <div class="brand">📚 Успеваемость</div>
-  <div class="name-field">
-    <input id="studentName" placeholder="ФИО учащегося" maxlength="120">
-  </div>
+  <div class="student-slot" id="student-slot"></div>
   <div class="gpa-chip">
     <span class="gpa-label">Средний балл:</span>
     <b id="gpaValue">—</b>
@@ -276,15 +271,14 @@ button.wide{width:100%;margin-top:10px}
 
 <script>
 /* ============================================================================
-   СНИМОК ИСХОДНОГО HTML (для генерации файла-приглашения)
+   СНИМОК HTML (для генерации файла-приглашения)
    ============================================================================ */
 const APP_HTML_SNAPSHOT = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
 
 /* ============================================================================
    ЛОКАЛЬНОЕ ХРАНИЛИЩЕ
    ============================================================================ */
-const LS_PREFIX = 'schoolApp_v1_';
-
+const LS_PREFIX = 'schoolApp_v2_';
 const DB = {
   read(key, def){
     try{ const raw = localStorage.getItem(LS_PREFIX + key); return raw ? JSON.parse(raw) : def; }
@@ -296,33 +290,20 @@ const DB = {
   }
 };
 
-const Users = {
-  all: () => DB.read('users', []),
-  save: (list) => DB.write('users', list),
-  findEmail: (email) => Users.all().find(u => u.email === String(email).toLowerCase()),
-  findId: (uid) => Users.all().find(u => u.uid === uid),
-  add: (user) => { const l = Users.all(); l.push(user); Users.save(l); },
-  update: (uid, patch) => {
-    const l = Users.all(); const i = l.findIndex(x => x.uid === uid);
-    if(i >= 0){ Object.assign(l[i], patch); Users.save(l); }
-  }
-};
-const Invites = {
-  all: () => DB.read('invites', []),
-  save: (list) => DB.write('invites', list),
-  add: (inv) => { const l = Invites.all(); l.push(inv); Invites.save(l); },
-  remove: (id) => Invites.save(Invites.all().filter(x => x.id !== id)),
-  findByEmail: (email) => Invites.all().find(x => x.email === String(email).toLowerCase())
-};
-const Student = {
-  get: () => DB.read('student', defaultStudent()),
-  save: (data) => DB.write('student', data),
-  patch: (p) => { const d = Student.get(); Object.assign(d, p); Student.save(d); }
-};
-const Session = {
-  get: () => DB.read('session', null),
-  set: (uid) => DB.write('session', uid),
-  clear: () => DB.write('session', null)
+/* ============================================================================
+   GITHUB
+   ============================================================================ */
+const GH_OWNER = 'Warck-Alex';
+const GH_REPO  = 'school-progress';
+const GH_FILE  = 'data.json';
+const DATA_URL = 'data.json';
+
+const GH_PENDING = {
+  owner: 'Warck-Alex',
+  repo:  'school-pending',
+  file:  'pending.json',
+  // ⚠️ Вставьте сюда student-token (см. инструкцию)
+  token: 'github_pat_ВСТАВЬТЕ_СЮДА_ТОКЕН'
 };
 
 /* ============================================================================
@@ -340,8 +321,6 @@ const GRADE_TYPES = [
   { name:'Диктант',               short:'Дикт'  },
   { name:'Другое',                short:'Др'    }
 ];
-
-/* Тип по умолчанию — «Другое» (без бейджа, только крупная цифра) */
 const DEFAULT_TYPE = 'Другое';
 
 const DEFAULT_CATALOG = [
@@ -349,7 +328,6 @@ const DEFAULT_CATALOG = [
   'Биология','География','Английский язык','Информатика','Физкультура'
 ];
 
-/* Цвета оценок: 1 — ярко-красный, ..., 9 — зелёный, 10 — синий */
 const GRADE_COLORS = {
   1:'#ef4444', 2:'#f97316', 3:'#f59e0b', 4:'#eab308', 5:'#a3e635',
   6:'#84cc16', 7:'#22c55e', 8:'#16a34a', 9:'#15803d', 10:'#2563eb'
@@ -358,9 +336,12 @@ const GRADE_COLORS = {
 /* ============================================================================
    СОСТОЯНИЕ
    ============================================================================ */
-let currentUser = null;
-let studentData = null;
-let invites     = [];
+let currentUser = null;      // { uid, email, name, role, studentId }
+let currentStudentId = null; // текущий отображаемый ученик
+let data = null;             // { students: [...], publishedAt }
+let invites = [];
+let pendingChanges = [];
+let authMode = 'login';      // 'login' | 'register'
 
 /* ============================================================================
    УТИЛИТЫ
@@ -386,7 +367,6 @@ const shortType = name => {
   const t = GRADE_TYPES.find(x => x.name === name);
   return t ? t.short : 'Др';
 };
-/* Является ли тип «без бейджа» */
 const isPlainType = t => !t || t === DEFAULT_TYPE;
 
 function gradeColor(v){
@@ -396,8 +376,7 @@ function gradeColor(v){
 function gpaColor(gpa){
   if(gpa == null || isNaN(gpa)) return '#c7cee0';
   const t = Math.max(0, Math.min(1, (gpa - 1) / 9));
-  const hue = t * 140;
-  return `hsl(${hue.toFixed(1)}, 82%, 42%)`;
+  return `hsl(${(t * 140).toFixed(1)}, 82%, 42%)`;
 }
 
 /* Роли */
@@ -407,26 +386,53 @@ const isStudentRole = () => role() === 'student';
 const canAddGrade   = () => isAdmin() || isStudentRole();
 const roleLabel = r => ({admin:'Администратор', student:'Ученик', viewer:'Наблюдатель'}[r] || r);
 
-/* Дефолтный документ */
-function defaultStudent(){
-  return { studentName:'', subjects:[], schedule:[], catalog: DEFAULT_CATALOG.slice(), members: [] };
-}
-function normalizeStudent(d){
+/* ============================================================================
+   СТРУКТУРА ДАННЫХ
+   ============================================================================ */
+function defaultStudent(name){
   return {
-    studentName: typeof d.studentName === 'string' ? d.studentName : '',
-    subjects:    Array.isArray(d.subjects) ? d.subjects : [],
-    schedule:    Array.isArray(d.schedule) ? d.schedule : [],
-    catalog:     Array.isArray(d.catalog)  ? d.catalog  : [],
-    members:     Array.isArray(d.members)  ? d.members  : []
+    id: uid(),
+    studentName: name || '',
+    subjects: [],
+    schedule: [],
+    catalog: DEFAULT_CATALOG.slice(),
+    members: [],
+    createdAt: new Date().toISOString()
   };
 }
+function defaultData(){
+  return { students: [], publishedAt: null };
+}
+function normalizeStudent(s){
+  return {
+    id: s.id || uid(),
+    studentName: typeof s.studentName === 'string' ? s.studentName : '',
+    subjects: Array.isArray(s.subjects) ? s.subjects : [],
+    schedule: Array.isArray(s.schedule) ? s.schedule : [],
+    catalog: Array.isArray(s.catalog) ? s.catalog : [],
+    members: Array.isArray(s.members) ? s.members : [],
+    createdAt: s.createdAt || new Date().toISOString()
+  };
+}
+function normalizeData(d){
+  if(!d || typeof d !== 'object') return defaultData();
+  // Миграция со старого формата (единый student) на массив students
+  let arr = [];
+  if(Array.isArray(d.students)) arr = d.students.map(normalizeStudent);
+  else if(d.subjects || d.studentName) arr = [normalizeStudent(d)];
+  return { students: arr, publishedAt: d.publishedAt || null };
+}
+const getCurrentStudent = () => data ? data.students.find(s => s.id === currentStudentId) : null;
+
 function subjectAvg(s){
   const v = (s.grades || []).map(g => Number(g.value)).filter(n => !isNaN(n));
   return v.length ? v.reduce((a,b)=>a+b,0) / v.length : null;
 }
 function overallGpa(){
+  const st = getCurrentStudent();
+  if(!st) return null;
   let sum = 0, n = 0;
-  (studentData.subjects || []).forEach(s => (s.grades || []).forEach(g => {
+  (st.subjects || []).forEach(s => (s.grades || []).forEach(g => {
     const v = Number(g.value);
     if(!isNaN(v)){ sum += v; n++; }
   }));
@@ -444,51 +450,367 @@ function randomSalt(){
   return Array.from(arr).map(b => b.toString(16).padStart(2,'0')).join('');
 }
 async function hashPassword(password, salt){
-  const data = new TextEncoder().encode(salt + '::' + password);
+  const data_ = new TextEncoder().encode(salt + '::' + password);
   if(window.crypto && window.crypto.subtle){
-    const buf = await crypto.subtle.digest('SHA-256', data);
+    const buf = await crypto.subtle.digest('SHA-256', data_);
     return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
   }
   let h = 0;
-  for(let i = 0; i < data.length; i++) h = ((h << 5) - h + data[i]) | 0;
+  for(let i = 0; i < data_.length; i++) h = ((h << 5) - h + data_[i]) | 0;
   return 'fb_' + Math.abs(h).toString(16);
+}
+
+/* ============================================================================
+   КОЛЛЕКЦИИ в localStorage
+   ============================================================================ */
+const Users = {
+  all: () => DB.read('users', []),
+  save: (list) => DB.write('users', list),
+  findEmail: (email) => Users.all().find(u => u.email === String(email).toLowerCase()),
+  findId: (uid) => Users.all().find(u => u.uid === uid),
+  add: (user) => { const l = Users.all(); l.push(user); Users.save(l); },
+  update: (uid, patch) => {
+    const l = Users.all(); const i = l.findIndex(x => x.uid === uid);
+    if(i >= 0){ Object.assign(l[i], patch); Users.save(l); }
+  }
+};
+const Invites = {
+  all: () => DB.read('invites', []),
+  save: (list) => DB.write('invites', list),
+  add: (inv) => { const l = Invites.all(); l.push(inv); Invites.save(l); },
+  remove: (id) => Invites.save(Invites.all().filter(x => x.id !== id)),
+  findByEmail: (email) => Invites.all().find(x => x.email === String(email).toLowerCase())
+};
+const DataStore = {
+  get: () => normalizeData(DB.read('data', defaultData())),
+  save: (d) => DB.write('data', d)
+};
+const Session = {
+  get: () => DB.read('session', null),
+  set: (uid) => DB.write('session', uid),
+  clear: () => DB.write('session', null)
+};
+
+/* ============================================================================
+   GITHUB API
+   ============================================================================ */
+function decodeBase64(str){
+  str = String(str || '').replace(/\s+/g, '');
+  try{ return decodeURIComponent(escape(atob(str))); }
+  catch{ try{ return atob(str); }catch{ return ''; } }
+}
+
+async function loadPublishedData(){
+  try{
+    const res = await fetch(DATA_URL + '?_=' + Date.now(), { cache: 'no-store' });
+    if(!res.ok) throw new Error('HTTP ' + res.status);
+    const parsed = await res.json();
+    return normalizeData(parsed);
+  }catch(e){
+    console.warn('Не удалось загрузить data.json:', e);
+    return null;
+  }
+}
+
+async function publishToGitHub(){
+  if(!isAdmin()) return;
+
+  let token = localStorage.getItem('gh_token');
+  if(!token){
+    token = prompt(
+      'Вставьте GitHub Personal Access Token (для school-progress).\n\n' +
+      'Создать: github.com/settings/tokens?type=beta\n' +
+      'Права: Contents → Read and write, только для school-progress.'
+    );
+    if(!token) return;
+    token = token.trim();
+    if(confirm('Запомнить токен на этом устройстве?\n(Никогда не делитесь им.)')){
+      localStorage.setItem('gh_token', token);
+    }
+  }
+
+  if(!confirm('Опубликовать данные всех учеников на GitHub?')) return;
+
+  const apiUrl = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_FILE}`;
+  const headers = {
+    'Authorization': 'Bearer ' + token,
+    'Accept': 'application/vnd.github+json',
+    'Content-Type': 'application/json'
+  };
+
+  try{
+    const getRes = await fetch(apiUrl, { headers });
+    let sha = null;
+    if(getRes.ok){ sha = (await getRes.json()).sha; }
+    else if(getRes.status === 404){ sha = null; }
+    else{
+      const err = await getRes.json().catch(()=>({}));
+      throw new Error(err.message || ('HTTP ' + getRes.status));
+    }
+
+    const toPublish = Object.assign({}, data, { publishedAt: new Date().toISOString() });
+    const content = JSON.stringify(toPublish, null, 2);
+    const encoded = btoa(unescape(encodeURIComponent(content)));
+
+    const body = {
+      message: 'Publish data ' + new Date().toLocaleString('ru-RU'),
+      content: encoded
+    };
+    if(sha) body.sha = sha;
+
+    const putRes = await fetch(apiUrl, {
+      method: 'PUT', headers, body: JSON.stringify(body)
+    });
+    if(!putRes.ok){
+      const err = await putRes.json().catch(()=>({}));
+      throw new Error(err.message || ('HTTP ' + putRes.status));
+    }
+
+    data.publishedAt = toPublish.publishedAt;
+    DataStore.save(data);
+    alert('✅ Данные опубликованы!\nЧерез 1–2 минуты они появятся у всех пользователей.');
+  }catch(e){
+    const msg = String(e.message || e);
+    if(msg.includes('401') || msg.includes('Bad credentials')){
+      localStorage.removeItem('gh_token');
+      alert('❌ Токен недействителен. Он удалён — попробуйте снова.');
+    }else if(msg.includes('403')){
+      alert('❌ У токена нет прав на запись.\nПроверьте: Contents → Read and write для репозитория school-progress.');
+    }else{
+      alert('❌ Ошибка публикации: ' + msg);
+    }
+  }
+}
+
+/* ============================================================================
+   PENDING (заявки учеников)
+   ============================================================================ */
+async function fetchPending(){
+  const url = `https://api.github.com/repos/${GH_PENDING.owner}/${GH_PENDING.repo}/contents/${GH_PENDING.file}`;
+  const res = await fetch(url, {
+    headers: {
+      'Authorization': 'Bearer ' + GH_PENDING.token,
+      'Accept': 'application/vnd.github+json'
+    },
+    cache: 'no-store'
+  });
+  if(res.status === 404) return { list: [], sha: null };
+  if(!res.ok) throw new Error('HTTP ' + res.status);
+  const info = await res.json();
+  const content = decodeBase64(info.content);
+  let list = [];
+  try{ list = JSON.parse(content || '[]'); }catch(e){ list = []; }
+  return { list, sha: info.sha };
+}
+
+async function pushPending(list, sha){
+  const url = `https://api.github.com/repos/${GH_PENDING.owner}/${GH_PENDING.repo}/contents/${GH_PENDING.file}`;
+  const content = JSON.stringify(list, null, 2);
+  const body = {
+    message: 'Pending update ' + new Date().toLocaleString('ru-RU'),
+    content: btoa(unescape(encodeURIComponent(content)))
+  };
+  if(sha) body.sha = sha;
+  const res = await fetch(url, {
+    method: 'PUT',
+    headers: {
+      'Authorization': 'Bearer ' + GH_PENDING.token,
+      'Accept': 'application/vnd.github+json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  });
+  if(!res.ok){
+    const err = await res.json().catch(()=>({}));
+    throw new Error(err.message || 'HTTP ' + res.status);
+  }
+}
+
+/* Отправка заявки на сервер */
+async function submitChangeToPending(change){
+  const { list, sha } = await fetchPending();
+  // Дедупликация: одна активная заявка на (ученик, оценка) — перезаписываем
+  const idx = list.findIndex(x =>
+    x.status === 'pending' &&
+    x.studentId === change.studentId &&
+    x.gradeId === change.gradeId &&
+    x.type === change.type
+  );
+  if(idx >= 0) list[idx] = change;
+  else list.push(change);
+  await pushPending(list, sha);
+}
+
+async function refreshPending(){
+  if(!isAdmin()) return;
+  try{
+    const { list } = await fetchPending();
+    pendingChanges = list.filter(x => x.status === 'pending');
+    updatePendingBadge();
+    if($('tab-cabinet').classList.contains('active')) renderCabinet();
+  }catch(e){
+    console.warn('Pending недоступен:', e);
+    pendingChanges = [];
+    updatePendingBadge();
+  }
+}
+
+function updatePendingBadge(){
+  const btn = document.querySelector('nav.tabs button[data-tab="cabinet"]');
+  if(!btn) return;
+  const existing = btn.querySelector('.badge-pending');
+  if(existing) existing.remove();
+  if(isAdmin() && pendingChanges.length > 0){
+    const span = document.createElement('span');
+    span.className = 'badge-pending';
+    span.textContent = pendingChanges.length;
+    btn.appendChild(span);
+  }
+}
+
+async function removePendingItem(changeId){
+  const { list, sha } = await fetchPending();
+  const filtered = list.filter(x => x.id !== changeId);
+  await pushPending(filtered, sha);
+  pendingChanges = filtered.filter(x => x.status === 'pending');
+  updatePendingBadge();
+}
+
+async function approveChange(changeId){
+  const change = pendingChanges.find(c => c.id === changeId);
+  if(!change) return;
+
+  try{
+    if(change.type === 'new_student'){
+      // Проверяем, нет ли уже такого ученика
+      const exists = data.students.find(s =>
+        s.id === change.studentId ||
+        s.studentName.toLowerCase() === (change.studentName || '').toLowerCase()
+      );
+      if(exists){
+        // Привязываем пользователя к существующему
+        const u = Users.findEmail(change.studentEmail);
+        if(u) Users.update(u.uid, { studentId: exists.id });
+        alert('Ученик с таким ФИО уже существует — пользователь привязан к нему.');
+      }else{
+        const newSt = normalizeStudent({
+          id: change.studentId,
+          studentName: change.studentName,
+          subjects: [], schedule: [],
+          catalog: DEFAULT_CATALOG.slice(), members: []
+        });
+        data.students.push(newSt);
+      }
+    }else{
+      // Заявка на оценку
+      const st = data.students.find(s => s.id === change.studentId);
+      if(!st){ alert('Ученик не найден'); return; }
+      let subj = (st.subjects || []).find(s => s.id === change.subjectId);
+      if(!subj){
+        if(!confirm('Предмет «' + change.subjectName + '» не найден. Создать его и применить оценку?')) return;
+        subj = { id: change.subjectId, name: change.subjectName, grades: [] };
+        st.subjects = st.subjects || [];
+        st.subjects.push(subj);
+      }
+      subj.grades = subj.grades || [];
+      if(change.action === 'add'){
+        const exists = subj.grades.find(g => g.id === change.gradeId);
+        if(!exists) subj.grades.push(Object.assign({ id: change.gradeId || uid() }, change.grade));
+      }else if(change.action === 'update'){
+        const g = subj.grades.find(x => x.id === change.gradeId);
+        if(g) Object.assign(g, change.grade);
+        else subj.grades.push(Object.assign({ id: change.gradeId || uid() }, change.grade));
+      }else if(change.action === 'delete'){
+        subj.grades = subj.grades.filter(x => x.id !== change.gradeId);
+      }
+    }
+
+    DataStore.save(data);
+    await removePendingItem(changeId);
+    renderAll();
+    alert('✅ Заявка принята.\n\nНе забудьте нажать «📤 Опубликовать данные», чтобы изменения увидели все.');
+  }catch(e){
+    alert('Ошибка применения: ' + e.message);
+  }
+}
+
+async function rejectChange(changeId){
+  if(!confirm('Отклонить эту заявку?')) return;
+  try{
+    await removePendingItem(changeId);
+    renderCabinet();
+  }catch(e){
+    alert('Не удалось отклонить: ' + e.message);
+  }
 }
 
 /* ============================================================================
    АВТОРИЗАЦИЯ
    ============================================================================ */
-async function register(email, password){
+async function register(email, password, studentName){
   email = String(email).trim().toLowerCase();
   if(!email || email.indexOf('@') < 0) throw new Error('Некорректный email');
-  if(!password || password.length < 6) throw new Error('Пароль должен быть минимум 6 символов');
+  if(!password || password.length < 6) throw new Error('Пароль минимум 6 символов');
   if(Users.findEmail(email)) throw new Error('Такой email уже зарегистрирован');
+  studentName = String(studentName || '').trim();
+  if(!studentName) throw new Error('Введите ФИО учащегося');
 
   const invite = window.__APP_INVITE;
   let role;
-  if(invite && invite.email === email){
-    role = invite.role || 'viewer';
-  } else if(Users.all().length === 0){
-    role = 'admin';
-  } else {
+  if(invite && invite.email === email) role = invite.role || 'viewer';
+  else if(Users.all().length === 0) role = 'admin';
+  else {
     const localInv = Invites.findByEmail(email);
     role = localInv ? (localInv.role || 'viewer') : 'viewer';
+  }
+
+  // Ищем ученика по ФИО
+  let student = data.students.find(s =>
+    s.studentName.toLowerCase() === studentName.toLowerCase()
+  );
+
+  let isNewStudent = false;
+  if(!student){
+    student = defaultStudent(studentName);
+    data.students.push(student);
+    DataStore.save(data);
+    isNewStudent = true;
   }
 
   const salt = randomSalt();
   const passwordHash = await hashPassword(password, salt);
   const user = {
-    uid: uid(), email, name: email.split('@')[0], role, salt, passwordHash,
+    uid: uid(), email, name: studentName, role,
+    studentId: student.id,
+    salt, passwordHash,
     createdAt: new Date().toISOString()
   };
   Users.add(user);
 
   const localInv = Invites.findByEmail(email);
   if(localInv) Invites.remove(localInv.id);
-  if(invite && invite.email === email){
-    try{ delete window.__APP_INVITE; }catch(e){}
-  }
+  if(invite && invite.email === email){ try{ delete window.__APP_INVITE; }catch(e){} }
 
   Session.set(user.uid);
+  currentStudentId = student.id;
+
+  // Если создали нового ученика — отправляем заявку админу
+  if(isNewStudent){
+    try{
+      await submitChangeToPending({
+        id: uid(),
+        timestamp: new Date().toISOString(),
+        type: 'new_student',
+        status: 'pending',
+        studentEmail: email,
+        studentName: studentName,
+        studentId: student.id
+      });
+    }catch(e){
+      console.warn('Не удалось отправить заявку new_student:', e);
+    }
+  }
+
   return user;
 }
 
@@ -498,15 +820,32 @@ async function login(email, password){
   if(!user) throw new Error('Пользователь не найден');
   const hash = await hashPassword(password, user.salt);
   if(hash !== user.passwordHash) throw new Error('Неверный пароль');
+
+  // Проверяем, что ученик существует в data
+  let student = data.students.find(s => s.id === user.studentId);
+  if(!student){
+    // Fallback: ищем по имени
+    student = data.students.find(s => s.studentName.toLowerCase() === (user.name || '').toLowerCase());
+    if(student) Users.update(user.uid, { studentId: student.id });
+    else{
+      // Создаём нового
+      student = defaultStudent(user.name || email.split('@')[0]);
+      data.students.push(student);
+      DataStore.save(data);
+      Users.update(user.uid, { studentId: student.id });
+    }
+  }
+
   Session.set(user.uid);
-  return user;
+  return { user, studentId: student.id };
 }
 
 function logout(){
   Session.clear();
   currentUser = null;
-  studentData = null;
+  currentStudentId = null;
   invites = [];
+  pendingChanges = [];
   showAuth();
 }
 function showAuth(){
@@ -528,95 +867,111 @@ $('btn-login').addEventListener('click', async () => {
   $('auth-error').textContent = '';
   try{
     $('btn-login').disabled = true;
-    await login(email, pass);
-    bootSession();
+    const r = await login(email, pass);
+    currentUser = Users.findId(r.user.uid);
+    currentStudentId = r.studentId;
+    invites = Invites.all();
+    showApp();
+    renderAll();
+    if(isAdmin()) refreshPending();
   }catch(e){
     $('auth-error').textContent = e.message;
   }finally{
     $('btn-login').disabled = false;
   }
 });
+
 $('btn-register').addEventListener('click', async () => {
   const email = $('auth-email').value.trim();
   const pass  = $('auth-password').value;
+  const name  = $('auth-student-name').value.trim();
   $('auth-error').textContent = '';
   try{
     $('btn-register').disabled = true;
-    await register(email, pass);
-    bootSession();
+    const user = await register(email, pass, name);
+    currentUser = Users.findId(user.uid);
+    currentStudentId = user.studentId;
+    invites = Invites.all();
+    showApp();
+    renderAll();
+    if(isAdmin()) refreshPending();
   }catch(e){
     $('auth-error').textContent = e.message;
   }finally{
     $('btn-register').disabled = false;
   }
 });
+
 $('btn-logout').addEventListener('click', logout);
 $('auth-password').addEventListener('keydown', e => { if(e.key === 'Enter') $('btn-login').click(); });
 
 /* ============================================================================
-   СЕССИЯ
+   СТАРТ
    ============================================================================ */
-function bootSession(){
+async function bootSession(){
+  // 1. Загружаем данные с GitHub Pages
+  const published = await loadPublishedData();
+  if(published){
+    data = published;
+    DataStore.save(data);
+  }else{
+    data = DataStore.get();
+  }
+
+  // 2. Обрабатываем вшитое приглашение
+  applyEmbeddedInvite();
+
+  // 3. Проверяем сессию
   const sid = Session.get();
   if(!sid){ showAuth(); return; }
   const user = Users.findId(sid);
   if(!user){ Session.clear(); showAuth(); return; }
 
-  currentUser = { uid:user.uid, email:user.email, name:user.name, role:user.role };
-  studentData = normalizeStudent(Student.get());
+  currentUser = user;
+  currentStudentId = user.studentId;
+
+  // Проверяем, что ученик есть в data
+  let st = data.students.find(s => s.id === currentStudentId);
+  if(!st){
+    st = data.students.find(s => s.studentName.toLowerCase() === (user.name || '').toLowerCase());
+    if(st){ currentStudentId = st.id; Users.update(user.uid, { studentId: st.id }); }
+    else{
+      st = defaultStudent(user.name || user.email.split('@')[0]);
+      data.students.push(st);
+      DataStore.save(data);
+      currentStudentId = st.id;
+      Users.update(user.uid, { studentId: st.id });
+    }
+  }
+
   invites = Invites.all();
-
-  if(!localStorage.getItem(LS_PREFIX + 'student')) Student.save(studentData);
-
   showApp();
   renderAll();
+  if(isAdmin()) refreshPending();
 }
 
-/* ============================================================================
-   ОБРАБОТКА ПРИГЛАШЕНИЯ
-   ============================================================================ */
 function applyEmbeddedInvite(){
   if(!window.__APP_INVITE) return;
   const inv = window.__APP_INVITE;
   const emailInput = $('auth-email');
   if(emailInput && !emailInput.value) emailInput.value = inv.email || '';
-
   const sub = $('auth-subtitle');
   if(sub) sub.textContent = 'Создайте аккаунт по приглашению';
-
   const slot = $('invite-banner-slot');
   if(slot){
     slot.innerHTML = `<div class="invite-banner">
       🎉 Вас пригласили как <b>${esc(roleLabel(inv.role))}</b><br>
       Email: <b>${esc(inv.email)}</b><br>
-      Придумайте пароль и нажмите «Зарегистрироваться».
+      Придумайте пароль, укажите ФИО и нажмите «Зарегистрироваться».
     </div>`;
   }
-
-  if(window.__APP_SEED_DATA && !localStorage.getItem(LS_PREFIX + 'student')){
-    try{
-      const seed = normalizeStudent(window.__APP_SEED_DATA);
-      Student.save(seed);
-    }catch(e){ console.warn('Не удалось загрузить вложенные данные:', e); }
-  }
-}
-
-/* ============================================================================
-   СОХРАНЕНИЕ
-   ============================================================================ */
-function saveStudent(patch){
-  const cur = Student.get();
-  Object.assign(cur, patch);
-  Student.save(cur);
-  studentData = normalizeStudent(cur);
-  renderAll();
 }
 
 /* ============================================================================
    РЕНДЕРИНГ
    ============================================================================ */
 function renderAll(){
-  if(!studentData) return;
+  if(!data) return;
   renderHeader();
   renderGrades();
   renderSchedule();
@@ -624,18 +979,36 @@ function renderAll(){
 }
 
 function renderHeader(){
-  if(!studentData || !currentUser) return;
-  const nameInput = $('studentName');
-  if(document.activeElement !== nameInput) nameInput.value = studentData.studentName || '';
-  nameInput.disabled = !(isAdmin() || isStudentRole());
+  if(!data || !currentUser) return;
 
+  // ---- Селектор учеников ----
+  const slot = $('student-slot');
+  if(isAdmin()){
+    const opts = data.students.map(s =>
+      `<option value="${esc(s.id)}" ${s.id === currentStudentId ? 'selected' : ''}>${esc(s.studentName || '(без ФИО)')}</option>`
+    ).join('');
+    slot.innerHTML = `<select id="student-select">${opts}</select>`;
+    const sel = $('student-select');
+    if(sel){
+      sel.addEventListener('change', () => {
+        currentStudentId = sel.value;
+        renderAll();
+        refreshPending();
+      });
+    }
+  }else{
+    const st = getCurrentStudent();
+    slot.innerHTML = `<div class="student-label">${esc(st ? (st.studentName || '(без ФИО)') : '—')}</div>`;
+  }
+
+  // ---- Средний балл ----
   const gpa = overallGpa();
   const gpaEl = $('gpaValue');
   if(gpa === null){
     gpaEl.textContent = '—';
     gpaEl.style.color = '#e9edf8';
     gpaEl.style.textShadow = 'none';
-  } else {
+  }else{
     gpaEl.textContent = gpa.toFixed(2);
     gpaEl.style.color = gpaColor(gpa);
     gpaEl.style.textShadow = '0 1px 2px rgba(0,0,0,.25), 0 0 6px rgba(255,255,255,.35)';
@@ -644,26 +1017,14 @@ function renderHeader(){
   $('userInfo').textContent = `${currentUser.email} · ${roleLabel(role())}`;
 }
 
-$('studentName').addEventListener('change', () => {
-  if(!(isAdmin() || isStudentRole())) return;
-  saveStudent({ studentName: $('studentName').value.trim() });
-});
-
 /* ---------------------------- ОЦЕНКИ ---------------------------- */
-/* Логика:
-   - Если тип = «Другое» (или пустой) → только крупная цифра, без бейджа.
-   - Если тип конкретный (КР, ДЗ, тест...) → цифра + бейдж, как раньше. */
 function gradeCellHtml(subject, grade){
   const color = gradeColor(grade.value);
   const type  = grade.type || DEFAULT_TYPE;
   const plain = isPlainType(type);
-
-  const badgeHtml = plain
-    ? ''
-    : `<span class="badge t${typeIndex(type)}">${esc(shortType(type))}</span>`;
-
+  const badgeHtml = plain ? '' :
+    `<span class="badge t${typeIndex(type)}">${esc(shortType(type))}</span>`;
   const cls = plain ? 'grade plain' : 'grade';
-
   return `<div class="${cls}"
       data-subject="${esc(subject.id)}"
       data-grade="${esc(grade.id)}"
@@ -677,7 +1038,14 @@ function gradeCellHtml(subject, grade){
 }
 
 function renderGrades(){
-  const subjects = studentData.subjects || [];
+  const st = getCurrentStudent();
+  if(!st){
+    $('grades-actions').innerHTML = '';
+    $('grades-table').innerHTML = '<div class="empty">Ученик не найден.</div>';
+    $('grades-cards').innerHTML = '<div class="empty">Ученик не найден.</div>';
+    return;
+  }
+  const subjects = st.subjects || [];
   const canAdd = canAddGrade();
 
   $('grades-actions').innerHTML = isAdmin()
@@ -686,9 +1054,7 @@ function renderGrades(){
 
   if(!subjects.length){
     const html = `<div class="empty">Предметов пока нет.${
-      isAdmin()
-        ? '<br><br>Добавьте предметы в каталог (Личный кабинет),<br>затем нажмите «+ Добавить предмет из каталога».'
-        : ''
+      isAdmin() ? '<br><br>Добавьте предметы в каталог (Личный кабинет),<br>затем нажмите «+ Добавить предмет из каталога».' : ''
     }</div>`;
     $('grades-table').innerHTML = html;
     $('grades-cards').innerHTML = html;
@@ -744,8 +1110,13 @@ function renderGrades(){
 
 /* ---------------------------- РАСПИСАНИЕ ---------------------------- */
 function renderSchedule(){
+  const st = getCurrentStudent();
   const grid = $('schedule-grid');
-  const lessons = studentData.schedule || [];
+  if(!st){
+    grid.innerHTML = '<div class="empty">Ученик не найден.</div>';
+    return;
+  }
+  const lessons = st.schedule || [];
 
   grid.innerHTML = DAYS.map(day => {
     const dayLessons = lessons.filter(l => l.day === day);
@@ -756,7 +1127,6 @@ function renderSchedule(){
         ${l.homework ? `<div class="lesson-hw">${esc(l.homework)}</div>` : ''}
       </div>
     `).join('');
-
     return `<div class="day-col">
       <h3>${esc(day)}</h3>
       <div class="lessons">${cards || '<div class="muted small" style="text-align:center;padding:8px 0">—</div>'}</div>
@@ -767,28 +1137,75 @@ function renderSchedule(){
 
 /* ---------------------------- ЛИЧНЫЙ КАБИНЕТ ---------------------------- */
 function renderCabinet(){
-  if(!studentData || !currentUser) return;
+  if(!data || !currentUser) return;
   const el = $('cabinet-content');
   const admin = isAdmin();
+  const st = getCurrentStudent();
+
+  const pendingPanel = (admin && pendingChanges.length) ? `
+    <div class="pending-panel">
+      <h3>🔔 Заявки от учеников: ${pendingChanges.length}</h3>
+      ${pendingChanges.map(c => {
+        if(c.type === 'new_student'){
+          return `<div class="pending-item">
+            <div class="pending-head">🆕 Новый ученик</div>
+            <div class="pending-meta">от ${esc(c.studentEmail)} · ${esc(formatDate((c.timestamp||'').slice(0,10)))}</div>
+            <div class="pending-grade">ФИО: <b>${esc(c.studentName)}</b></div>
+            <div class="pending-actions">
+              <button class="ghost" data-approve="${esc(c.id)}">✅ Принять</button>
+              <button class="ghost" style="color:#ef4444" data-reject="${esc(c.id)}">✖ Отклонить</button>
+            </div>
+          </div>`;
+        }
+        const act = c.action === 'add' ? '➕ Новая оценка' :
+                    c.action === 'update' ? '✏️ Изменение оценки' :
+                    c.action === 'delete' ? '🗑️ Удаление оценки' : 'Изменение';
+        const g = c.grade || {};
+        return `<div class="pending-item">
+          <div class="pending-head">${act} — ${esc(c.subjectName)}</div>
+          <div class="pending-meta">от ${esc(c.studentEmail)} · ученик: ${esc(c.studentName || '?')} · ${esc(formatDate((c.timestamp||'').slice(0,10)))}</div>
+          <div class="pending-grade">Оценка: <b style="font-size:15px">${esc(String(g.value ?? '—'))}</b>
+            ${g.type ? ' · ' + esc(g.type) : ''}
+            ${g.date ? ' · ' + esc(formatDate(g.date)) : ''}</div>
+          ${g.comment ? '<div class="small muted">💬 ' + esc(g.comment) + '</div>' : ''}
+          <div class="pending-actions">
+            <button class="ghost" data-approve="${esc(c.id)}">✅ Принять</button>
+            <button class="ghost" style="color:#ef4444" data-reject="${esc(c.id)}">✖ Отклонить</button>
+          </div>
+        </div>`;
+      }).join('')}
+      <div style="margin-top:8px">
+        <button id="refresh-pending-btn" class="ghost">🔄 Обновить список</button>
+      </div>
+    </div>` : '';
+
+  const studentPanel = st ? `
+    <div class="panel">
+      <h3>Ученик</h3>
+      <div class="kv"><span>ФИО</span>
+        <input id="student-name-input" value="${esc(st.studentName || '')}" maxlength="120"
+          style="width:auto;max-width:280px;padding:3px 8px;font-size:13px"
+          ${(!isAdmin() && !isStudentRole()) ? 'disabled' : ''}></div>
+      <div class="kv"><span>Предметов</span><b>${(st.subjects || []).length}</b></div>
+      <div class="kv"><span>Уроков</span><b>${(st.schedule || []).length}</b></div>
+      ${data.publishedAt ? `<div class="kv"><span>Опубликовано</span><b>${esc(new Date(data.publishedAt).toLocaleString('ru-RU'))}</b></div>` : ''}
+    </div>` : '';
 
   const profilePanel = `
     <div class="panel">
       <h3>Профиль</h3>
       <div class="kv"><span>Email</span><b>${esc(currentUser.email || '')}</b></div>
-      <div class="kv"><span>Имя</span>
-        <input id="profile-name" value="${esc(currentUser.name || '')}" maxlength="80"
-          style="width:auto;max-width:220px;padding:3px 8px;font-size:13px"></div>
       <div class="kv"><span>Роль</span>
         <b class="role-badge role-${esc(role())}">${esc(roleLabel(role()))}</b></div>
     </div>`;
 
-  const catalogPanel = `
+  const catalogPanel = st ? `
     <div class="panel">
       <h3>Каталог предметов</h3>
-      <p class="muted small">Предметы для добавления оценок и расписания берутся только отсюда.</p>
+      <p class="muted small">Предметы для оценок и расписания берутся только отсюда.</p>
       <div class="chips">
-        ${studentData.catalog.length
-          ? studentData.catalog.map((c,i) =>
+        ${(st.catalog || []).length
+          ? st.catalog.map((c,i) =>
               `<span class="chip">${esc(c)}${admin
                 ? `<button class="chip-x" data-catalog-del="${i}" title="Удалить">×</button>` : ''}</span>`
             ).join('')
@@ -798,13 +1215,11 @@ function renderCabinet(){
         <input id="catalog-input" placeholder="Новый предмет" maxlength="60">
         <button id="catalog-add">Добавить</button>
       </div>` : ''}
-    </div>`;
+    </div>` : '';
 
   const invitesPanel = `
     <div class="panel">
       <h3>Приглашение участников</h3>
-      <p class="muted small">Добавьте email и роль, затем скачайте файл-приглашение
-        (кнопка «📥 Скачать» рядом с приглашением) и отправьте его в Viber.</p>
       ${admin ? `<div class="row">
         <input id="invite-email" type="email" placeholder="email@example.com">
         <select id="invite-role">
@@ -820,28 +1235,32 @@ function renderCabinet(){
               <div class="invite-info">${esc(inv.email || '')}
                 <b class="muted small">(${esc(roleLabel(inv.role || 'viewer'))})</b></div>
               <div class="invite-actions">
-                ${admin ? `<button class="ghost" data-invite-download="${esc(inv.id)}"
-                    title="Скачать файл-приглашение">📥 Скачать</button>` : ''}
-                ${admin ? `<button class="chip-x" data-invite-del="${esc(inv.id)}" title="Удалить">×</button>` : ''}
+                ${admin ? `<button class="ghost" data-invite-download="${esc(inv.id)}">📥 Скачать</button>` : ''}
+                ${admin ? `<button class="chip-x" data-invite-del="${esc(inv.id)}">×</button>` : ''}
               </div>
             </li>`).join('')
           : '<li class="muted small" style="justify-content:center">Приглашений нет</li>'}
       </ul>
       <div class="hint-box">
-        💡 <b>Как отправить через Viber:</b><br>
-        1. Нажмите «📥 Скачать» — получите файл <code>invite-....html</code>.<br>
-        2. Отправьте этот файл в чат Viber.<br>
-        3. Получатель открывает файл → Android спросит «Открыть с помощью» →
-        выберите <b>Chrome</b>.<br>
-        4. Откроется страница приложения с заполненным email — останется придумать пароль.
+        💡 Скачайте файл-приглашение и отправьте в Viber. Получатель откроет его в браузере,
+        укажет ФИО и зарегистрируется.
       </div>
     </div>`;
+
+  const publishPanel = admin ? `
+    <div class="panel">
+      <h3>Публикация данных</h3>
+      <p class="muted small">Отправляет данные <b>всех учеников</b> в <code>data.json</code> на GitHub.
+        Через 1–2 минуты их увидят все пользователи.</p>
+      <div class="row">
+        <button id="publish-btn">📤 Опубликовать данные</button>
+        <button id="forget-token-btn" class="ghost">Забыть токен</button>
+      </div>
+    </div>` : '';
 
   const dataPanel = `
     <div class="panel">
       <h3>Данные</h3>
-      <p class="muted small">Экспорт сохраняет оценки, расписание, каталог и ФИО в файл.
-        Импорт полностью заменяет данные.</p>
       <div class="row">
         <button id="export-btn">⬇ Экспорт JSON</button>
         ${admin ? '<button id="import-btn" class="secondary">⬆ Импорт JSON</button>' : ''}
@@ -850,7 +1269,7 @@ function renderCabinet(){
       ${admin ? '<button id="reset-btn" class="danger wide">Сбросить всё</button>' : ''}
     </div>`;
 
-  el.innerHTML = profilePanel + catalogPanel + invitesPanel + dataPanel;
+  el.innerHTML = pendingPanel + profilePanel + studentPanel + catalogPanel + invitesPanel + publishPanel + dataPanel;
 }
 
 /* ============================================================================
@@ -873,13 +1292,14 @@ document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal();
 
 /* ---------------------------- МОДАЛКА ОЦЕНКИ ---------------------------- */
 function openGradeModal(subjectId, gradeId){
-  const subject = (studentData.subjects || []).find(s => s.id === subjectId);
+  const st = getCurrentStudent();
+  if(!st) return;
+  const subject = (st.subjects || []).find(s => s.id === subjectId);
   if(!subject) return;
 
   const isNew = !gradeId;
   if(isNew && !canAddGrade()) return;
 
-  /* При создании новой оценки тип по умолчанию — «Другое» */
   const grade = isNew
     ? { id:null, value:5, type: DEFAULT_TYPE, date:todayISO(), comment:'' }
     : (subject.grades || []).find(g => g.id === gradeId);
@@ -890,21 +1310,16 @@ function openGradeModal(subjectId, gradeId){
 
   const valueOpts = Array.from({length:10}, (_,i) => i + 1)
     .map(v => `<option value="${v}" ${Number(grade.value) === v ? 'selected' : ''}>${v}</option>`).join('');
-
   const typeOpts = GRADE_TYPES
     .map(t => `<option value="${esc(t.name)}" ${grade.type === t.name ? 'selected' : ''}>${esc(t.name)}</option>`).join('');
 
   openModal(`
     <h2>${isNew ? 'Новая оценка' : 'Оценка'} — ${esc(subject.name)}</h2>
-    ${!editable ? '<p class="muted small">Режим просмотра — у вашей роли нет прав на изменение.</p>' : ''}
-    <label><span>Оценка</span>
-      <select id="m-value" ${dis}>${valueOpts}</select></label>
-    <label><span>Тип работы</span>
-      <select id="m-type" ${dis}>${typeOpts}</select></label>
-    <label><span>Дата</span>
-      <input type="date" id="m-date" value="${esc(grade.date || todayISO())}" ${dis}></label>
-    <label><span>Описание</span>
-      <textarea id="m-comment" rows="3" placeholder="Комментарий к оценке…" ${dis}>${esc(grade.comment || '')}</textarea></label>
+    ${!editable ? '<p class="muted small">Режим просмотра.</p>' : ''}
+    <label><span>Оценка</span><select id="m-value" ${dis}>${valueOpts}</select></label>
+    <label><span>Тип работы</span><select id="m-type" ${dis}>${typeOpts}</select></label>
+    <label><span>Дата</span><input type="date" id="m-date" value="${esc(grade.date || todayISO())}" ${dis}></label>
+    <label><span>Описание</span><textarea id="m-comment" rows="3" ${dis}>${esc(grade.comment || '')}</textarea></label>
     <div class="modal-actions">
       <button id="m-cancel" class="secondary">${editable ? 'Отмена' : 'Закрыть'}</button>
       ${editable ? '<button id="m-save">Сохранить</button>' : ''}
@@ -916,26 +1331,59 @@ function openGradeModal(subjectId, gradeId){
 
   const saveBtn = $('m-save');
   if(saveBtn){
-    saveBtn.addEventListener('click', () => {
+    saveBtn.addEventListener('click', async () => {
       const value   = Number($('m-value').value);
       const type    = $('m-type').value;
       const date    = $('m-date').value;
       const comment = $('m-comment').value.trim();
 
-      const data = Student.get();
-      const subj = data.subjects.find(s => s.id === subjectId);
+      const currentData = DataStore.get();
+      const s = currentData.students.find(x => x.id === st.id);
+      if(!s) return closeModal();
+      const subj = s.subjects.find(x => x.id === subjectId);
       if(!subj) return closeModal();
       subj.grades = subj.grades || [];
+
+      let savedGradeId;
       if(isNew){
-        subj.grades.push({ id:uid(), value, type, date, comment });
+        savedGradeId = uid();
+        subj.grades.push({ id: savedGradeId, value, type, date, comment });
       }else{
+        savedGradeId = gradeId;
         const g = subj.grades.find(x => x.id === gradeId);
         if(g){ g.value = value; g.type = type; g.date = date; g.comment = comment; }
       }
-      Student.save(data);
-      studentData = normalizeStudent(data);
+      DataStore.save(currentData);
+      data = currentData;
       renderAll();
       closeModal();
+
+      // Если ученик — отправляем заявку
+      if(isStudentRole() && currentUser){
+        const change = {
+          id: uid(),
+          timestamp: new Date().toISOString(),
+          type: 'grade',
+          studentEmail: currentUser.email,
+          studentName: st.studentName,
+          studentId: st.id,
+          status: 'pending',
+          action: isNew ? 'add' : 'update',
+          subjectId: subject.id,
+          subjectName: subject.name,
+          gradeId: savedGradeId,
+          grade: { value, type, date, comment }
+        };
+        try{
+          await submitChangeToPending(change);
+          if(!window.__pendingHintShown){
+            window.__pendingHintShown = true;
+            alert('📤 Изменение сохранено локально и отправлено администратору на проверку.');
+          }
+        }catch(e){
+          alert('⚠️ Сохранено локально, но не отправлено на проверку: ' + e.message);
+        }
+      }
     });
   }
 
@@ -943,12 +1391,14 @@ function openGradeModal(subjectId, gradeId){
   if(delBtn){
     delBtn.addEventListener('click', () => {
       if(!confirm('Удалить эту оценку?')) return;
-      const data = Student.get();
-      const subj = data.subjects.find(s => s.id === subjectId);
+      const currentData = DataStore.get();
+      const s = currentData.students.find(x => x.id === st.id);
+      if(!s) return closeModal();
+      const subj = s.subjects.find(x => x.id === subjectId);
       if(!subj) return closeModal();
       subj.grades = (subj.grades || []).filter(g => g.id !== gradeId);
-      Student.save(data);
-      studentData = normalizeStudent(data);
+      DataStore.save(currentData);
+      data = currentData;
       renderAll();
       closeModal();
     });
@@ -958,33 +1408,29 @@ function openGradeModal(subjectId, gradeId){
 /* ---------------------------- МОДАЛКА УРОКА ---------------------------- */
 function openLessonModal(lessonId, day){
   if(!isAdmin()) return;
+  const st = getCurrentStudent();
+  if(!st) return;
 
   const isNew = !lessonId;
   const lesson = isNew
     ? { id:null, day:day || DAYS[0], time:'', subject:'', room:'', homework:'' }
-    : (studentData.schedule || []).find(l => l.id === lessonId);
+    : (st.schedule || []).find(l => l.id === lessonId);
   if(!lesson) return;
 
-  const catalog = studentData.catalog || [];
+  const catalog = st.catalog || [];
   const subjOpts = catalog.length
     ? catalog.map(c => `<option value="${esc(c)}" ${lesson.subject === c ? 'selected' : ''}>${esc(c)}</option>`).join('')
     : '<option value="">— каталог пуст —</option>';
-
   const dayOpts = DAYS
     .map(d => `<option value="${esc(d)}" ${lesson.day === d ? 'selected' : ''}>${esc(d)}</option>`).join('');
 
   openModal(`
     <h2>${isNew ? 'Новый урок' : 'Урок'}</h2>
-    <label><span>День недели</span>
-      <select id="m-day">${dayOpts}</select></label>
-    <label><span>Предмет (из каталога)</span>
-      <select id="m-subject">${subjOpts}</select></label>
-    <label><span>Время</span>
-      <input id="m-time" placeholder="08:30–09:15" value="${esc(lesson.time || '')}"></label>
-    <label><span>Кабинет</span>
-      <input id="m-room" placeholder="каб. 12" value="${esc(lesson.room || '')}"></label>
-    <label><span>Домашнее задание</span>
-      <textarea id="m-hw" rows="3" placeholder="Что задано…">${esc(lesson.homework || '')}</textarea></label>
+    <label><span>День недели</span><select id="m-day">${dayOpts}</select></label>
+    <label><span>Предмет (из каталога)</span><select id="m-subject">${subjOpts}</select></label>
+    <label><span>Время</span><input id="m-time" placeholder="08:30–09:15" value="${esc(lesson.time || '')}"></label>
+    <label><span>Кабинет</span><input id="m-room" placeholder="каб. 12" value="${esc(lesson.room || '')}"></label>
+    <label><span>Домашнее задание</span><textarea id="m-hw" rows="3">${esc(lesson.homework || '')}</textarea></label>
     <div class="modal-actions">
       <button id="m-cancel" class="secondary">Отмена</button>
       <button id="m-save">Сохранить</button>
@@ -1001,16 +1447,17 @@ function openLessonModal(lessonId, day){
       room: $('m-room').value.trim(),
       homework: $('m-hw').value.trim()
     };
-    const data = Student.get();
-    data.schedule = data.schedule || [];
-    if(isNew){
-      data.schedule.push(Object.assign({ id: uid() }, payload));
-    }else{
-      const l = data.schedule.find(x => x.id === lessonId);
+    const currentData = DataStore.get();
+    const s = currentData.students.find(x => x.id === st.id);
+    if(!s) return closeModal();
+    s.schedule = s.schedule || [];
+    if(isNew) s.schedule.push(Object.assign({ id: uid() }, payload));
+    else {
+      const l = s.schedule.find(x => x.id === lessonId);
       if(l) Object.assign(l, payload);
     }
-    Student.save(data);
-    studentData = normalizeStudent(data);
+    DataStore.save(currentData);
+    data = currentData;
     renderAll();
     closeModal();
   });
@@ -1019,10 +1466,12 @@ function openLessonModal(lessonId, day){
   if(delBtn){
     delBtn.addEventListener('click', () => {
       if(!confirm('Удалить этот урок?')) return;
-      const data = Student.get();
-      data.schedule = (data.schedule || []).filter(l => l.id !== lessonId);
-      Student.save(data);
-      studentData = normalizeStudent(data);
+      const currentData = DataStore.get();
+      const s = currentData.students.find(x => x.id === st.id);
+      if(!s) return closeModal();
+      s.schedule = (s.schedule || []).filter(l => l.id !== lessonId);
+      DataStore.save(currentData);
+      data = currentData;
       renderAll();
       closeModal();
     });
@@ -1030,30 +1479,24 @@ function openLessonModal(lessonId, day){
 }
 
 /* ============================================================================
-   ДОБАВЛЕНИЕ ПРЕДМЕТА — ТОЛЬКО ИЗ КАТАЛОГА
+   ДОБАВЛЕНИЕ ПРЕДМЕТА ИЗ КАТАЛОГА
    ============================================================================ */
 function addSubjectPrompt(){
   if(!isAdmin()) return;
+  const st = getCurrentStudent();
+  if(!st) return;
 
-  const data = Student.get();
-  const catalog = data.catalog || [];
-  const existing = new Set((data.subjects || []).map(s => s.name.toLowerCase()));
+  const catalog = st.catalog || [];
+  const existing = new Set((st.subjects || []).map(s => s.name.toLowerCase()));
   const available = catalog.filter(c => !existing.has(c.toLowerCase()));
 
-  if(!catalog.length){
-    return alert('Сначала добавьте предметы в каталог (Личный кабинет → Каталог предметов).');
-  }
-  if(!available.length){
-    return alert('Все предметы из каталога уже добавлены в оценки.');
-  }
+  if(!catalog.length) return alert('Сначала добавьте предметы в каталог.');
+  if(!available.length) return alert('Все предметы из каталога уже добавлены.');
 
   const opts = available.map(c => `<option value="${esc(c)}">${esc(c)}</option>`).join('');
-
   openModal(`
     <h2>Добавить предмет из каталога</h2>
-    <label><span>Предмет</span>
-      <select id="m-subject-catalog">${opts}</select></label>
-    <p class="muted small">Список формируется в разделе «Личный кабинет → Каталог предметов».</p>
+    <label><span>Предмет</span><select id="m-subject-catalog">${opts}</select></label>
     <div class="modal-actions">
       <button id="m-cancel" class="secondary">Отмена</button>
       <button id="m-save">Добавить</button>
@@ -1064,11 +1507,13 @@ function addSubjectPrompt(){
   $('m-save').addEventListener('click', () => {
     const name = $('m-subject-catalog').value;
     if(!name) return closeModal();
-    const d = Student.get();
-    d.subjects = d.subjects || [];
-    d.subjects.push({ id: uid(), name, grades: [] });
-    Student.save(d);
-    studentData = normalizeStudent(d);
+    const currentData = DataStore.get();
+    const s = currentData.students.find(x => x.id === st.id);
+    if(!s) return closeModal();
+    s.subjects = s.subjects || [];
+    s.subjects.push({ id: uid(), name, grades: [] });
+    DataStore.save(currentData);
+    data = currentData;
     renderAll();
     closeModal();
   });
@@ -1079,36 +1524,45 @@ function addSubjectPrompt(){
    ============================================================================ */
 function deleteSubject(subjectId){
   if(!isAdmin()) return;
-  const data = Student.get();
-  const s = (data.subjects || []).find(x => x.id === subjectId);
-  if(!s) return;
-  if(!confirm(`Удалить предмет «${s.name}» со всеми оценками?`)) return;
-  data.subjects = data.subjects.filter(x => x.id !== subjectId);
-  Student.save(data);
-  studentData = normalizeStudent(data);
+  const st = getCurrentStudent();
+  if(!st) return;
+  const s_ = (st.subjects || []).find(x => x.id === subjectId);
+  if(!s_) return;
+  if(!confirm(`Удалить предмет «${s_.name}» со всеми оценками?`)) return;
+
+  const currentData = DataStore.get();
+  const s = currentData.students.find(x => x.id === st.id);
+  s.subjects = s.subjects.filter(x => x.id !== subjectId);
+  DataStore.save(currentData);
+  data = currentData;
   renderAll();
 }
 
 function addCatalogItem(){
   if(!isAdmin()) return;
-  const input = $('catalog-input');
-  const val = (input.value || '').trim();
+  const st = getCurrentStudent();
+  if(!st) return;
+  const val = ($('catalog-input').value || '').trim();
   if(!val) return;
-  const data = Student.get();
-  data.catalog = data.catalog || [];
-  if(data.catalog.some(c => c.toLowerCase() === val.toLowerCase()))
-    return alert('Такой предмет уже есть в каталоге.');
-  data.catalog.push(val);
-  Student.save(data);
-  studentData = normalizeStudent(data);
+  const currentData = DataStore.get();
+  const s = currentData.students.find(x => x.id === st.id);
+  s.catalog = s.catalog || [];
+  if(s.catalog.some(c => c.toLowerCase() === val.toLowerCase()))
+    return alert('Такой предмет уже есть.');
+  s.catalog.push(val);
+  DataStore.save(currentData);
+  data = currentData;
   renderAll();
 }
 function deleteCatalogItem(index){
   if(!isAdmin()) return;
-  const data = Student.get();
-  data.catalog.splice(index, 1);
-  Student.save(data);
-  studentData = normalizeStudent(data);
+  const st = getCurrentStudent();
+  if(!st) return;
+  const currentData = DataStore.get();
+  const s = currentData.students.find(x => x.id === st.id);
+  s.catalog.splice(index, 1);
+  DataStore.save(currentData);
+  data = currentData;
   renderAll();
 }
 
@@ -1117,18 +1571,10 @@ function inviteUser(){
   const email = ($('invite-email').value || '').trim().toLowerCase();
   const role_ = $('invite-role').value;
   if(!email || email.indexOf('@') < 0) return alert('Введите корректный email');
-  if(Users.findEmail(email)) return alert('Пользователь с таким email уже зарегистрирован');
-  if(Invites.findByEmail(email)) return alert('Приглашение для этого email уже существует');
-
+  if(Users.findEmail(email)) return alert('Такой email уже зарегистрирован');
+  if(Invites.findByEmail(email)) return alert('Приглашение уже существует');
   Invites.add({ id: uid(), email, role: role_, invitedBy: currentUser.email });
   invites = Invites.all();
-
-  const data = Student.get();
-  data.members = (data.members || []).filter(m => m.email !== email);
-  data.members.push({ email, role: role_ });
-  Student.save(data);
-  studentData = normalizeStudent(data);
-
   $('invite-email').value = '';
   renderCabinet();
 }
@@ -1144,17 +1590,11 @@ function deleteInvite(id){
    ФАЙЛ-ПРИГЛАШЕНИЕ
    ============================================================================ */
 function generateInviteFile(invite){
-  if(!isAdmin()) return;
-  if(!invite || !invite.email) return alert('Некорректное приглашение');
-
-  const seed = Student.get();
+  if(!isAdmin() || !invite || !invite.email) return;
   const inject =
     '<script>window.__APP_INVITE=' + JSON.stringify({ email: invite.email, role: invite.role || 'viewer' }) +
-    ';window.__APP_SEED_DATA=' + JSON.stringify(seed) +
     ';<\/script>';
-
   const html = APP_HTML_SNAPSHOT.replace(/<head>/i, '<head>\n' + inject);
-
   const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
   const url = URL.createObjectURL(blob);
   const safe = invite.email.replace(/[^a-z0-9]+/gi, '_');
@@ -1172,9 +1612,9 @@ function generateInviteFile(invite){
    ============================================================================ */
 function exportJSON(){
   const payload = {
-    app: 'school-progress', version: 1,
+    app: 'school-progress', version: 2,
     exportedAt: new Date().toISOString(),
-    student: Student.get()
+    data
   };
   const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
@@ -1192,36 +1632,27 @@ function importJSON(file){
   reader.onload = e => {
     try{
       const parsed = JSON.parse(e.target.result);
-      const data = parsed.student ? parsed.student : parsed;
-      if(!data || typeof data !== 'object') throw new Error('Неверный формат файла');
-      if(!confirm('Импорт заменит текущие данные. Продолжить?')) return;
-      const normalized = normalizeStudent(data);
-      Student.save(normalized);
-      studentData = normalized;
+      const raw = parsed.data ? parsed.data : parsed;
+      if(!raw || typeof raw !== 'object') throw new Error('Неверный формат');
+      if(!confirm('Импорт заменит данные ВСЕХ учеников. Продолжить?')) return;
+      data = normalizeData(raw);
+      DataStore.save(data);
+      currentStudentId = data.students[0] ? data.students[0].id : null;
       renderAll();
-      alert('Данные успешно импортированы.');
-    }catch(err){
-      alert('Ошибка импорта: ' + err.message);
-    }
+      alert('Импорт выполнен.');
+    }catch(err){ alert('Ошибка импорта: ' + err.message); }
   };
   reader.readAsText(file);
 }
 function resetAll(){
   if(!isAdmin()) return;
-  if(!confirm('Удалить ВСЕ данные (предметы, оценки, расписание)? Действие необратимо.')) return;
-  if(!confirm('Вы точно уверены? Это последнее подтверждение.')) return;
-  Student.save(defaultStudent());
-  studentData = normalizeStudent(Student.get());
+  if(!confirm('Удалить ВСЕ данные всех учеников?')) return;
+  if(!confirm('Последнее подтверждение. Продолжить?')) return;
+  data = defaultData();
+  DataStore.save(data);
+  currentStudentId = null;
   renderAll();
   alert('Все данные сброшены.');
-}
-function renameSelf(newName){
-  if(!currentUser) return;
-  const val = String(newName || '').trim().slice(0, 80);
-  Users.update(currentUser.uid, { name: val });
-  currentUser.name = val;
-  renderHeader();
-  renderCabinet();
 }
 
 /* ============================================================================
@@ -1241,11 +1672,9 @@ function buildTipHtml(el){
 }
 function positionTip(el){
   tipEl.innerHTML = buildTipHtml(el);
-  tipEl.style.left = '0px';
-  tipEl.style.top  = '0px';
+  tipEl.style.left = '0px'; tipEl.style.top = '0px';
   tipEl.classList.add('show');
-
-  const r  = el.getBoundingClientRect();
+  const r = el.getBoundingClientRect();
   const tr = tipEl.getBoundingClientRect();
   let left = r.left + r.width / 2 - tr.width / 2;
   left = Math.max(8, Math.min(left, window.innerWidth - tr.width - 8));
@@ -1254,10 +1683,8 @@ function positionTip(el){
   tipEl.style.left = left + 'px';
   tipEl.style.top  = top + 'px';
 }
-function hideTip(){
-  tipEl.classList.remove('show');
-  clearTimeout(tipTimer);
-}
+function hideTip(){ tipEl.classList.remove('show'); clearTimeout(tipTimer); }
+
 document.addEventListener('mouseover', e => {
   const el = e.target.closest && e.target.closest('[data-tip]');
   if(!el) return;
@@ -1294,6 +1721,7 @@ $('tabs').addEventListener('click', e => {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   const panel = $('tab-' + btn.dataset.tab);
   if(panel) panel.classList.add('active');
+  if(btn.dataset.tab === 'cabinet' && isAdmin()) refreshPending();
 });
 
 $('grades-actions').addEventListener('click', e => {
@@ -1329,6 +1757,12 @@ $('schedule-grid').addEventListener('click', e => {
 });
 
 $('cabinet-content').addEventListener('click', e => {
+  const appr = e.target.closest('[data-approve]');
+  if(appr) return approveChange(appr.dataset.approve);
+  const rej = e.target.closest('[data-reject]');
+  if(rej) return rejectChange(rej.dataset.reject);
+  if(e.target.closest('#refresh-pending-btn')) return refreshPending();
+
   if(e.target.closest('#catalog-add')) return addCatalogItem();
   const catDel = e.target.closest('[data-catalog-del]');
   if(catDel) return deleteCatalogItem(Number(catDel.dataset.catalogDel));
@@ -1340,6 +1774,15 @@ $('cabinet-content').addEventListener('click', e => {
   if(invDl){
     const inv = Invites.all().find(x => x.id === invDl.dataset.inviteDownload);
     if(inv) return generateInviteFile(inv);
+    return;
+  }
+
+  if(e.target.closest('#publish-btn')) return publishToGitHub();
+  if(e.target.closest('#forget-token-btn')){
+    if(confirm('Удалить сохранённый GitHub-токен?')){
+      localStorage.removeItem('gh_token');
+      alert('Токен удалён.');
+    }
     return;
   }
 
@@ -1359,8 +1802,21 @@ $('cabinet-content').addEventListener('change', e => {
     importJSON(e.target.files[0]);
     e.target.value = '';
   }
-  if(e.target.id === 'profile-name'){
-    renameSelf(e.target.value);
+  if(e.target.id === 'student-name-input'){
+    if(!isAdmin() && !isStudentRole()) return;
+    const st = getCurrentStudent();
+    if(!st) return;
+    const newName = e.target.value.trim();
+    if(!newName) return;
+    const currentData = DataStore.get();
+    const s = currentData.students.find(x => x.id === st.id);
+    if(!s) return;
+    s.studentName = newName;
+    DataStore.save(currentData);
+    data = currentData;
+    // Обновим и пользователя, если это его ученик
+    if(currentUser.studentId === st.id) Users.update(currentUser.uid, { name: newName });
+    renderAll();
   }
 });
 
@@ -1370,7 +1826,6 @@ window.addEventListener('resize', hideTip);
 /* ============================================================================
    СТАРТ
    ============================================================================ */
-applyEmbeddedInvite();
 bootSession();
 </script>
 </body>
