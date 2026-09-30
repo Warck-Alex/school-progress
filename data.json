@@ -233,15 +233,7 @@
         {
           "id": "ilpwpnfx",
           "name": "Физическая культура.",
-          "grades": [
-            {
-              "id": "muo1wsvgog2p5t",
-              "value": 7,
-              "type": "Другое",
-              "date": "2026-09-30",
-              "comment": ""
-            }
-          ]
+          "grades": []
         }
       ],
       "schedule": [],
@@ -267,5 +259,5 @@
       "createdAt": "2026-09-30T11:52:09.703Z"
     }
   ],
-  "publishedAt": "2026-09-30T12:28:11.885Z"
+  "publishedAt": "2026-09-30T12:31:16.312Z"
 }
