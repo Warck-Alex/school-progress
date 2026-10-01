@@ -531,8 +531,8 @@ async function hashPassword(password, salt){
 /* ---------- EMAILJS отправка ---------- */
 async function sendCodeEmail(toEmail, code, purpose){
   if(!emailJsEnabled()){
-    // Тестовый режим: показываем код на экране
-    alert('📧 EmailJS не настроен.\n\nВаш код для ' + purpose + ': ' + code + '\n\nВведите его в поле.');
+    // EmailJS не настроен — код будет показан прямо в модальном окне.
+    // Ничего не отправляем и не мешаем всплывашкой.
     return true;
   }
   try{
@@ -920,10 +920,10 @@ $('btn-register').addEventListener('click', async () => {
   if(Users.findEmail(email)) return $('auth-error').textContent = 'Email уже зарегистрирован';
 
   // Генерируем код и шлём
-  const code = generateCode();
+   const code = generateCode();
   saveVerification(email, code, 'register');
   await sendCodeEmail(email, code, 'регистрации');
-  openCodeModal(email, 'register', 'Подтверждение email', async (enteredCode) => {
+    openCodeModal(email, 'register', 'Подтверждение email', async (enteredCode) => {
     const v = getVerification('register');
     if(!v){ alert('Код истёк. Запросите новый.'); return false; }
     if(v.email !== email){ alert('Email изменился. Запросите код заново.'); return false; }
@@ -946,6 +946,7 @@ $('btn-register').addEventListener('click', async () => {
     }catch(e){ $('auth-error').textContent = e.message; }
     finally{ $('btn-register').disabled = false; }
     return true;
+       }, code);
   });
 });
 
@@ -1022,26 +1023,38 @@ $('forgot-link').addEventListener('click', async () => {
       }
     }, 200);
     return true;
+      }, code);
   });
 });
 
 /* ---------- Модалка ввода кода ---------- */
-function openCodeModal(email, purpose, title, onVerify){
+function openCodeModal(email, purpose, title, onVerify, devCode){
+  const isDev = !emailJsEnabled();
+  const devHint = isDev ? `
+    <div style="background:#fff8e6;border:1px dashed #f59e0b;border-radius:10px;
+      padding:12px;margin:0 0 12px;text-align:center;color:#7a5b00">
+      <div class="small" style="margin-bottom:6px">🧪 EmailJS не настроен — тестовый режим</div>
+      <div style="font-size:12px;margin-bottom:8px">Ваш код:</div>
+      <div style="font-size:34px;font-weight:900;letter-spacing:10px;
+        font-family:monospace;color:#151a2d;line-height:1">${esc(devCode || '???')}</div>
+    </div>` : '';
   openModal(`
     <h2>${esc(title)}</h2>
     <p class="muted small" style="margin:0 0 12px">
-      Мы отправили 3-значный код на <b>${esc(email)}</b>.<br>
-      Введите его ниже. Код действует 10 минут.
+      ${isDev
+        ? `Введите код, показанный ниже, для <b>${esc(email)}</b>.`
+        : `Мы отправили 3-значный код на <b>${esc(email)}</b>.<br>Введите его ниже. Код действует 10 минут.`}
     </p>
+    ${devHint}
     <input id="code-input" class="code-input" maxlength="3" inputmode="numeric"
       autocomplete="one-time-code" placeholder="•••" value="">
     <div class="modal-actions">
       <button id="code-cancel" class="secondary">Отмена</button>
       <button id="code-submit">Проверить</button>
     </div>
-    <p class="muted small" style="margin:10px 0 0;text-align:center">
+    ${isDev ? '' : `<p class="muted small" style="margin:10px 0 0;text-align:center">
       Не пришло? <a id="code-resend" style="color:var(--accent);cursor:pointer">Отправить заново</a>
-    </p>
+    </p>`}
   `);
   const input = $('code-input');
   setTimeout(() => input && input.focus(), 100);
@@ -1051,18 +1064,19 @@ function openCodeModal(email, purpose, title, onVerify){
   });
   input.addEventListener('keydown', e => { if(e.key === 'Enter') $('code-submit').click(); });
   $('code-cancel').addEventListener('click', closeModal);
-  $('code-submit').addEventListener('click', async () => {
-    const val = (input.value || '').trim();
-    if(val.length !== 3) return alert('Введите 3-значный код');
-    const ok = await onVerify(val);
-    if(ok) closeModal();
-  });
-  $('code-resend').addEventListener('click', async () => {
-    const newCode = generateCode();
-    saveVerification(email, newCode, purpose);
-    await sendCodeEmail(email, newCode, purpose === 'reset' ? 'восстановления пароля' : 'регистрации');
-    alert('Новый код отправлен.');
-  });
+  const resendLink = $('code-resend');
+  if(resendLink){
+    resendLink.addEventListener('click', async () => {
+      const newCode = generateCode();
+      saveVerification(email, newCode, purpose);
+      await sendCodeEmail(email, newCode, purpose === 'reset' ? 'восстановления пароля' : 'регистрации');
+      if(emailJsEnabled()) alert('Новый код отправлен.');
+      else{
+        closeModal();
+        openCodeModal(email, purpose, title, onVerify, newCode);
+      }
+    });
+  }
 }
 
 /* ---------- Снимок сессии ---------- */
