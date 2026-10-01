@@ -366,8 +366,7 @@ body.dark .auth-card{background:#1e2231;color:var(--text)}
     <div id="cabinet-content"></div>
   </section>
 
- 
-<section class="tab-panel" id="tab-users">
+  <section class="tab-panel" id="tab-users">
     <div class="section-head"><h2>Зарегистрированные пользователи</h2></div>
     <div id="users-content"></div>
   </section>
@@ -526,6 +525,7 @@ function overallGpa(){
   }));
   return n ? sum / n : null;
 }
+
 /* ------- пароль ------- */
 function randomSalt(){
   const arr = new Uint8Array(16);
@@ -742,6 +742,7 @@ async function rejectChange(changeId){
     if(reason.trim()) alert('Заявка отклонена. Причина: ' + reason.trim());
   }catch(e){ alert('Не удалось отклонить: ' + e.message); }
 }
+
 /* ------- auth ------- */
 async function register(email, password, studentName){
   email = String(email).trim().toLowerCase();
@@ -952,6 +953,7 @@ function renderHeader(){
   const usersBtn = $('tab-users-btn');
   if(usersBtn) usersBtn.style.display = isAdmin() ? '' : 'none';
 }
+
 /* ---- grades ---- */
 function gradeCellHtml(subject, grade){
   const color = gradeColor(grade.value);
@@ -1111,7 +1113,8 @@ function renderCabinet(){
         <button id="refresh-pending-btn" class="ghost">🔄 Обновить список</button>
       </div>
     </div>` : '';
-/* ЛЕВАЯ КОЛОНКА */
+
+  /* ЛЕВАЯ КОЛОНКА */
   const profilePanel = `
     <div class="panel">
       <h3>👤 Профиль</h3>
@@ -1477,6 +1480,7 @@ function addSubjectPrompt(){
     DataStore.save(currentData); data = currentData; renderAll(); closeModal();
   });
 }
+
 function deleteSubject(subjectId){
   if(!isAdmin()) return;
   const st = getCurrentStudent(); if(!st) return;
