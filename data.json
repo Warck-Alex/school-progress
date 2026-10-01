@@ -8,29 +8,95 @@
           "id": "p2iqf6l8",
           "name": "математика",
           "grades": [
-            { "id": "qgwm2meo", "value": 4, "type": "", "date": "2026-09-29", "comment": "" },
-            { "id": "v8v081k9", "value": 3, "type": "", "date": "2026-09-29", "comment": "" },
-            { "id": "f41v145c", "value": 7, "type": "", "date": "2026-09-29", "comment": "" },
-            { "id": "qi510wer", "value": 5, "type": "", "date": "2026-09-29", "comment": "" },
-            { "id": "muo2zcsdiezip2", "value": 7, "type": "Самостоятельная работа", "date": "2026-09-30", "comment": "" }
+            {
+              "id": "qgwm2meo",
+              "value": 4,
+              "type": "",
+              "date": "2026-09-29",
+              "comment": ""
+            },
+            {
+              "id": "v8v081k9",
+              "value": 3,
+              "type": "",
+              "date": "2026-09-29",
+              "comment": ""
+            },
+            {
+              "id": "f41v145c",
+              "value": 7,
+              "type": "",
+              "date": "2026-09-29",
+              "comment": ""
+            },
+            {
+              "id": "qi510wer",
+              "value": 5,
+              "type": "",
+              "date": "2026-09-29",
+              "comment": ""
+            },
+            {
+              "id": "muo2zcsdiezip2",
+              "value": 7,
+              "type": "Самостоятельная работа",
+              "date": "2026-09-30",
+              "comment": ""
+            }
           ]
         },
         {
           "id": "l0jziyvl",
           "name": "физика",
           "grades": [
-            { "id": "wayp82ix", "value": 2, "type": "Домашняя работа", "date": "2026-09-29", "comment": "" },
-            { "id": "bsui3as3", "value": 2, "type": "Домашняя работа", "date": "2026-09-29", "comment": "" },
-            { "id": "zwhmau9d", "value": 4, "type": "", "date": "2026-09-29", "comment": "" },
-            { "id": "9a140jkm", "value": 6, "type": "", "date": "2026-09-29", "comment": "" }
+            {
+              "id": "wayp82ix",
+              "value": 2,
+              "type": "Домашняя работа",
+              "date": "2026-09-29",
+              "comment": ""
+            },
+            {
+              "id": "bsui3as3",
+              "value": 2,
+              "type": "Домашняя работа",
+              "date": "2026-09-29",
+              "comment": ""
+            },
+            {
+              "id": "zwhmau9d",
+              "value": 4,
+              "type": "",
+              "date": "2026-09-29",
+              "comment": ""
+            },
+            {
+              "id": "9a140jkm",
+              "value": 6,
+              "type": "",
+              "date": "2026-09-29",
+              "comment": ""
+            }
           ]
         },
         {
           "id": "wx7dj38w",
           "name": "химия",
           "grades": [
-            { "id": "1thlb0jf", "value": 3, "type": "", "date": "2026-09-29", "comment": "" },
-            { "id": "nkmefe46", "value": 7, "type": "", "date": "2026-09-29", "comment": "" }
+            {
+              "id": "1thlb0jf",
+              "value": 3,
+              "type": "",
+              "date": "2026-09-29",
+              "comment": ""
+            },
+            {
+              "id": "nkmefe46",
+              "value": 7,
+              "type": "",
+              "date": "2026-09-29",
+              "comment": ""
+            }
           ]
         },
         {
@@ -42,31 +108,80 @@
           "id": "se3m3d10",
           "name": "Рус. лит.",
           "grades": [
-            { "id": "e2uybta2", "value": 5, "type": "", "date": "2026-09-29", "comment": "" },
-            { "id": "ld0kly56", "value": 5, "type": "", "date": "2026-09-29", "comment": "" },
-            { "id": "ioap1bqm", "value": 3, "type": "", "date": "2026-09-29", "comment": "" }
+            {
+              "id": "e2uybta2",
+              "value": 5,
+              "type": "",
+              "date": "2026-09-29",
+              "comment": ""
+            },
+            {
+              "id": "ld0kly56",
+              "value": 5,
+              "type": "",
+              "date": "2026-09-29",
+              "comment": ""
+            },
+            {
+              "id": "ioap1bqm",
+              "value": 3,
+              "type": "",
+              "date": "2026-09-29",
+              "comment": ""
+            },
+            {
+              "id": "muplkdvu6dt6vi",
+              "value": 7,
+              "type": "Ответ на уроке",
+              "date": "2026-10-01",
+              "comment": ""
+            }
           ]
         },
         {
           "id": "zkccgp61",
           "name": "Бел. яз.",
           "grades": [
-            { "id": "9fdoybt0", "value": 4, "type": "", "date": "2026-09-29", "comment": "" }
+            {
+              "id": "9fdoybt0",
+              "value": 4,
+              "type": "",
+              "date": "2026-09-29",
+              "comment": ""
+            }
           ]
         },
         {
           "id": "vih7tfln",
           "name": "Бел. лит.",
           "grades": [
-            { "id": "3jjf8xb2", "value": 4, "type": "", "date": "2026-09-29", "comment": "" }
+            {
+              "id": "3jjf8xb2",
+              "value": 4,
+              "type": "",
+              "date": "2026-09-29",
+              "comment": ""
+            }
           ]
         },
         {
           "id": "mxoak2qq",
           "name": "Англ. яз.",
           "grades": [
-            { "id": "6soydgpo", "value": 6, "type": "", "date": "2026-09-29", "comment": "" },
-            { "id": "xt6as124", "value": 7, "type": "", "date": "2026-09-29", "comment": "" }
+            {
+              "id": "6soydgpo",
+              "value": 6,
+              "type": "",
+              "date": "2026-09-29",
+              "comment": ""
+            },
+            {
+              "id": "xt6as124",
+              "value": 7,
+              "type": "",
+              "date": "2026-09-29",
+              "comment": ""
+            }
           ]
         },
         {
@@ -77,13 +192,27 @@
         {
           "id": "y1jvd9e6",
           "name": "История Беларуси",
-          "grades": []
+          "grades": [
+            {
+              "id": "mupljzsmuzbjgn",
+              "value": 8,
+              "type": "Ответ на уроке",
+              "date": "2026-10-01",
+              "comment": ""
+            }
+          ]
         },
         {
           "id": "2mxzd027",
           "name": "География",
           "grades": [
-            { "id": "1yyqgow7", "value": 9, "type": "", "date": "2026-09-29", "comment": "" }
+            {
+              "id": "1yyqgow7",
+              "value": 9,
+              "type": "",
+              "date": "2026-09-29",
+              "comment": ""
+            }
           ]
         },
         {
@@ -100,8 +229,20 @@
           "id": "qrf9944p",
           "name": "Информатика.",
           "grades": [
-            { "id": "8rmnkc47", "value": 7, "type": "", "date": "2026-09-29", "comment": "" },
-            { "id": "artedcqh", "value": 10, "type": "", "date": "2026-09-29", "comment": "" }
+            {
+              "id": "8rmnkc47",
+              "value": 7,
+              "type": "",
+              "date": "2026-09-29",
+              "comment": ""
+            },
+            {
+              "id": "artedcqh",
+              "value": 10,
+              "type": "",
+              "date": "2026-09-29",
+              "comment": ""
+            }
           ]
         },
         {
@@ -134,5 +275,5 @@
     }
   ],
   "users": [],
-  "publishedAt": "2026-10-01T04:58:54.971Z"
+  "publishedAt": "2026-10-01T13:56:04.331Z"
 }
