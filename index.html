@@ -377,6 +377,9 @@ const GH_OWNER = 'Warck-Alex';
 const GH_REPO  = 'school-progress';
 const GH_FILE  = 'data.json';
 const DATA_URL = 'data.json';
+  /* ⚠️ ВАШ EMAIL — этот пользователь всегда будет администратором.
+   Указывайте в нижнем регистре, точно как при входе. */
+const ADMIN_EMAIL = 'Warck@mail.ru';
 const GH_PENDING = {
   owner: 'Warck-Alex',
   repo:  'school-pending',
@@ -794,10 +797,12 @@ async function register(email, password, studentName){
   studentName = String(studentName || '').trim();
   if(!studentName) throw new Error('Введите ФИО учащегося');
 
-  const invite = window.__APP_INVITE;
+ const invite = window.__APP_INVITE;
   let role;
-   if(invite && invite.email === email) role = invite.role || 'viewer';
-  else if(!(data.users || []).some(u => u.role === 'admin') && !Users.all().some(u => u.role === 'admin')) role = 'admin';
+  if(email === String(ADMIN_EMAIL).toLowerCase()){
+    role = 'admin';                     // жёстко: этот email всегда админ
+  }
+  else if(invite && invite.email === email) role = invite.role || 'viewer';
   else{
     const localInv = Invites.findByEmail(email);
     role = localInv ? (localInv.role || 'viewer') : 'viewer';
@@ -847,6 +852,16 @@ async function login(email, password){
   if(!user) throw new Error('Пользователь не найден. Пройдите регистрацию.');
   const hash = await hashPassword(password, user.salt);
   if(hash !== user.passwordHash) throw new Error('Неверный пароль');
+    // Если это email администратора — принудительно выдаём роль admin
+  if(email === String(ADMIN_EMAIL).toLowerCase() && user.role !== 'admin'){
+    Users.update(user.uid, { role: 'admin' });
+    if(data.users){
+      const du = data.users.find(x => x.email === email);
+      if(du) du.role = 'admin';
+    }
+    DataStore.save(data);
+    user.role = 'admin';
+  }
   let student = data.students.find(s => s.id === user.studentId);
   if(!student){
     student = data.students.find(s => s.studentName.toLowerCase() === (user.name || '').toLowerCase());
