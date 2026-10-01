@@ -755,7 +755,7 @@ async function register(email, password, studentName){
   const invite = window.__APP_INVITE;
   let role;
   if(invite && invite.email === email) role = invite.role || 'viewer';
-  else if(Users.all().length === 0) role = 'admin';
+  else if(Users.all().length === 0 && data.students.length === 0 && !data.publishedAt) role = 'admin';
   else{
     const localInv = Invites.findByEmail(email);
     role = localInv ? (localInv.role || 'viewer') : 'viewer';
