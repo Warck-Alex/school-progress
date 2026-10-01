@@ -13,7 +13,6 @@
   --danger:#ef4444; --radius:14px;
   --shadow:0 4px 18px rgba(24,39,75,.08);
 }
-/* Тёмная тема */
 body.dark{
   --bg:#151824; --card:#1e2231; --text:#e8eaf0; --muted:#8a91a8;
   --border:#2e3446; --shadow:0 4px 18px rgba(0,0,0,.4);
@@ -44,7 +43,6 @@ body.dark .pending-panel{background:#2a2418;border-color:#5c4a1a}
 body.dark .pub-chip{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.15)}
 body.dark .tooltip{background:#0a0d15}
 body.dark .stats-bar{background:#2e3446}
-
 html,body{margin:0;padding:0;min-height:100%}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
   background:var(--bg);color:var(--text);font-size:15px;line-height:1.45;padding-bottom:40px;
@@ -65,7 +63,6 @@ label{display:block;font-size:13px;color:var(--muted);font-weight:600;margin-bot
 label > span{display:block;margin-bottom:4px}
 .muted{color:var(--muted)}
 .small{font-size:12.5px}
-
 header.app-header{position:sticky;top:0;z-index:60;
   background:linear-gradient(135deg,#4f7cff,#7c5cff);color:#fff;
   padding:10px 14px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;
@@ -91,7 +88,6 @@ header.app-header{position:sticky;top:0;z-index:60;
 .user-chip button{background:rgba(255,255,255,.2);padding:6px 11px;font-size:12.5px;border-radius:999px}
 .theme-btn{background:rgba(255,255,255,.2)!important;padding:7px 11px!important;
   font-size:15px!important;line-height:1!important;border-radius:999px!important;min-width:36px}
-
 nav.tabs{display:flex;gap:6px;padding:10px 14px 0;max-width:1400px;margin:0 auto;flex-wrap:wrap}
 nav.tabs button{background:transparent;color:var(--muted);padding:9px 16px;
   border-radius:10px 10px 0 0;font-weight:700;font-size:14px}
@@ -103,7 +99,6 @@ main{max-width:1400px;margin:0 auto;padding:0 14px}
 .tab-panel{display:none;background:var(--card);border-radius:0 var(--radius) var(--radius) var(--radius);
   padding:16px;box-shadow:var(--shadow)}
 .tab-panel.active{display:block}
-
 .section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;
   margin-bottom:12px;flex-wrap:wrap}
 .section-head h2{margin:0;font-size:17px}
@@ -120,7 +115,6 @@ td.subject-cell{text-align:left!important;background:#eef2fd!important;padding:8
   color:var(--accent);border:1px solid var(--border)}
 .del-subject{background:transparent;color:var(--danger);font-size:17px;padding:0 6px;
   font-weight:800;line-height:1}
-
 .grade{display:inline-flex;flex-direction:column;align-items:center;gap:2px;background:#fff;
   border:1px solid var(--border);border-radius:10px;padding:4px 7px 3px;cursor:pointer;
   user-select:none;-webkit-user-select:none;transition:.12s;min-width:44px}
@@ -132,7 +126,6 @@ td.subject-cell{text-align:left!important;background:#eef2fd!important;padding:8
 .t4{background:#06b6d4}.t5{background:#7c5cff}.t6{background:#ec4899}.t7{background:#64748b}
 .grade.plain{padding:0;width:48px;height:48px;min-width:48px;justify-content:center;background:#fff}
 .grade.plain .grade-value{font-size:24px}
-
 .add-grade{background:#e7ecfb;color:var(--accent);font-weight:800;font-size:17px;line-height:1;
   width:30px;height:30px;padding:0;border-radius:9px}
 .grades-cards{display:none}
@@ -142,7 +135,6 @@ td.subject-cell{text-align:left!important;background:#eef2fd!important;padding:8
 .empty{text-align:center;color:var(--muted);padding:36px 14px;font-size:14px}
 .waiting-box{background:#fff8e6;border:2px dashed #f59e0b;border-radius:14px;
   padding:30px 18px;color:#7a5b00}
-
 .schedule-grid{display:grid;grid-template-columns:repeat(6,minmax(150px,1fr));gap:10px;overflow-x:auto}
 .day-col{background:#f7f9fe;border-radius:12px;padding:10px;min-width:150px}
 .day-col h3{margin:0 0 9px;font-size:13.5px;text-align:center;color:var(--accent);
@@ -156,18 +148,14 @@ td.subject-cell{text-align:left!important;background:#eef2fd!important;padding:8
 .lesson-hw{font-size:12px;margin-top:6px;background:#f4f7ff;border-radius:7px;padding:5px 7px;
   white-space:pre-wrap;word-break:break-word;color:#38405a}
 .add-lesson{width:100%;background:#e7ecfb;color:var(--accent);font-size:12.5px;padding:7px;margin-top:8px}
-
-/* ЛИЧНЫЙ КАБИНЕТ — 2 колонки */
 .cabinet-grid{display:grid;grid-template-columns:minmax(260px,1fr) 1.6fr;gap:12px;align-items:start}
 .cabinet-col{display:flex;flex-direction:column;gap:0}
-
 .panel{background:#f7f9fe;border-radius:12px;padding:14px;margin-bottom:12px}
 .panel h3{margin:0 0 10px;font-size:14.5px}
 .panel.collapsible h3{cursor:pointer;user-select:none;display:flex;justify-content:space-between;align-items:center;gap:8px}
 .panel.collapsible h3::after{content:'▾';font-size:12px;color:var(--muted);transition:.2s}
 .panel.collapsible.closed h3::after{transform:rotate(-90deg)}
 .panel.collapsible.closed .panel-body{display:none}
-.panel-body{}
 .kv{display:flex;justify-content:space-between;gap:10px;padding:2px 0;line-height:1.25;font-size:13.5px}
 .kv + .kv{margin-top:1px}
 .kv span{color:var(--muted)}
@@ -189,7 +177,6 @@ td.subject-cell{text-align:left!important;background:#eef2fd!important;padding:8
 button.wide{width:100%;margin-top:10px}
 .hint-box{background:#fff8e6;border:1px solid #ffe1a8;border-radius:10px;padding:9px 11px;
   font-size:12.5px;color:#7a5b00;margin:8px 0 0;line-height:1.4}
-
 .pending-panel{background:#fff8e6;border:2px solid #f59e0b;border-radius:12px;
   padding:14px;margin-bottom:12px}
 .pending-panel h3{margin:0 0 10px;font-size:14.5px;color:#7a5b00}
@@ -199,8 +186,6 @@ button.wide{width:100%;margin-top:10px}
 .pending-item .pending-meta{color:#7a5b00;font-size:12px;margin-bottom:4px}
 .pending-item .pending-grade{margin:5px 0}
 .pending-item .pending-actions{display:flex;gap:6px;margin-top:7px;flex-wrap:wrap}
-
-/* СТАТИСТИКА */
 .stats-list{display:flex;flex-direction:column;gap:7px}
 .stats-row{display:flex;align-items:center;gap:9px;font-size:13px}
 .stats-name{flex:0 0 130px;font-weight:600;overflow:hidden;text-overflow:ellipsis;
@@ -210,8 +195,6 @@ button.wide{width:100%;margin-top:10px}
   display:flex;align-items:center;justify-content:flex-end;padding-right:6px;
   color:#fff;font-size:11px;font-weight:800;min-width:28px;text-shadow:0 1px 1px rgba(0,0,0,.3)}
 .stats-val{flex:0 0 40px;font-weight:800;font-size:13px;text-align:right;color:var(--text)}
-
-/* ВКЛАДКА ПОЛЬЗОВАТЕЛИ */
 .users-table-wrap{overflow-x:auto}
 .users-table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:640px}
 .users-table th{text-align:left;padding:9px 11px;background:#eef2fd;color:var(--muted);
@@ -223,9 +206,6 @@ button.wide{width:100%;margin-top:10px}
 .users-table tr:last-child td{border-bottom:none}
 .users-table tr:hover td{background:#f7f9fe}
 .users-table select{font-size:12.5px;padding:4px 8px;width:auto;min-width:130px}
-.users-table .row-actions{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
-
-/* АВТОРИЗАЦИЯ */
 .auth-screen{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;
   background:linear-gradient(135deg,#4f7cff,#7c5cff);padding:18px;overflow-y:auto}
 .auth-screen.show{display:flex}
@@ -240,7 +220,6 @@ body.dark .auth-card{background:#1e2231;color:var(--text)}
 .invite-banner{background:#e7f6ec;border:1px solid #b6e2c4;color:#0f6a33;border-radius:10px;
   padding:10px 12px;font-size:13px;margin-bottom:12px;text-align:center;line-height:1.4}
 .auth-hint{font-size:12px;color:var(--muted);text-align:center;margin-top:6px;line-height:1.35}
-
 #modal-root{display:none}
 #modal-root.open{display:block}
 .modal-overlay{position:fixed;inset:0;z-index:300;background:rgba(15,20,40,.5);
@@ -251,7 +230,6 @@ body.dark .auth-card{background:#1e2231;color:var(--text)}
 .modal-actions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
 .modal-actions button{flex:1 1 auto;min-width:90px}
 .modal-actions .danger{flex:0 1 auto}
-
 .tooltip{position:fixed;z-index:9999;pointer-events:none;opacity:0;transition:opacity .15s;
   background:#1b2138;color:#fff;border-radius:10px;padding:9px 12px;font-size:12.5px;
   max-width:270px;box-shadow:0 10px 30px rgba(10,15,40,.35);line-height:1.4}
@@ -259,8 +237,6 @@ body.dark .auth-card{background:#1e2231;color:var(--text)}
 .tooltip .tip-row{margin-bottom:3px}
 .tooltip .tip-comment{margin-top:6px;padding-top:6px;border-top:1px solid rgba(255,255,255,.18);
   white-space:pre-wrap;word-break:break-word;color:#d7ddf1}
-
-/* ПЕЧАТЬ */
 @media print{
   header.app-header,nav.tabs,.tab-panel:not(#tab-grades),
   .grades-cards,#grades-actions,.user-chip,.pub-chip,.theme-btn{display:none!important}
@@ -278,7 +254,6 @@ body.dark .auth-card{background:#1e2231;color:var(--text)}
     color:#555;margin:-10px 0 14px}
 }
 .print-title,.print-sub{display:none}
-
 @media (max-width: 820px){
   .grades-table-wrap{display:none}
   .grades-cards{display:block}
@@ -314,8 +289,8 @@ body.dark .auth-card{background:#1e2231;color:var(--text)}
     <button id="btn-login">Войти</button>
     <button id="btn-register" class="secondary">Зарегистрироваться</button>
     <div class="auth-hint">
-      При регистрации укажите ФИО учащегося — вы привяжетесь к существующему профилю
-      или создадите новый. При входе ФИО указывать не нужно.
+      При регистрации укажите ФИО учащегося. При входе ФИО не требуется.
+      Доступ предоставляется администратором.
     </div>
     <div class="error" id="auth-error"></div>
   </div>
@@ -355,17 +330,14 @@ body.dark .auth-card{background:#1e2231;color:var(--text)}
     <div class="grades-table-wrap" id="grades-table"></div>
     <div class="grades-cards" id="grades-cards"></div>
   </section>
-
   <section class="tab-panel" id="tab-schedule">
     <div class="section-head"><h2>Расписание</h2></div>
     <div class="schedule-grid" id="schedule-grid"></div>
   </section>
-
   <section class="tab-panel" id="tab-cabinet">
     <div class="section-head"><h2>Личный кабинет</h2></div>
     <div id="cabinet-content"></div>
   </section>
-
   <section class="tab-panel" id="tab-users">
     <div class="section-head"><h2>Зарегистрированные пользователи</h2></div>
     <div id="users-content"></div>
@@ -377,7 +349,6 @@ body.dark .auth-card{background:#1e2231;color:var(--text)}
 
 <script>
 const APP_HTML_SNAPSHOT = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
-
 const LS_PREFIX = 'schoolApp_v2_';
 const DB = {
   read(key, def){
@@ -389,21 +360,17 @@ const DB = {
     catch(e){ alert('Не удалось сохранить данные: ' + e.message); }
   }
 };
-
 const GH_OWNER = 'Warck-Alex';
 const GH_REPO  = 'school-progress';
 const GH_FILE  = 'data.json';
 const DATA_URL = 'data.json';
-
 const GH_PENDING = {
   owner: 'Warck-Alex',
   repo:  'school-pending',
   file:  'pending.json',
   token: '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'
 };
-
 const DAYS = ['Понедельник','Вторник','Среда','Четверг','Пятница','Суббота'];
-
 const GRADE_TYPES = [
   { name:'Контрольная работа',    short:'КР'    },
   { name:'Самостоятельная работа',short:'СР'    },
@@ -415,17 +382,14 @@ const GRADE_TYPES = [
   { name:'Другое',                short:'Др'    }
 ];
 const DEFAULT_TYPE = 'Другое';
-
 const DEFAULT_CATALOG = [
   'Математика','Русский язык','Литература','История','Физика','Химия',
   'Биология','География','Английский язык','Информатика','Физкультура'
 ];
-
 const GRADE_COLORS = {
   1:'#ef4444', 2:'#f97316', 3:'#f59e0b', 4:'#eab308', 5:'#a3e635',
   6:'#84cc16', 7:'#22c55e', 8:'#16a34a', 9:'#15803d', 10:'#2563eb'
 };
-
 let currentUser = null;
 let currentStudentId = null;
 let data = null;
@@ -454,7 +418,6 @@ const shortType = name => {
   return t ? t.short : 'Др';
 };
 const isPlainType = t => !t || t === DEFAULT_TYPE;
-
 function gradeColor(v){
   const n = Math.round(Number(v));
   return GRADE_COLORS[n] || '#64748b';
@@ -464,14 +427,12 @@ function gpaColor(gpa){
   const t = Math.max(0, Math.min(1, (gpa - 1) / 9));
   return `hsl(${(t * 140).toFixed(1)}, 82%, 42%)`;
 }
-
 const role          = () => (currentUser && currentUser.role) || 'viewer';
 const isAdmin       = () => role() === 'admin';
 const isStudentRole = () => role() === 'student';
 const canAddGrade   = () => isAdmin() || isStudentRole();
 const roleLabel = r => ({admin:'Администратор', student:'Ученик', viewer:'Наблюдатель'}[r] || r);
 
-/* ------- тема ------- */
 function applyTheme(){
   const t = DB.read('theme', 'light');
   if(t === 'dark') document.body.classList.add('dark');
@@ -484,13 +445,11 @@ $('theme-btn').addEventListener('click', () => {
   DB.write('theme', cur === 'dark' ? 'light' : 'dark');
   applyTheme();
 });
-
-/* ------- структуры ------- */
 function defaultStudent(name){
   return { id: uid(), studentName: name || '', subjects: [], schedule: [],
     catalog: DEFAULT_CATALOG.slice(), members: [], createdAt: new Date().toISOString() };
 }
-function defaultData(){ return { students: [], publishedAt: null }; }
+function defaultData(){ return { students: [], users: [], publishedAt: null }; }
 function normalizeStudent(s){
   return {
     id: s.id || uid(),
@@ -507,10 +466,13 @@ function normalizeData(d){
   let arr = [];
   if(Array.isArray(d.students)) arr = d.students.map(normalizeStudent);
   else if(d.subjects || d.studentName) arr = [normalizeStudent(d)];
-  return { students: arr, publishedAt: d.publishedAt || null };
+  return {
+    students: arr,
+    users: Array.isArray(d.users) ? d.users : [],
+    publishedAt: d.publishedAt || null
+  };
 }
 const getCurrentStudent = () => data ? data.students.find(s => s.id === currentStudentId) : null;
-
 function subjectAvg(s){
   const v = (s.grades || []).map(g => Number(g.value)).filter(n => !isNaN(n));
   return v.length ? v.reduce((a,b)=>a+b,0) / v.length : null;
@@ -525,8 +487,6 @@ function overallGpa(){
   }));
   return n ? sum / n : null;
 }
-
-/* ------- пароль ------- */
 function randomSalt(){
   const arr = new Uint8Array(16);
   (window.crypto || {}).getRandomValues
@@ -544,8 +504,6 @@ async function hashPassword(password, salt){
   for(let i = 0; i < d.length; i++) h = ((h << 5) - h + d[i]) | 0;
   return 'fb_' + Math.abs(h).toString(16);
 }
-
-/* ------- коллекции ------- */
 const Users = {
   all: () => DB.read('users', []),
   save: (list) => DB.write('users', list),
@@ -574,8 +532,6 @@ const Session = {
   set: (uid) => DB.write('session', uid),
   clear: () => DB.write('session', null)
 };
-
-/* ------- GitHub ------- */
 function decodeBase64(str){
   str = String(str || '').replace(/\s+/g, '');
   try{ return decodeURIComponent(escape(atob(str))); }
@@ -628,8 +584,6 @@ async function publishToGitHub(){
     }else{ alert('❌ Ошибка публикации: ' + msg); }
   }
 }
-
-/* ------- Pending ------- */
 async function fetchPending(){
   const url = `https://api.github.com/repos/${GH_PENDING.owner}/${GH_PENDING.repo}/contents/${GH_PENDING.file}`;
   const res = await fetch(url, { headers: {
@@ -706,6 +660,19 @@ async function approveChange(changeId){
           subjects: [], schedule: [], catalog: DEFAULT_CATALOG.slice(), members: []
         }));
       }
+      if(change.user && change.user.email){
+        data.users = data.users || [];
+        if(!data.users.find(u => u.email === change.user.email)){
+          data.users.push(change.user);
+        }
+      }
+    }else if(change.type === 'new_user'){
+      if(change.user && change.user.email){
+        data.users = data.users || [];
+        if(!data.users.find(u => u.email === change.user.email)){
+          data.users.push(change.user);
+        }
+      }
     }else{
       const st = data.students.find(s => s.id === change.studentId);
       if(!st){ alert('Ученик не найден'); return; }
@@ -728,6 +695,7 @@ async function approveChange(changeId){
       }
     }
     DataStore.save(data);
+    Users.save(data.users || []);
     await removePendingItem(changeId);
     renderAll();
     alert('✅ Принято.\n\nНе забудьте «📤 Опубликовать данные».');
@@ -743,11 +711,12 @@ async function rejectChange(changeId){
   }catch(e){ alert('Не удалось отклонить: ' + e.message); }
 }
 
-/* ------- auth ------- */
 async function register(email, password, studentName){
   email = String(email).trim().toLowerCase();
   if(!email || email.indexOf('@') < 0) throw new Error('Некорректный email');
   if(!password || password.length < 6) throw new Error('Пароль минимум 6 символов');
+  if(Array.isArray(data.users) && data.users.find(u => u.email === email))
+    throw new Error('Такой email уже зарегистрирован. Войдите.');
   if(Users.findEmail(email)) throw new Error('Такой email уже зарегистрирован');
   studentName = String(studentName || '').trim();
   if(!studentName) throw new Error('Введите ФИО учащегося');
@@ -774,24 +743,37 @@ async function register(email, password, studentName){
   const user = { uid: uid(), email, name: studentName, role,
     studentId: student.id, salt, passwordHash, createdAt: new Date().toISOString() };
   Users.add(user);
+  data.users = data.users || [];
+  if(!data.users.find(u => u.email === email)) data.users.push(user);
+  DataStore.save(data);
   const localInv = Invites.findByEmail(email);
   if(localInv) Invites.remove(localInv.id);
   if(invite && invite.email === email){ try{ delete window.__APP_INVITE; }catch(e){} }
   Session.set(user.uid);
   currentStudentId = student.id;
-  if(isNewStudent){
-    try{
-      await submitChangeToPending({ id: uid(), timestamp: new Date().toISOString(),
-        type: 'new_student', status: 'pending', studentEmail: email,
-        studentName: studentName, studentId: student.id });
-    }catch(e){ console.warn('Заявка new_student не отправлена:', e); }
-  }
+  try{
+    await submitChangeToPending({
+      id: uid(), timestamp: new Date().toISOString(),
+      type: isNewStudent ? 'new_student' : 'new_user',
+      status: 'pending',
+      studentEmail: email, studentName: studentName, studentId: student.id,
+      user: user
+    });
+  }catch(e){ console.warn('Заявка не отправлена:', e); }
   return { user, isNewStudent };
 }
+
 async function login(email, password){
   email = String(email).trim().toLowerCase();
-  const user = Users.findEmail(email);
-  if(!user) throw new Error('Пользователь не найден');
+  let user = null;
+  if(Array.isArray(data.users) && data.users.length){
+    user = data.users.find(u => u.email === email);
+    if(user) Users.save(data.users);
+  }
+  if(!user){
+    user = Users.findEmail(email);
+  }
+  if(!user) throw new Error('Пользователь не найден в системе. Пройдите регистрацию.');
   const hash = await hashPassword(password, user.salt);
   if(hash !== user.passwordHash) throw new Error('Неверный пароль');
   let student = data.students.find(s => s.id === user.studentId);
@@ -807,6 +789,7 @@ async function login(email, password){
   Session.set(user.uid);
   return { user, studentId: student.id };
 }
+
 function logout(){
   Session.clear(); currentUser = null; currentStudentId = null;
   invites = []; pendingChanges = [];
@@ -824,7 +807,6 @@ function showApp(){
   $('tabs').style.display = 'flex';
   $('main').style.display = 'block';
 }
-
 $('btn-login').addEventListener('click', async () => {
   const email = $('auth-email').value.trim();
   const pass  = $('auth-password').value;
@@ -832,7 +814,7 @@ $('btn-login').addEventListener('click', async () => {
   try{
     $('btn-login').disabled = true;
     const r = await login(email, pass);
-    currentUser = Users.findId(r.user.uid);
+    currentUser = Users.findId(r.user.uid) || r.user;
     currentStudentId = r.studentId;
     invites = Invites.all();
     showApp(); renderAll();
@@ -849,13 +831,15 @@ $('btn-register').addEventListener('click', async () => {
     $('btn-register').disabled = true;
     const result = await register(email, pass, name);
     const user = result.user;
-    currentUser = Users.findId(user.uid);
+    currentUser = Users.findId(user.uid) || user;
     currentStudentId = user.studentId;
     invites = Invites.all();
     showApp(); renderAll();
     if(isAdmin()) refreshPending();
     if(result.isNewStudent){
       alert('✅ Аккаунт создан!\n\nПрофиль «' + user.name + '» создан заново и пока пуст.\nАдминистратор получил уведомление.\n\nКак только он опубликует данные — они появятся здесь.');
+    } else {
+      alert('✅ Аккаунт создан!\n\nЗаявка отправлена администратору. Доступ к данным с других устройств откроется после того, как администратор подтвердит и опубликует.');
     }
   }catch(e){ $('auth-error').textContent = e.message; }
   finally{ $('btn-register').disabled = false; }
@@ -866,13 +850,27 @@ $('auth-password').addEventListener('keydown', e => { if(e.key === 'Enter') $('b
 async function bootSession(){
   applyTheme();
   const published = await loadPublishedData();
-  if(published){ data = published; DataStore.save(data); }
-  else{ data = DataStore.get(); }
+  if(published){
+    data = published;
+    DataStore.save(data);
+    if(Array.isArray(data.users) && data.users.length){
+      Users.save(data.users);
+    }
+  }else{
+    data = DataStore.get();
+  }
   applyEmbeddedInvite();
   const sid = Session.get();
   if(!sid){ showAuth(); return; }
   const user = Users.findId(sid);
   if(!user){ Session.clear(); showAuth(); return; }
+  if(Array.isArray(data.users) && data.users.length){
+    if(!data.users.find(u => u.email === user.email)){
+      Session.clear(); showAuth();
+      $('auth-error').textContent = 'Ваш аккаунт удалён администратором. Зарегистрируйтесь заново или обратитесь к администратору.';
+      return;
+    }
+  }
   currentUser = user;
   currentStudentId = user.studentId;
   let st = data.students.find(s => s.id === currentStudentId);
@@ -906,14 +904,11 @@ function applyEmbeddedInvite(){
     </div>`;
   }
 }
-
-/* ------- рендер ------- */
 function renderAll(){
   if(!data) return;
   renderHeader(); renderGrades(); renderSchedule(); renderCabinet();
   if(isAdmin() && $('tab-users').classList.contains('active')) renderUsersTab();
 }
-
 function renderHeader(){
   if(!data || !currentUser) return;
   const slot = $('student-slot');
@@ -938,7 +933,6 @@ function renderHeader(){
   else{ gpaEl.textContent = gpa.toFixed(2); gpaEl.style.color = gpaColor(gpa);
     gpaEl.style.textShadow = '0 1px 2px rgba(0,0,0,.25), 0 0 6px rgba(255,255,255,.35)'; }
   $('userInfo').textContent = `${currentUser.email} · ${roleLabel(role())}`;
-
   const pubEl = $('pubChip');
   if(pubEl){
     if(data.publishedAt){
@@ -953,8 +947,6 @@ function renderHeader(){
   const usersBtn = $('tab-users-btn');
   if(usersBtn) usersBtn.style.display = isAdmin() ? '' : 'none';
 }
-
-/* ---- grades ---- */
 function gradeCellHtml(subject, grade){
   const color = gradeColor(grade.value);
   const type  = grade.type || DEFAULT_TYPE;
@@ -978,18 +970,14 @@ function renderGrades(){
   }
   const subjects = st.subjects || [];
   const canAdd = canAddGrade();
-
   let actionsHtml = '';
   if(isAdmin()) actionsHtml += '<button id="add-subject-btn">+ Добавить предмет</button> ';
   actionsHtml += '<button id="print-btn" class="secondary" title="Печать">🖨 Печать</button>';
   $('grades-actions').innerHTML = actionsHtml;
-
   const printSub = $('print-sub');
   if(printSub){
-    printSub.textContent = st.studentName + ' — ' +
-      new Date().toLocaleDateString('ru-RU');
+    printSub.textContent = st.studentName + ' — ' + new Date().toLocaleDateString('ru-RU');
   }
-
   if(!subjects.length){
     let html;
     const emptyProfile = !(st.schedule || []).length;
@@ -1047,8 +1035,6 @@ function renderGrades(){
     </div>`;
   }).join('');
 }
-
-/* ---- schedule ---- */
 function renderSchedule(){
   const st = getCurrentStudent();
   const grid = $('schedule-grid');
@@ -1069,15 +1055,11 @@ function renderSchedule(){
     </div>`;
   }).join('');
 }
-
-/* ---- cabinet (новая двухколоночная разметка) ---- */
 function renderCabinet(){
   if(!data || !currentUser) return;
   const el = $('cabinet-content');
   const admin = isAdmin();
   const st = getCurrentStudent();
-
-  /* Pending — только админ */
   const pendingPanel = (admin && pendingChanges.length) ? `
     <div class="pending-panel">
       <h3>🔔 Заявки от учеников: ${pendingChanges.length}</h3>
@@ -1085,6 +1067,17 @@ function renderCabinet(){
         if(c.type === 'new_student'){
           return `<div class="pending-item">
             <div class="pending-head">🆕 Новый ученик</div>
+            <div class="pending-meta">от ${esc(c.studentEmail)} · ${esc(formatDate((c.timestamp||'').slice(0,10)))}</div>
+            <div class="pending-grade">ФИО: <b>${esc(c.studentName)}</b></div>
+            <div class="pending-actions">
+              <button class="ghost" data-approve="${esc(c.id)}">✅ Принять</button>
+              <button class="ghost" style="color:#ef4444" data-reject="${esc(c.id)}">✖ Отклонить</button>
+            </div>
+          </div>`;
+        }
+        if(c.type === 'new_user'){
+          return `<div class="pending-item">
+            <div class="pending-head">🆕 Новый пользователь</div>
             <div class="pending-meta">от ${esc(c.studentEmail)} · ${esc(formatDate((c.timestamp||'').slice(0,10)))}</div>
             <div class="pending-grade">ФИО: <b>${esc(c.studentName)}</b></div>
             <div class="pending-actions">
@@ -1113,8 +1106,6 @@ function renderCabinet(){
         <button id="refresh-pending-btn" class="ghost">🔄 Обновить список</button>
       </div>
     </div>` : '';
-
-  /* ЛЕВАЯ КОЛОНКА */
   const profilePanel = `
     <div class="panel">
       <h3>👤 Профиль</h3>
@@ -1122,7 +1113,6 @@ function renderCabinet(){
       <div class="kv"><span>Роль</span>
         <b class="role-badge role-${esc(role())}">${esc(roleLabel(role()))}</b></div>
     </div>`;
-
   const studentPanel = st ? `
     <div class="panel">
       <h3>🎓 Ученик</h3>
@@ -1134,17 +1124,15 @@ function renderCabinet(){
       <div class="kv"><span>Уроков</span><b>${(st.schedule || []).length}</b></div>
       ${data.publishedAt ? `<div class="kv"><span>Опубликовано</span><b>${esc(new Date(data.publishedAt).toLocaleString('ru-RU'))}</b></div>` : ''}
     </div>` : '';
-
   const publishPanel = admin ? `
     <div class="panel">
       <h3>📤 Публикация</h3>
-      <p class="muted small" style="margin:0 0 10px">Отправляет данные всех учеников в <code>data.json</code> на GitHub.</p>
+      <p class="muted small" style="margin:0 0 10px">Отправляет данные всех учеников и пользователей в <code>data.json</code>.</p>
       <div class="row">
         <button id="publish-btn">📤 Опубликовать</button>
         <button id="forget-token-btn" class="ghost">Забыть токен</button>
       </div>
     </div>` : '';
-
   const dataPanel = `
     <div class="panel">
       <h3>💾 Данные</h3>
@@ -1155,8 +1143,6 @@ function renderCabinet(){
       </div>
       ${admin ? '<button id="reset-btn" class="danger wide">Сбросить всё</button>' : ''}
     </div>`;
-
-  /* ПРАВАЯ КОЛОНКА */
   const catalogPanel = st ? `
     <div class="panel">
       <h3>📚 Каталог предметов</h3>
@@ -1174,10 +1160,7 @@ function renderCabinet(){
         <button id="catalog-add">Добавить</button>
       </div>` : ''}
     </div>` : '';
-
   const statsPanel = st ? renderStatsPanel(st) : '';
-
-  /* Приглашения — только админ */
   const invitesPanel = admin ? `
     <div class="panel">
       <h3>✉️ Приглашение участников</h3>
@@ -1207,7 +1190,6 @@ function renderCabinet(){
         укажет ФИО и зарегистрируется.
       </div>
     </div>` : '';
-
   el.innerHTML = `
     ${pendingPanel}
     <div class="cabinet-grid">
@@ -1225,20 +1207,18 @@ function renderCabinet(){
     </div>
   `;
 }
-
 function renderStatsPanel(st){
   const subjects = (st.subjects || []).filter(s => (s.grades || []).length > 0);
   if(!subjects.length){
     return `<div class="panel">
       <h3>📊 Статистика</h3>
-      <p class="muted small" style="margin:0">Оценок пока нет — статистика появится после первой оценки.</p>
+      <p class="muted small" style="margin:0">Оценок пока нет.</p>
     </div>`;
   }
   const rows = subjects
     .map(s => ({ name: s.name, avg: subjectAvg(s), n: (s.grades || []).length }))
     .filter(r => r.avg !== null)
     .sort((a,b) => b.avg - a.avg);
-
   return `<div class="panel">
     <h3>📊 Статистика по предметам</h3>
     <div class="stats-list">
@@ -1254,16 +1234,14 @@ function renderStatsPanel(st){
         </div>`;
       }).join('')}
     </div>
-    <p class="muted small" style="margin:10px 0 0">Цифра внутри полосы — количество оценок.</p>
   </div>`;
 }
-
-/* ---- users tab ---- */
 function renderUsersTab(){
   if(!isAdmin()) return;
   const el = $('users-content');
   if(!el) return;
-  const list = Users.all().slice().sort((a,b) => (b.createdAt || '').localeCompare(a.createdAt || ''));
+  const src = (data.users && data.users.length) ? data.users : Users.all();
+  const list = src.slice().sort((a,b) => (b.createdAt || '').localeCompare(a.createdAt || ''));
   if(!list.length){
     el.innerHTML = '<div class="empty">Нет зарегистрированных пользователей.</div>';
     return;
@@ -1314,11 +1292,9 @@ function renderUsersTab(){
         </tbody>
       </table>
     </div>
-    <p class="muted small" style="margin-top:10px">Изменения ролей вступают в силу при следующем входе пользователя. Себя удалить нельзя, последнего админа — тоже.</p>
+    <p class="muted small" style="margin-top:10px">Изменения ролей и удаления вступают в силу после публикации данных (📤).</p>
   `;
 }
-
-/* ---- модалки ---- */
 function openModal(html){
   const root = $('modal-root');
   root.innerHTML = `<div class="modal-overlay"><div class="modal">${html}</div></div>`;
@@ -1329,7 +1305,6 @@ function openModal(html){
 }
 function closeModal(){ const r = $('modal-root'); r.classList.remove('open'); r.innerHTML = ''; }
 document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
-
 function openGradeModal(subjectId, gradeId){
   const st = getCurrentStudent(); if(!st) return;
   const subject = (st.subjects || []).find(s => s.id === subjectId); if(!subject) return;
@@ -1405,7 +1380,6 @@ function openGradeModal(subjectId, gradeId){
     });
   }
 }
-
 function openLessonModal(lessonId, day){
   if(!isAdmin()) return;
   const st = getCurrentStudent(); if(!st) return;
@@ -1453,7 +1427,6 @@ function openLessonModal(lessonId, day){
     });
   }
 }
-
 function addSubjectPrompt(){
   if(!isAdmin()) return;
   const st = getCurrentStudent(); if(!st) return;
@@ -1480,7 +1453,6 @@ function addSubjectPrompt(){
     DataStore.save(currentData); data = currentData; renderAll(); closeModal();
   });
 }
-
 function deleteSubject(subjectId){
   if(!isAdmin()) return;
   const st = getCurrentStudent(); if(!st) return;
@@ -1558,8 +1530,9 @@ function importJSON(file){
       const parsed = JSON.parse(e.target.result);
       const raw = parsed.data ? parsed.data : parsed;
       if(!raw || typeof raw !== 'object') throw new Error('Неверный формат');
-      if(!confirm('Импорт заменит данные ВСЕХ учеников. Продолжить?')) return;
+      if(!confirm('Импорт заменит данные ВСЕХ учеников и пользователей. Продолжить?')) return;
       data = normalizeData(raw); DataStore.save(data);
+      if(Array.isArray(data.users) && data.users.length) Users.save(data.users);
       currentStudentId = data.students[0] ? data.students[0].id : null;
       renderAll(); alert('Импорт выполнен.');
     }catch(err){ alert('Ошибка импорта: ' + err.message); }
@@ -1568,13 +1541,11 @@ function importJSON(file){
 }
 function resetAll(){
   if(!isAdmin()) return;
-  if(!confirm('Удалить ВСЕ данные всех учеников?')) return;
+  if(!confirm('Удалить ВСЕ данные всех учеников и пользователей?')) return;
   if(!confirm('Последнее подтверждение. Продолжить?')) return;
   data = defaultData(); DataStore.save(data); currentStudentId = null;
   renderAll(); alert('Все данные сброшены.');
 }
-
-/* ------- подсказки ------- */
 const tipEl = $('tooltip');
 let tipTimer = null;
 let longPressFired = false;
@@ -1617,8 +1588,6 @@ document.addEventListener('touchend', () => {
   clearTimeout(tipTimer);
   if(longPressFired) setTimeout(hideTip, 1800);
 });
-
-/* ------- обработчики ------- */
 $('tabs').addEventListener('click', e => {
   const btn = e.target.closest('button[data-tab]'); if(!btn) return;
   document.querySelectorAll('nav.tabs button').forEach(b => b.classList.toggle('active', b === btn));
@@ -1627,12 +1596,10 @@ $('tabs').addEventListener('click', e => {
   if(btn.dataset.tab === 'cabinet' && isAdmin()) refreshPending();
   if(btn.dataset.tab === 'users'   && isAdmin()) renderUsersTab();
 });
-
 $('grades-actions').addEventListener('click', e => {
   if(e.target.closest('#add-subject-btn')) addSubjectPrompt();
   if(e.target.closest('#print-btn')) window.print();
 });
-
 function handleGradesClick(e){
   const g = e.target.closest('.grade');
   if(g) return openGradeModal(g.dataset.subject, g.dataset.grade);
@@ -1650,14 +1617,12 @@ function handleGradesTouchEnd(e){
 }
 $('grades-table').addEventListener('touchend', handleGradesTouchEnd, { passive: false });
 $('grades-cards').addEventListener('touchend', handleGradesTouchEnd, { passive: false });
-
 $('schedule-grid').addEventListener('click', e => {
   const add = e.target.closest('[data-add-lesson]');
   if(add) return openLessonModal(null, add.dataset.addLesson);
   const lesson = e.target.closest('[data-lesson]');
   if(lesson && isAdmin()) return openLessonModal(lesson.dataset.lesson, null);
 });
-
 $('cabinet-content').addEventListener('click', e => {
   const appr = e.target.closest('[data-approve]'); if(appr) return approveChange(appr.dataset.approve);
   const rej = e.target.closest('[data-reject]'); if(rej) return rejectChange(rej.dataset.reject);
@@ -1706,8 +1671,6 @@ $('cabinet-content').addEventListener('change', e => {
     renderAll();
   }
 });
-
-/* users tab handlers */
 $('users-content').addEventListener('change', e => {
   const sel = e.target.closest('select[data-role-uid]'); if(!sel) return;
   const uid_ = sel.dataset.roleUid;
@@ -1716,29 +1679,35 @@ $('users-content').addEventListener('change', e => {
   if(currentUser && uid_ === currentUser.uid){
     alert('Нельзя менять роль себе.'); renderUsersTab(); return;
   }
-  const u = Users.findId(uid_);
+  const u = Users.findId(uid_) || (data.users || []).find(x => x.uid === uid_);
   if(!u){ renderUsersTab(); return; }
   Users.update(uid_, { role: newRole });
-  alert('Роль пользователя ' + u.email + ' изменена на «' + roleLabel(newRole) + '».\nВступит в силу при следующем входе.');
+  if(data.users){
+    const du = data.users.find(x => x.uid === uid_);
+    if(du) du.role = newRole;
+  }
+  DataStore.save(data);
+  alert('Роль пользователя ' + u.email + ' изменена на «' + roleLabel(newRole) + '».\nДля применения — нажмите «📤 Опубликовать».');
   renderUsersTab();
 });
 $('users-content').addEventListener('click', e => {
   const del = e.target.closest('[data-del-user]'); if(!del) return;
   if(!isAdmin()) return;
   const uid_ = del.dataset.delUser;
-  const u = Users.findId(uid_); if(!u) return;
+  const u = Users.findId(uid_) || (data.users || []).find(x => x.uid === uid_); if(!u) return;
   if(currentUser && uid_ === currentUser.uid) return alert('Нельзя удалить себя.');
-  const adminsCount = Users.all().filter(x => x.role === 'admin').length;
+  const src = (data.users && data.users.length) ? data.users : Users.all();
+  const adminsCount = src.filter(x => x.role === 'admin').length;
   if(u.role === 'admin' && adminsCount === 1) return alert('Нельзя удалить последнего администратора.');
-  if(!confirm('Удалить пользователя ' + u.email + '?\n\nДанные ученика (оценки, расписание) останутся — удалится только аккаунт.')) return;
+  if(!confirm('Удалить пользователя ' + u.email + '?\n\nДанные ученика останутся — удалится только аккаунт.')) return;
   Users.remove(uid_);
+  if(data.users) data.users = data.users.filter(x => x.uid !== uid_);
+  DataStore.save(data);
+  alert('Пользователь удалён. Нажмите «📤 Опубликовать», чтобы изменения увидели все.');
   renderUsersTab();
 });
-
 window.addEventListener('scroll', hideTip, { passive: true });
 window.addEventListener('resize', hideTip);
-
-/* ------- старт ------- */
 bootSession();
 </script>
 </body>
