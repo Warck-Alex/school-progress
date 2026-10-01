@@ -13,9 +13,42 @@
   --danger:#ef4444; --radius:14px;
   --shadow:0 4px 18px rgba(24,39,75,.08);
 }
+/* Тёмная тема */
+body.dark{
+  --bg:#151824; --card:#1e2231; --text:#e8eaf0; --muted:#8a91a8;
+  --border:#2e3446; --shadow:0 4px 18px rgba(0,0,0,.4);
+}
+body.dark .grade{background:#252a3d}
+body.dark .grade.plain{background:#252a3d}
+body.dark table.grades-table td{background:#232842}
+body.dark td.subject-cell{background:#1e2338!important}
+body.dark .day-col{background:#1e2231}
+body.dark .lesson{background:#252a3d}
+body.dark .lesson-hw{background:#2a3048;color:#c4c9dc}
+body.dark .panel{background:#1e2231}
+body.dark .subject-card{background:#1e2231}
+body.dark .chip{background:#252a3d}
+body.dark input,body.dark select,body.dark textarea{background:#252a3d;color:var(--text);border-color:var(--border)}
+body.dark .avg{background:#252a3d}
+body.dark .invite-list li{background:#252a3d}
+body.dark .pending-item{background:#252a3d}
+body.dark .modal{background:#1e2231}
+body.dark .auth-card{background:#1e2231}
+body.dark button.secondary{background:#2e3446;color:var(--text)}
+body.dark button.ghost{background:#2e3446;color:var(--accent)}
+body.dark .users-table th{background:#232842}
+body.dark .users-table tr:hover td{background:#232842}
+body.dark .waiting-box{background:#2a2418;border-color:#5c4a1a;color:#d4b86a}
+body.dark .hint-box{background:#2a2418;border-color:#5c4a1a;color:#d4b86a}
+body.dark .pending-panel{background:#2a2418;border-color:#5c4a1a}
+body.dark .pub-chip{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.15)}
+body.dark .tooltip{background:#0a0d15}
+body.dark .stats-bar{background:#2e3446}
+
 html,body{margin:0;padding:0;min-height:100%}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
-  background:var(--bg);color:var(--text);font-size:15px;line-height:1.45;padding-bottom:40px}
+  background:var(--bg);color:var(--text);font-size:15px;line-height:1.45;padding-bottom:40px;
+  transition:background .2s,color .2s}
 button{font-family:inherit;font-size:14px;cursor:pointer;border:none;border-radius:10px;
   background:var(--accent);color:#fff;padding:9px 14px;transition:.15s;font-weight:600}
 button:hover{filter:brightness(1.07)}
@@ -25,7 +58,7 @@ button.danger{background:var(--danger)}
 button.ghost{background:#eef1f8;color:var(--accent);padding:6px 10px;font-size:12.5px}
 button:disabled{opacity:.45;cursor:not-allowed}
 input,select,textarea{font-family:inherit;font-size:14px;padding:9px 11px;border:1px solid var(--border);
-  border-radius:10px;background:#fff;color:var(--text);width:100%;outline:none;transition:.15s}
+  border-radius:10px;background:var(--card);color:var(--text);width:100%;outline:none;transition:.15s}
 input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(79,124,255,.13)}
 textarea{resize:vertical}
 label{display:block;font-size:13px;color:var(--muted);font-weight:600;margin-bottom:10px}
@@ -52,8 +85,12 @@ header.app-header{position:sticky;top:0;z-index:60;
   display:flex;align-items:center;gap:8px;text-shadow:0 1px 2px rgba(0,0,0,.15)}
 .gpa-chip .gpa-label{font-size:15px;font-weight:700;opacity:.95}
 .gpa-chip b{font-size:22px;font-weight:900;letter-spacing:.3px;padding:0 4px;line-height:1}
+.pub-chip{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);
+  border-radius:999px;padding:5px 11px;font-size:11.5px;white-space:nowrap;opacity:.95;cursor:default}
 .user-chip{display:flex;align-items:center;gap:8px;font-size:12.5px;white-space:nowrap}
 .user-chip button{background:rgba(255,255,255,.2);padding:6px 11px;font-size:12.5px;border-radius:999px}
+.theme-btn{background:rgba(255,255,255,.2)!important;padding:7px 11px!important;
+  font-size:15px!important;line-height:1!important;border-radius:999px!important;min-width:36px}
 
 nav.tabs{display:flex;gap:6px;padding:10px 14px 0;max-width:1400px;margin:0 auto;flex-wrap:wrap}
 nav.tabs button{background:transparent;color:var(--muted);padding:9px 16px;
@@ -103,6 +140,8 @@ td.subject-cell{text-align:left!important;background:#eef2fd!important;padding:8
 .subject-card-head{display:flex;align-items:center;gap:8px;margin-bottom:9px;flex-wrap:wrap}
 .grades-wrap{display:flex;flex-wrap:wrap;gap:7px}
 .empty{text-align:center;color:var(--muted);padding:36px 14px;font-size:14px}
+.waiting-box{background:#fff8e6;border:2px dashed #f59e0b;border-radius:14px;
+  padding:30px 18px;color:#7a5b00}
 
 .schedule-grid{display:grid;grid-template-columns:repeat(6,minmax(150px,1fr));gap:10px;overflow-x:auto}
 .day-col{background:#f7f9fe;border-radius:12px;padding:10px;min-width:150px}
@@ -118,8 +157,17 @@ td.subject-cell{text-align:left!important;background:#eef2fd!important;padding:8
   white-space:pre-wrap;word-break:break-word;color:#38405a}
 .add-lesson{width:100%;background:#e7ecfb;color:var(--accent);font-size:12.5px;padding:7px;margin-top:8px}
 
+/* ЛИЧНЫЙ КАБИНЕТ — 2 колонки */
+.cabinet-grid{display:grid;grid-template-columns:minmax(260px,1fr) 1.6fr;gap:12px;align-items:start}
+.cabinet-col{display:flex;flex-direction:column;gap:0}
+
 .panel{background:#f7f9fe;border-radius:12px;padding:14px;margin-bottom:12px}
 .panel h3{margin:0 0 10px;font-size:14.5px}
+.panel.collapsible h3{cursor:pointer;user-select:none;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.panel.collapsible h3::after{content:'▾';font-size:12px;color:var(--muted);transition:.2s}
+.panel.collapsible.closed h3::after{transform:rotate(-90deg)}
+.panel.collapsible.closed .panel-body{display:none}
+.panel-body{}
 .kv{display:flex;justify-content:space-between;gap:10px;padding:2px 0;line-height:1.25;font-size:13.5px}
 .kv + .kv{margin-top:1px}
 .kv span{color:var(--muted)}
@@ -152,11 +200,38 @@ button.wide{width:100%;margin-top:10px}
 .pending-item .pending-grade{margin:5px 0}
 .pending-item .pending-actions{display:flex;gap:6px;margin-top:7px;flex-wrap:wrap}
 
+/* СТАТИСТИКА */
+.stats-list{display:flex;flex-direction:column;gap:7px}
+.stats-row{display:flex;align-items:center;gap:9px;font-size:13px}
+.stats-name{flex:0 0 130px;font-weight:600;overflow:hidden;text-overflow:ellipsis;
+  white-space:nowrap;color:var(--text)}
+.stats-bar{flex:1;height:20px;background:#e7ecfb;border-radius:6px;position:relative;overflow:hidden}
+.stats-fill{height:100%;border-radius:6px;transition:.3s;
+  display:flex;align-items:center;justify-content:flex-end;padding-right:6px;
+  color:#fff;font-size:11px;font-weight:800;min-width:28px;text-shadow:0 1px 1px rgba(0,0,0,.3)}
+.stats-val{flex:0 0 40px;font-weight:800;font-size:13px;text-align:right;color:var(--text)}
+
+/* ВКЛАДКА ПОЛЬЗОВАТЕЛИ */
+.users-table-wrap{overflow-x:auto}
+.users-table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:640px}
+.users-table th{text-align:left;padding:9px 11px;background:#eef2fd;color:var(--muted);
+  font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;
+  border-bottom:1px solid var(--border)}
+.users-table th:first-child{border-radius:8px 0 0 0}
+.users-table th:last-child{border-radius:0 8px 0 0}
+.users-table td{padding:9px 11px;border-bottom:1px solid var(--border);vertical-align:middle}
+.users-table tr:last-child td{border-bottom:none}
+.users-table tr:hover td{background:#f7f9fe}
+.users-table select{font-size:12.5px;padding:4px 8px;width:auto;min-width:130px}
+.users-table .row-actions{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+
+/* АВТОРИЗАЦИЯ */
 .auth-screen{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;
   background:linear-gradient(135deg,#4f7cff,#7c5cff);padding:18px;overflow-y:auto}
 .auth-screen.show{display:flex}
 .auth-card{background:#fff;border-radius:18px;padding:26px 22px;width:100%;max-width:400px;
   box-shadow:0 20px 50px rgba(20,30,70,.3);margin:auto}
+body.dark .auth-card{background:#1e2231;color:var(--text)}
 .auth-card h1{margin:0 0 4px;font-size:20px;text-align:center}
 .auth-card p{margin:0 0 18px;text-align:center;font-size:13px}
 .auth-card input{margin-bottom:10px}
@@ -185,36 +260,25 @@ button.wide{width:100%;margin-top:10px}
 .tooltip .tip-comment{margin-top:6px;padding-top:6px;border-top:1px solid rgba(255,255,255,.18);
   white-space:pre-wrap;word-break:break-word;color:#d7ddf1}
 
-.pub-chip{
-  background:rgba(255,255,255,.15);
-  border:1px solid rgba(255,255,255,.25);
-  border-radius:999px;
-  padding:5px 11px;
-  font-size:11.5px;
-  white-space:nowrap;
-  opacity:.95;
-  cursor:default;
+/* ПЕЧАТЬ */
+@media print{
+  header.app-header,nav.tabs,.tab-panel:not(#tab-grades),
+  .grades-cards,#grades-actions,.user-chip,.pub-chip,.theme-btn{display:none!important}
+  body{background:#fff!important;color:#000!important;padding:0}
+  .tab-panel{box-shadow:none;border-radius:0;padding:0}
+  table.grades-table{min-width:0;border-spacing:3px}
+  table.grades-table th{color:#000!important}
+  table.grades-table td{background:#f5f5f5!important}
+  td.subject-cell{background:#eaeaea!important}
+  .grade{border:1px solid #999!important;background:#fff!important}
+  .badge{color:#000!important;border:1px solid #999;background:#fff!important}
+  .print-title{display:block!important;text-align:center;font-size:18px;
+    font-weight:800;margin:0 0 14px;color:#000}
+  .print-sub{display:block!important;text-align:center;font-size:12px;
+    color:#555;margin:-10px 0 14px}
 }
-.waiting-box{
-  background:#fff8e6;
-  border:2px dashed #f59e0b;
-  border-radius:14px;
-  padding:30px 18px;
-  color:#7a5b00;
-}
-.users-table-wrap{overflow-x:auto}
-.users-table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:520px}
-.users-table th{
-  text-align:left;padding:9px 11px;background:#eef2fd;color:var(--muted);
-  font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;
-  border-bottom:1px solid var(--border)
-}
-.users-table th:first-child{border-radius:8px 0 0 0}
-.users-table th:last-child{border-radius:0 8px 0 0}
-.users-table td{padding:9px 11px;border-bottom:1px solid var(--border);vertical-align:middle}
-.users-table tr:last-child td{border-bottom:none}
-.users-table tr:hover td{background:#f7f9fe}
-  
+.print-title,.print-sub{display:none}
+
 @media (max-width: 820px){
   .grades-table-wrap{display:none}
   .grades-cards{display:block}
@@ -225,19 +289,20 @@ button.wide{width:100%;margin-top:10px}
   .gpa-chip b{font-size:19px}
   .gpa-chip .gpa-label{font-size:13px}
   .user-chip{font-size:11.5px}
+  .pub-chip{font-size:10.5px;padding:4px 9px;order:10;flex:1 1 100%;text-align:center}
   main{padding:0 9px}
   nav.tabs{padding:8px 9px 0}
   nav.tabs button{padding:8px 11px;font-size:13px}
   .tab-panel{padding:12px}
-  .pub-chip{font-size:10.5px;padding:4px 9px;order:10;flex:1 1 100%;text-align:center}
-  .users-table{font-size:12px;min-width:420px}
+  .cabinet-grid{grid-template-columns:1fr}
+  .users-table{font-size:12px;min-width:520px}
   .users-table th, .users-table td{padding:7px 8px}
+  .stats-name{flex:0 0 90px;font-size:12px}
 }
 </style>
 </head>
 <body>
 
-<!-- ======================= ЭКРАН АВТОРИЗАЦИИ ======================= -->
 <div class="auth-screen show" id="auth-screen">
   <div class="auth-card">
     <h1>📚 Учёт успеваемости</h1>
@@ -256,7 +321,6 @@ button.wide{width:100%;margin-top:10px}
   </div>
 </div>
 
-<!-- ======================= ШАПКА ======================= -->
 <header class="app-header" id="app-header" style="display:none">
   <div class="brand">📚 Успеваемость</div>
   <div class="student-slot" id="student-slot"></div>
@@ -266,13 +330,13 @@ button.wide{width:100%;margin-top:10px}
   </div>
   <div class="pub-chip" id="pubChip" title="">—</div>
   <div class="header-spacer"></div>
+  <button class="theme-btn" id="theme-btn" title="Тема">🌙</button>
   <div class="user-chip">
     <span id="userInfo"></span>
     <button id="btn-logout">Выйти</button>
   </div>
 </header>
 
-<!-- ======================= ТАБЫ ======================= -->
 <nav class="tabs" id="tabs" style="display:none">
   <button data-tab="grades" class="active">Оценки</button>
   <button data-tab="schedule">Расписание</button>
@@ -282,6 +346,8 @@ button.wide{width:100%;margin-top:10px}
 
 <main id="main" style="display:none">
   <section class="tab-panel active" id="tab-grades">
+    <div class="print-title" id="print-title">Ведомость оценок</div>
+    <div class="print-sub" id="print-sub"></div>
     <div class="section-head">
       <h2>Оценки</h2>
       <div id="grades-actions"></div>
@@ -299,1569 +365,6 @@ button.wide{width:100%;margin-top:10px}
     <div class="section-head"><h2>Личный кабинет</h2></div>
     <div id="cabinet-content"></div>
   </section>
-</main>
 
-<div class="tooltip" id="tooltip"></div>
-<div id="modal-root"></div>
-
-<script>
-/* ============================================================================
-   СНИМОК HTML (для генерации файла-приглашения)
-   ============================================================================ */
-const APP_HTML_SNAPSHOT = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
-
-/* ============================================================================
-   ЛОКАЛЬНОЕ ХРАНИЛИЩЕ
-   ============================================================================ */
-const LS_PREFIX = 'schoolApp_v2_';
-const DB = {
-  read(key, def){
-    try{ const raw = localStorage.getItem(LS_PREFIX + key); return raw ? JSON.parse(raw) : def; }
-    catch{ return def; }
-  },
-  write(key, val){
-    try{ localStorage.setItem(LS_PREFIX + key, JSON.stringify(val)); }
-    catch(e){ alert('Не удалось сохранить данные: ' + e.message); }
-  }
-};
-
-/* ============================================================================
-   GITHUB
-   ============================================================================ */
-const GH_OWNER = 'Warck-Alex';
-const GH_REPO  = 'school-progress';
-const GH_FILE  = 'data.json';
-const DATA_URL = 'data.json';
-
-const GH_PENDING = {
-  owner: 'Warck-Alex',
-  repo:  'school-pending',
-  file:  'pending.json',
-  // ⚠️ Вставьте сюда student-token (см. инструкцию)
-  token: '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'
-};
-
-/* ============================================================================
-   КОНСТАНТЫ
-   ============================================================================ */
-const DAYS = ['Понедельник','Вторник','Среда','Четверг','Пятница','Суббота'];
-
-const GRADE_TYPES = [
-  { name:'Контрольная работа',    short:'КР'    },
-  { name:'Самостоятельная работа',short:'СР'    },
-  { name:'Ответ на уроке',        short:'ОУ'    },
-  { name:'Домашняя работа',       short:'ДЗ'    },
-  { name:'Тест',                  short:'Тест'  },
-  { name:'Проект',                short:'Проект'},
-  { name:'Диктант',               short:'Дикт'  },
-  { name:'Другое',                short:'Др'    }
-];
-const DEFAULT_TYPE = 'Другое';
-
-const DEFAULT_CATALOG = [
-  'Математика','Русский язык','Литература','История','Физика','Химия',
-  'Биология','География','Английский язык','Информатика','Физкультура'
-];
-
-const GRADE_COLORS = {
-  1:'#ef4444', 2:'#f97316', 3:'#f59e0b', 4:'#eab308', 5:'#a3e635',
-  6:'#84cc16', 7:'#22c55e', 8:'#16a34a', 9:'#15803d', 10:'#2563eb'
-};
-
-/* ============================================================================
-   СОСТОЯНИЕ
-   ============================================================================ */
-let currentUser = null;      // { uid, email, name, role, studentId }
-let currentStudentId = null; // текущий отображаемый ученик
-let data = null;             // { students: [...], publishedAt }
-let invites = [];
-let pendingChanges = [];
-let authMode = 'login';      // 'login' | 'register'
-
-/* ============================================================================
-   УТИЛИТЫ
-   ============================================================================ */
-const $ = id => document.getElementById(id);
-const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g,
-  c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
-const todayISO = () => {
-  const d = new Date();
-  return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
-};
-const formatDate = iso => {
-  if(!iso) return '—';
-  const p = String(iso).split('-');
-  return p.length === 3 ? `${p[2]}.${p[1]}.${p[0]}` : iso;
-};
-const typeIndex = name => {
-  const i = GRADE_TYPES.findIndex(t => t.name === name);
-  return i < 0 ? 7 : i;
-};
-const shortType = name => {
-  const t = GRADE_TYPES.find(x => x.name === name);
-  return t ? t.short : 'Др';
-};
-const isPlainType = t => !t || t === DEFAULT_TYPE;
-
-function gradeColor(v){
-  const n = Math.round(Number(v));
-  return GRADE_COLORS[n] || '#64748b';
-}
-function gpaColor(gpa){
-  if(gpa == null || isNaN(gpa)) return '#c7cee0';
-  const t = Math.max(0, Math.min(1, (gpa - 1) / 9));
-  return `hsl(${(t * 140).toFixed(1)}, 82%, 42%)`;
-}
-
-/* Роли */
-const role          = () => (currentUser && currentUser.role) || 'viewer';
-const isAdmin       = () => role() === 'admin';
-const isStudentRole = () => role() === 'student';
-const canAddGrade   = () => isAdmin() || isStudentRole();
-const roleLabel = r => ({admin:'Администратор', student:'Ученик', viewer:'Наблюдатель'}[r] || r);
-
-/* ============================================================================
-   СТРУКТУРА ДАННЫХ
-   ============================================================================ */
-function defaultStudent(name){
-  return {
-    id: uid(),
-    studentName: name || '',
-    subjects: [],
-    schedule: [],
-    catalog: DEFAULT_CATALOG.slice(),
-    members: [],
-    createdAt: new Date().toISOString()
-  };
-}
-function defaultData(){
-  return { students: [], publishedAt: null };
-}
-function normalizeStudent(s){
-  return {
-    id: s.id || uid(),
-    studentName: typeof s.studentName === 'string' ? s.studentName : '',
-    subjects: Array.isArray(s.subjects) ? s.subjects : [],
-    schedule: Array.isArray(s.schedule) ? s.schedule : [],
-    catalog: Array.isArray(s.catalog) ? s.catalog : [],
-    members: Array.isArray(s.members) ? s.members : [],
-    createdAt: s.createdAt || new Date().toISOString()
-  };
-}
-function normalizeData(d){
-  if(!d || typeof d !== 'object') return defaultData();
-  // Миграция со старого формата (единый student) на массив students
-  let arr = [];
-  if(Array.isArray(d.students)) arr = d.students.map(normalizeStudent);
-  else if(d.subjects || d.studentName) arr = [normalizeStudent(d)];
-  return { students: arr, publishedAt: d.publishedAt || null };
-}
-const getCurrentStudent = () => data ? data.students.find(s => s.id === currentStudentId) : null;
-
-function subjectAvg(s){
-  const v = (s.grades || []).map(g => Number(g.value)).filter(n => !isNaN(n));
-  return v.length ? v.reduce((a,b)=>a+b,0) / v.length : null;
-}
-function overallGpa(){
-  const st = getCurrentStudent();
-  if(!st) return null;
-  let sum = 0, n = 0;
-  (st.subjects || []).forEach(s => (s.grades || []).forEach(g => {
-    const v = Number(g.value);
-    if(!isNaN(v)){ sum += v; n++; }
-  }));
-  return n ? sum / n : null;
-}
-
-/* ============================================================================
-   ПАРОЛЬ
-   ============================================================================ */
-function randomSalt(){
-  const arr = new Uint8Array(16);
-  (window.crypto || {}).getRandomValues
-    ? crypto.getRandomValues(arr)
-    : arr.forEach((_,i) => arr[i] = Math.floor(Math.random()*256));
-  return Array.from(arr).map(b => b.toString(16).padStart(2,'0')).join('');
-}
-async function hashPassword(password, salt){
-  const data_ = new TextEncoder().encode(salt + '::' + password);
-  if(window.crypto && window.crypto.subtle){
-    const buf = await crypto.subtle.digest('SHA-256', data_);
-    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
-  }
-  let h = 0;
-  for(let i = 0; i < data_.length; i++) h = ((h << 5) - h + data_[i]) | 0;
-  return 'fb_' + Math.abs(h).toString(16);
-}
-
-/* ============================================================================
-   КОЛЛЕКЦИИ в localStorage
-   ============================================================================ */
-const Users = {
-  all: () => DB.read('users', []),
-  save: (list) => DB.write('users', list),
-  findEmail: (email) => Users.all().find(u => u.email === String(email).toLowerCase()),
-  findId: (uid) => Users.all().find(u => u.uid === uid),
-  add: (user) => { const l = Users.all(); l.push(user); Users.save(l); },
-  update: (uid, patch) => {
-    const l = Users.all(); const i = l.findIndex(x => x.uid === uid);
-    if(i >= 0){ Object.assign(l[i], patch); Users.save(l); }
-  }
-};
-const Invites = {
-  all: () => DB.read('invites', []),
-  save: (list) => DB.write('invites', list),
-  add: (inv) => { const l = Invites.all(); l.push(inv); Invites.save(l); },
-  remove: (id) => Invites.save(Invites.all().filter(x => x.id !== id)),
-  findByEmail: (email) => Invites.all().find(x => x.email === String(email).toLowerCase())
-};
-const DataStore = {
-  get: () => normalizeData(DB.read('data', defaultData())),
-  save: (d) => DB.write('data', d)
-};
-const Session = {
-  get: () => DB.read('session', null),
-  set: (uid) => DB.write('session', uid),
-  clear: () => DB.write('session', null)
-};
-
-/* ============================================================================
-   GITHUB API
-   ============================================================================ */
-function decodeBase64(str){
-  str = String(str || '').replace(/\s+/g, '');
-  try{ return decodeURIComponent(escape(atob(str))); }
-  catch{ try{ return atob(str); }catch{ return ''; } }
-}
-
-async function loadPublishedData(){
-  try{
-    const res = await fetch(DATA_URL + '?_=' + Date.now(), { cache: 'no-store' });
-    if(!res.ok) throw new Error('HTTP ' + res.status);
-    const parsed = await res.json();
-    return normalizeData(parsed);
-  }catch(e){
-    console.warn('Не удалось загрузить data.json:', e);
-    return null;
-  }
-}
-
-async function publishToGitHub(){
-  if(!isAdmin()) return;
-
-  let token = localStorage.getItem('gh_token');
-  if(!token){
-    token = prompt(
-      'Вставьте GitHub Personal Access Token (для school-progress).\n\n' +
-      'Создать: github.com/settings/tokens?type=beta\n' +
-      'Права: Contents → Read and write, только для school-progress.'
-    );
-    if(!token) return;
-    token = token.trim();
-    if(confirm('Запомнить токен на этом устройстве?\n(Никогда не делитесь им.)')){
-      localStorage.setItem('gh_token', token);
-    }
-  }
-
-  if(!confirm('Опубликовать данные всех учеников на GitHub?')) return;
-
-  const apiUrl = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_FILE}`;
-  const headers = {
-    'Authorization': 'Bearer ' + token,
-    'Accept': 'application/vnd.github+json',
-    'Content-Type': 'application/json'
-  };
-
-  try{
-    const getRes = await fetch(apiUrl, { headers });
-    let sha = null;
-    if(getRes.ok){ sha = (await getRes.json()).sha; }
-    else if(getRes.status === 404){ sha = null; }
-    else{
-      const err = await getRes.json().catch(()=>({}));
-      throw new Error(err.message || ('HTTP ' + getRes.status));
-    }
-
-    const toPublish = Object.assign({}, data, { publishedAt: new Date().toISOString() });
-    const content = JSON.stringify(toPublish, null, 2);
-    const encoded = btoa(unescape(encodeURIComponent(content)));
-
-    const body = {
-      message: 'Publish data ' + new Date().toLocaleString('ru-RU'),
-      content: encoded
-    };
-    if(sha) body.sha = sha;
-
-    const putRes = await fetch(apiUrl, {
-      method: 'PUT', headers, body: JSON.stringify(body)
-    });
-    if(!putRes.ok){
-      const err = await putRes.json().catch(()=>({}));
-      throw new Error(err.message || ('HTTP ' + putRes.status));
-    }
-
-    data.publishedAt = toPublish.publishedAt;
-    DataStore.save(data);
-    alert('✅ Данные опубликованы!\nЧерез 1–2 минуты они появятся у всех пользователей.');
-  }catch(e){
-    const msg = String(e.message || e);
-    if(msg.includes('401') || msg.includes('Bad credentials')){
-      localStorage.removeItem('gh_token');
-      alert('❌ Токен недействителен. Он удалён — попробуйте снова.');
-    }else if(msg.includes('403')){
-      alert('❌ У токена нет прав на запись.\nПроверьте: Contents → Read and write для репозитория school-progress.');
-    }else{
-      alert('❌ Ошибка публикации: ' + msg);
-    }
-  }
-}
-
-/* ============================================================================
-   PENDING (заявки учеников)
-   ============================================================================ */
-async function fetchPending(){
-  const url = `https://api.github.com/repos/${GH_PENDING.owner}/${GH_PENDING.repo}/contents/${GH_PENDING.file}`;
-  const res = await fetch(url, {
-    headers: {
-      'Authorization': 'Bearer ' + GH_PENDING.token,
-      'Accept': 'application/vnd.github+json'
-    },
-    cache: 'no-store'
-  });
-  if(res.status === 404) return { list: [], sha: null };
-  if(!res.ok) throw new Error('HTTP ' + res.status);
-  const info = await res.json();
-  const content = decodeBase64(info.content);
-  let list = [];
-  try{ list = JSON.parse(content || '[]'); }catch(e){ list = []; }
-  return { list, sha: info.sha };
-}
-
-async function pushPending(list, sha){
-  const url = `https://api.github.com/repos/${GH_PENDING.owner}/${GH_PENDING.repo}/contents/${GH_PENDING.file}`;
-  const content = JSON.stringify(list, null, 2);
-  const body = {
-    message: 'Pending update ' + new Date().toLocaleString('ru-RU'),
-    content: btoa(unescape(encodeURIComponent(content)))
-  };
-  if(sha) body.sha = sha;
-  const res = await fetch(url, {
-    method: 'PUT',
-    headers: {
-      'Authorization': 'Bearer ' + GH_PENDING.token,
-      'Accept': 'application/vnd.github+json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(body)
-  });
-  if(!res.ok){
-    const err = await res.json().catch(()=>({}));
-    throw new Error(err.message || 'HTTP ' + res.status);
-  }
-}
-
-/* Отправка заявки на сервер */
-async function submitChangeToPending(change){
-  const { list, sha } = await fetchPending();
-  // Дедупликация: одна активная заявка на (ученик, оценка) — перезаписываем
-  const idx = list.findIndex(x =>
-    x.status === 'pending' &&
-    x.studentId === change.studentId &&
-    x.gradeId === change.gradeId &&
-    x.type === change.type
-  );
-  if(idx >= 0) list[idx] = change;
-  else list.push(change);
-  await pushPending(list, sha);
-}
-
-async function refreshPending(){
-  if(!isAdmin()) return;
-  try{
-    const { list } = await fetchPending();
-    pendingChanges = list.filter(x => x.status === 'pending');
-    updatePendingBadge();
-    if($('tab-cabinet').classList.contains('active')) renderCabinet();
-  }catch(e){
-    console.warn('Pending недоступен:', e);
-    pendingChanges = [];
-    updatePendingBadge();
-  }
-}
-
-function updatePendingBadge(){
-  const btn = document.querySelector('nav.tabs button[data-tab="cabinet"]');
-  if(!btn) return;
-  const existing = btn.querySelector('.badge-pending');
-  if(existing) existing.remove();
-  if(isAdmin() && pendingChanges.length > 0){
-    const span = document.createElement('span');
-    span.className = 'badge-pending';
-    span.textContent = pendingChanges.length;
-    btn.appendChild(span);
-  }
-}
-
-async function removePendingItem(changeId){
-  const { list, sha } = await fetchPending();
-  const filtered = list.filter(x => x.id !== changeId);
-  await pushPending(filtered, sha);
-  pendingChanges = filtered.filter(x => x.status === 'pending');
-  updatePendingBadge();
-}
-
-async function approveChange(changeId){
-  const change = pendingChanges.find(c => c.id === changeId);
-  if(!change) return;
-
-  try{
-    if(change.type === 'new_student'){
-      // Проверяем, нет ли уже такого ученика
-      const exists = data.students.find(s =>
-        s.id === change.studentId ||
-        s.studentName.toLowerCase() === (change.studentName || '').toLowerCase()
-      );
-      if(exists){
-        // Привязываем пользователя к существующему
-        const u = Users.findEmail(change.studentEmail);
-        if(u) Users.update(u.uid, { studentId: exists.id });
-        alert('Ученик с таким ФИО уже существует — пользователь привязан к нему.');
-      }else{
-        const newSt = normalizeStudent({
-          id: change.studentId,
-          studentName: change.studentName,
-          subjects: [], schedule: [],
-          catalog: DEFAULT_CATALOG.slice(), members: []
-        });
-        data.students.push(newSt);
-      }
-    }else{
-      // Заявка на оценку
-      const st = data.students.find(s => s.id === change.studentId);
-      if(!st){ alert('Ученик не найден'); return; }
-      let subj = (st.subjects || []).find(s => s.id === change.subjectId);
-      if(!subj){
-        if(!confirm('Предмет «' + change.subjectName + '» не найден. Создать его и применить оценку?')) return;
-        subj = { id: change.subjectId, name: change.subjectName, grades: [] };
-        st.subjects = st.subjects || [];
-        st.subjects.push(subj);
-      }
-      subj.grades = subj.grades || [];
-      if(change.action === 'add'){
-        const exists = subj.grades.find(g => g.id === change.gradeId);
-        if(!exists) subj.grades.push(Object.assign({ id: change.gradeId || uid() }, change.grade));
-      }else if(change.action === 'update'){
-        const g = subj.grades.find(x => x.id === change.gradeId);
-        if(g) Object.assign(g, change.grade);
-        else subj.grades.push(Object.assign({ id: change.gradeId || uid() }, change.grade));
-      }else if(change.action === 'delete'){
-        subj.grades = subj.grades.filter(x => x.id !== change.gradeId);
-      }
-    }
-
-    DataStore.save(data);
-    await removePendingItem(changeId);
-    renderAll();
-    alert('✅ Заявка принята.\n\nНе забудьте нажать «📤 Опубликовать данные», чтобы изменения увидели все.');
-  }catch(e){
-    alert('Ошибка применения: ' + e.message);
-  }
-}
-
-async function rejectChange(changeId){
-  if(!confirm('Отклонить эту заявку?')) return;
-  try{
-    await removePendingItem(changeId);
-    renderCabinet();
-  }catch(e){
-    alert('Не удалось отклонить: ' + e.message);
-  }
-}
-
-/* ============================================================================
-   АВТОРИЗАЦИЯ
-   ============================================================================ */
-async function register(email, password, studentName){
-  email = String(email).trim().toLowerCase();
-  if(!email || email.indexOf('@') < 0) throw new Error('Некорректный email');
-  if(!password || password.length < 6) throw new Error('Пароль минимум 6 символов');
-  if(Users.findEmail(email)) throw new Error('Такой email уже зарегистрирован');
-  studentName = String(studentName || '').trim();
-  if(!studentName) throw new Error('Введите ФИО учащегося');
-
-  const invite = window.__APP_INVITE;
-  let role;
-  if(invite && invite.email === email) role = invite.role || 'viewer';
-  else if(Users.all().length === 0) role = 'admin';
-  else {
-    const localInv = Invites.findByEmail(email);
-    role = localInv ? (localInv.role || 'viewer') : 'viewer';
-  }
-
-  // Ищем ученика по ФИО
-  let student = data.students.find(s =>
-    s.studentName.toLowerCase() === studentName.toLowerCase()
-  );
-
-  let isNewStudent = false;
-  if(!student){
-    student = defaultStudent(studentName);
-    data.students.push(student);
-    DataStore.save(data);
-    isNewStudent = true;
-  }
-
-  const salt = randomSalt();
-  const passwordHash = await hashPassword(password, salt);
-  const user = {
-    uid: uid(), email, name: studentName, role,
-    studentId: student.id,
-    salt, passwordHash,
-    createdAt: new Date().toISOString()
-  };
-  Users.add(user);
-
-  const localInv = Invites.findByEmail(email);
-  if(localInv) Invites.remove(localInv.id);
-  if(invite && invite.email === email){ try{ delete window.__APP_INVITE; }catch(e){} }
-
-  Session.set(user.uid);
-  currentStudentId = student.id;
-
-  // Если создали нового ученика — отправляем заявку админу
-  if(isNewStudent){
-    try{
-      await submitChangeToPending({
-        id: uid(),
-        timestamp: new Date().toISOString(),
-        type: 'new_student',
-        status: 'pending',
-        studentEmail: email,
-        studentName: studentName,
-        studentId: student.id
-      });
-    }catch(e){
-      console.warn('Не удалось отправить заявку new_student:', e);
-    }
-  }
-
-  return user;
-}
-
-async function login(email, password){
-  email = String(email).trim().toLowerCase();
-  const user = Users.findEmail(email);
-  if(!user) throw new Error('Пользователь не найден');
-  const hash = await hashPassword(password, user.salt);
-  if(hash !== user.passwordHash) throw new Error('Неверный пароль');
-
-  // Проверяем, что ученик существует в data
-  let student = data.students.find(s => s.id === user.studentId);
-  if(!student){
-    // Fallback: ищем по имени
-    student = data.students.find(s => s.studentName.toLowerCase() === (user.name || '').toLowerCase());
-    if(student) Users.update(user.uid, { studentId: student.id });
-    else{
-      // Создаём нового
-      student = defaultStudent(user.name || email.split('@')[0]);
-      data.students.push(student);
-      DataStore.save(data);
-      Users.update(user.uid, { studentId: student.id });
-    }
-  }
-
-  Session.set(user.uid);
-  return { user, studentId: student.id };
-}
-
-function logout(){
-  Session.clear();
-  currentUser = null;
-  currentStudentId = null;
-  invites = [];
-  pendingChanges = [];
-  showAuth();
-}
-function showAuth(){
-  $('auth-screen').classList.add('show');
-  $('app-header').style.display = 'none';
-  $('tabs').style.display = 'none';
-  $('main').style.display = 'none';
-}
-function showApp(){
-  $('auth-screen').classList.remove('show');
-  $('app-header').style.display = 'flex';
-  $('tabs').style.display = 'flex';
-  $('main').style.display = 'block';
-}
-
-$('btn-login').addEventListener('click', async () => {
-  const email = $('auth-email').value.trim();
-  const pass  = $('auth-password').value;
-  $('auth-error').textContent = '';
-  try{
-    $('btn-login').disabled = true;
-    const r = await login(email, pass);
-    currentUser = Users.findId(r.user.uid);
-    currentStudentId = r.studentId;
-    invites = Invites.all();
-    showApp();
-    renderAll();
-    if(isAdmin()) refreshPending();
-  }catch(e){
-    $('auth-error').textContent = e.message;
-  }finally{
-    $('btn-login').disabled = false;
-  }
-});
-
-$('btn-register').addEventListener('click', async () => {
-  const email = $('auth-email').value.trim();
-  const pass  = $('auth-password').value;
-  const name  = $('auth-student-name').value.trim();
-  $('auth-error').textContent = '';
-  try{
-    $('btn-register').disabled = true;
-    const user = await register(email, pass, name);
-    currentUser = Users.findId(user.uid);
-    currentStudentId = user.studentId;
-    invites = Invites.all();
-    showApp();
-    renderAll();
-    if(isAdmin()) refreshPending();
-  }catch(e){
-    $('auth-error').textContent = e.message;
-  }finally{
-    $('btn-register').disabled = false;
-  }
-});
-
-$('btn-logout').addEventListener('click', logout);
-$('auth-password').addEventListener('keydown', e => { if(e.key === 'Enter') $('btn-login').click(); });
-
-/* ============================================================================
-   СТАРТ
-   ============================================================================ */
-async function bootSession(){
-  // 1. Загружаем данные с GitHub Pages
-  const published = await loadPublishedData();
-  if(published){
-    data = published;
-    DataStore.save(data);
-  }else{
-    data = DataStore.get();
-  }
-
-  // 2. Обрабатываем вшитое приглашение
-  applyEmbeddedInvite();
-
-  // 3. Проверяем сессию
-  const sid = Session.get();
-  if(!sid){ showAuth(); return; }
-  const user = Users.findId(sid);
-  if(!user){ Session.clear(); showAuth(); return; }
-
-  currentUser = user;
-  currentStudentId = user.studentId;
-
-  // Проверяем, что ученик есть в data
-  let st = data.students.find(s => s.id === currentStudentId);
-  if(!st){
-    st = data.students.find(s => s.studentName.toLowerCase() === (user.name || '').toLowerCase());
-    if(st){ currentStudentId = st.id; Users.update(user.uid, { studentId: st.id }); }
-    else{
-      st = defaultStudent(user.name || user.email.split('@')[0]);
-      data.students.push(st);
-      DataStore.save(data);
-      currentStudentId = st.id;
-      Users.update(user.uid, { studentId: st.id });
-    }
-  }
-
-  invites = Invites.all();
-  showApp();
-  renderAll();
-  if(isAdmin()) refreshPending();
-}
-
-function applyEmbeddedInvite(){
-  if(!window.__APP_INVITE) return;
-  const inv = window.__APP_INVITE;
-  const emailInput = $('auth-email');
-  if(emailInput && !emailInput.value) emailInput.value = inv.email || '';
-  const sub = $('auth-subtitle');
-  if(sub) sub.textContent = 'Создайте аккаунт по приглашению';
-  const slot = $('invite-banner-slot');
-  if(slot){
-    slot.innerHTML = `<div class="invite-banner">
-      🎉 Вас пригласили как <b>${esc(roleLabel(inv.role))}</b><br>
-      Email: <b>${esc(inv.email)}</b><br>
-      Придумайте пароль, укажите ФИО и нажмите «Зарегистрироваться».
-    </div>`;
-  }
-}
-
-/* ============================================================================
-   РЕНДЕРИНГ
-   ============================================================================ */
-function renderAll(){
-  if(!data) return;
-  renderHeader();
-  renderGrades();
-  renderSchedule();
-  renderCabinet();
-}
-
-function renderHeader(){
-  if(!data || !currentUser) return;
-
-  // ---- Селектор учеников ----
-  const slot = $('student-slot');
-  if(isAdmin()){
-    const opts = data.students.map(s =>
-      `<option value="${esc(s.id)}" ${s.id === currentStudentId ? 'selected' : ''}>${esc(s.studentName || '(без ФИО)')}</option>`
-    ).join('');
-    slot.innerHTML = `<select id="student-select">${opts}</select>`;
-    const sel = $('student-select');
-    if(sel){
-      sel.addEventListener('change', () => {
-        currentStudentId = sel.value;
-        renderAll();
-        refreshPending();
-      });
-    }
-  }else{
-    const st = getCurrentStudent();
-    slot.innerHTML = `<div class="student-label">${esc(st ? (st.studentName || '(без ФИО)') : '—')}</div>`;
-  }
-
-  // ---- Средний балл ----
-  const gpa = overallGpa();
-  const gpaEl = $('gpaValue');
-  if(gpa === null){
-    gpaEl.textContent = '—';
-    gpaEl.style.color = '#e9edf8';
-    gpaEl.style.textShadow = 'none';
-  }else{
-    gpaEl.textContent = gpa.toFixed(2);
-    gpaEl.style.color = gpaColor(gpa);
-    gpaEl.style.textShadow = '0 1px 2px rgba(0,0,0,.25), 0 0 6px rgba(255,255,255,.35)';
-  }
-
-  $('userInfo').textContent = `${currentUser.email} · ${roleLabel(role())}`;
-}
-
-/* ---------------------------- ОЦЕНКИ ---------------------------- */
-function gradeCellHtml(subject, grade){
-  const color = gradeColor(grade.value);
-  const type  = grade.type || DEFAULT_TYPE;
-  const plain = isPlainType(type);
-  const badgeHtml = plain ? '' :
-    `<span class="badge t${typeIndex(type)}">${esc(shortType(type))}</span>`;
-  const cls = plain ? 'grade plain' : 'grade';
-  return `<div class="${cls}"
-      data-subject="${esc(subject.id)}"
-      data-grade="${esc(grade.id)}"
-      data-tip="1"
-      data-ttype="${esc(type)}"
-      data-tdate="${esc(grade.date || '')}"
-      data-tcomment="${esc(grade.comment || '')}">
-      <span class="grade-value" style="color:${color}">${esc(String(grade.value))}</span>
-      ${badgeHtml}
-    </div>`;
-}
-
-function renderGrades(){
-  const st = getCurrentStudent();
-  if(!st){
-    $('grades-actions').innerHTML = '';
-    $('grades-table').innerHTML = '<div class="empty">Ученик не найден.</div>';
-    $('grades-cards').innerHTML = '<div class="empty">Ученик не найден.</div>';
-    return;
-  }
-  const subjects = st.subjects || [];
-  const canAdd = canAddGrade();
-
-  $('grades-actions').innerHTML = isAdmin()
-    ? '<button id="add-subject-btn">+ Добавить предмет из каталога</button>'
-    : '';
-
-  if(!subjects.length){
-    const html = `<div class="empty">Предметов пока нет.${
-      isAdmin() ? '<br><br>Добавьте предметы в каталог (Личный кабинет),<br>затем нажмите «+ Добавить предмет из каталога».' : ''
-    }</div>`;
-    $('grades-table').innerHTML = html;
-    $('grades-cards').innerHTML = html;
-    return;
-  }
-
-  const maxG = subjects.reduce((m,s) => Math.max(m, (s.grades || []).length), 0);
-
-  let thead = '<tr><th class="th-subject">Предмет</th>';
-  for(let i = 0; i < maxG; i++) thead += `<th>${i + 1}</th>`;
-  if(canAdd) thead += '<th></th>';
-  thead += '</tr>';
-
-  const rows = subjects.map(s => {
-    const avg = subjectAvg(s);
-    let tds = '';
-    for(let i = 0; i < maxG; i++){
-      const g = (s.grades || [])[i];
-      tds += `<td class="grade-td">${g ? gradeCellHtml(s, g) : ''}</td>`;
-    }
-    if(canAdd){
-      tds += `<td class="grade-td"><button class="add-grade" data-add-grade="${esc(s.id)}" title="Добавить оценку">+</button></td>`;
-    }
-    return `<tr>
-      <td class="subject-cell">
-        <span class="subject-name">${esc(s.name)}</span>
-        <span class="avg">${avg === null ? '—' : avg.toFixed(2)}</span>
-        ${isAdmin() ? `<button class="del-subject" data-del-subject="${esc(s.id)}" title="Удалить предмет">×</button>` : ''}
-      </td>
-      ${tds}
-    </tr>`;
-  }).join('');
-
-  $('grades-table').innerHTML =
-    `<table class="grades-table"><thead>${thead}</thead><tbody>${rows}</tbody></table>`;
-
-  $('grades-cards').innerHTML = subjects.map(s => {
-    const avg = subjectAvg(s);
-    const grades = (s.grades || []).map(g => gradeCellHtml(s, g)).join('');
-    return `<div class="subject-card">
-      <div class="subject-card-head">
-        <span class="subject-name">${esc(s.name)}</span>
-        <span class="avg">${avg === null ? '—' : avg.toFixed(2)}</span>
-        ${isAdmin() ? `<button class="del-subject" data-del-subject="${esc(s.id)}" title="Удалить предмет">×</button>` : ''}
-      </div>
-      <div class="grades-wrap">
-        ${grades}
-        ${canAdd ? `<button class="add-grade" data-add-grade="${esc(s.id)}" title="Добавить оценку">+</button>` : ''}
-      </div>
-    </div>`;
-  }).join('');
-}
-
-/* ---------------------------- РАСПИСАНИЕ ---------------------------- */
-function renderSchedule(){
-  const st = getCurrentStudent();
-  const grid = $('schedule-grid');
-  if(!st){
-    grid.innerHTML = '<div class="empty">Ученик не найден.</div>';
-    return;
-  }
-  const lessons = st.schedule || [];
-
-  grid.innerHTML = DAYS.map(day => {
-    const dayLessons = lessons.filter(l => l.day === day);
-    const cards = dayLessons.map(l => `
-      <div class="lesson" data-lesson="${esc(l.id)}">
-        <div class="lesson-subject">${esc(l.subject || '—')}</div>
-        <div class="lesson-meta">${esc(l.time || '')}${l.room ? ' · каб. ' + esc(l.room) : ''}</div>
-        ${l.homework ? `<div class="lesson-hw">${esc(l.homework)}</div>` : ''}
-      </div>
-    `).join('');
-    return `<div class="day-col">
-      <h3>${esc(day)}</h3>
-      <div class="lessons">${cards || '<div class="muted small" style="text-align:center;padding:8px 0">—</div>'}</div>
-      ${isAdmin() ? `<button class="add-lesson" data-add-lesson="${esc(day)}">+ Урок</button>` : ''}
-    </div>`;
-  }).join('');
-}
-
-/* ---------------------------- ЛИЧНЫЙ КАБИНЕТ ---------------------------- */
-function renderCabinet(){
-  if(!data || !currentUser) return;
-  const el = $('cabinet-content');
-  const admin = isAdmin();
-  const st = getCurrentStudent();
-
-  const pendingPanel = (admin && pendingChanges.length) ? `
-    <div class="pending-panel">
-      <h3>🔔 Заявки от учеников: ${pendingChanges.length}</h3>
-      ${pendingChanges.map(c => {
-        if(c.type === 'new_student'){
-          return `<div class="pending-item">
-            <div class="pending-head">🆕 Новый ученик</div>
-            <div class="pending-meta">от ${esc(c.studentEmail)} · ${esc(formatDate((c.timestamp||'').slice(0,10)))}</div>
-            <div class="pending-grade">ФИО: <b>${esc(c.studentName)}</b></div>
-            <div class="pending-actions">
-              <button class="ghost" data-approve="${esc(c.id)}">✅ Принять</button>
-              <button class="ghost" style="color:#ef4444" data-reject="${esc(c.id)}">✖ Отклонить</button>
-            </div>
-          </div>`;
-        }
-        const act = c.action === 'add' ? '➕ Новая оценка' :
-                    c.action === 'update' ? '✏️ Изменение оценки' :
-                    c.action === 'delete' ? '🗑️ Удаление оценки' : 'Изменение';
-        const g = c.grade || {};
-        return `<div class="pending-item">
-          <div class="pending-head">${act} — ${esc(c.subjectName)}</div>
-          <div class="pending-meta">от ${esc(c.studentEmail)} · ученик: ${esc(c.studentName || '?')} · ${esc(formatDate((c.timestamp||'').slice(0,10)))}</div>
-          <div class="pending-grade">Оценка: <b style="font-size:15px">${esc(String(g.value ?? '—'))}</b>
-            ${g.type ? ' · ' + esc(g.type) : ''}
-            ${g.date ? ' · ' + esc(formatDate(g.date)) : ''}</div>
-          ${g.comment ? '<div class="small muted">💬 ' + esc(g.comment) + '</div>' : ''}
-          <div class="pending-actions">
-            <button class="ghost" data-approve="${esc(c.id)}">✅ Принять</button>
-            <button class="ghost" style="color:#ef4444" data-reject="${esc(c.id)}">✖ Отклонить</button>
-          </div>
-        </div>`;
-      }).join('')}
-      <div style="margin-top:8px">
-        <button id="refresh-pending-btn" class="ghost">🔄 Обновить список</button>
-      </div>
-    </div>` : '';
-
-  const studentPanel = st ? `
-    <div class="panel">
-      <h3>Ученик</h3>
-      <div class="kv"><span>ФИО</span>
-        <input id="student-name-input" value="${esc(st.studentName || '')}" maxlength="120"
-          style="width:auto;max-width:280px;padding:3px 8px;font-size:13px"
-          ${(!isAdmin() && !isStudentRole()) ? 'disabled' : ''}></div>
-      <div class="kv"><span>Предметов</span><b>${(st.subjects || []).length}</b></div>
-      <div class="kv"><span>Уроков</span><b>${(st.schedule || []).length}</b></div>
-      ${data.publishedAt ? `<div class="kv"><span>Опубликовано</span><b>${esc(new Date(data.publishedAt).toLocaleString('ru-RU'))}</b></div>` : ''}
-    </div>` : '';
-
-  const profilePanel = `
-    <div class="panel">
-      <h3>Профиль</h3>
-      <div class="kv"><span>Email</span><b>${esc(currentUser.email || '')}</b></div>
-      <div class="kv"><span>Роль</span>
-        <b class="role-badge role-${esc(role())}">${esc(roleLabel(role()))}</b></div>
-    </div>`;
-
-  const catalogPanel = st ? `
-    <div class="panel">
-      <h3>Каталог предметов</h3>
-      <p class="muted small">Предметы для оценок и расписания берутся только отсюда.</p>
-      <div class="chips">
-        ${(st.catalog || []).length
-          ? st.catalog.map((c,i) =>
-              `<span class="chip">${esc(c)}${admin
-                ? `<button class="chip-x" data-catalog-del="${i}" title="Удалить">×</button>` : ''}</span>`
-            ).join('')
-          : '<span class="muted small">Список пуст</span>'}
-      </div>
-      ${admin ? `<div class="row">
-        <input id="catalog-input" placeholder="Новый предмет" maxlength="60">
-        <button id="catalog-add">Добавить</button>
-      </div>` : ''}
-    </div>` : '';
-
-  const invitesPanel = `
-    <div class="panel">
-      <h3>Приглашение участников</h3>
-      ${admin ? `<div class="row">
-        <input id="invite-email" type="email" placeholder="email@example.com">
-        <select id="invite-role">
-          <option value="viewer">Наблюдатель</option>
-          <option value="student">Ученик</option>
-          <option value="admin">Администратор</option>
-        </select>
-        <button id="invite-btn">Пригласить</button>
-      </div>` : ''}
-      <ul class="invite-list">
-        ${invites.length
-          ? invites.map(inv => `<li>
-              <div class="invite-info">${esc(inv.email || '')}
-                <b class="muted small">(${esc(roleLabel(inv.role || 'viewer'))})</b></div>
-              <div class="invite-actions">
-                ${admin ? `<button class="ghost" data-invite-download="${esc(inv.id)}">📥 Скачать</button>` : ''}
-                ${admin ? `<button class="chip-x" data-invite-del="${esc(inv.id)}">×</button>` : ''}
-              </div>
-            </li>`).join('')
-          : '<li class="muted small" style="justify-content:center">Приглашений нет</li>'}
-      </ul>
-      <div class="hint-box">
-        💡 Скачайте файл-приглашение и отправьте в Viber. Получатель откроет его в браузере,
-        укажет ФИО и зарегистрируется.
-      </div>
-    </div>`;
-
-  const publishPanel = admin ? `
-    <div class="panel">
-      <h3>Публикация данных</h3>
-      <p class="muted small">Отправляет данные <b>всех учеников</b> в <code>data.json</code> на GitHub.
-        Через 1–2 минуты их увидят все пользователи.</p>
-      <div class="row">
-        <button id="publish-btn">📤 Опубликовать данные</button>
-        <button id="forget-token-btn" class="ghost">Забыть токен</button>
-      </div>
-    </div>` : '';
-
-  const dataPanel = `
-    <div class="panel">
-      <h3>Данные</h3>
-      <div class="row">
-        <button id="export-btn">⬇ Экспорт JSON</button>
-        ${admin ? '<button id="import-btn" class="secondary">⬆ Импорт JSON</button>' : ''}
-        <input type="file" id="import-file" accept="application/json,.json" hidden>
-      </div>
-      ${admin ? '<button id="reset-btn" class="danger wide">Сбросить всё</button>' : ''}
-    </div>`;
-
-  el.innerHTML = pendingPanel + profilePanel + studentPanel + catalogPanel + invitesPanel + publishPanel + dataPanel;
-}
-
-/* ============================================================================
-   МОДАЛЬНЫЕ ОКНА
-   ============================================================================ */
-function openModal(html){
-  const root = $('modal-root');
-  root.innerHTML = `<div class="modal-overlay"><div class="modal">${html}</div></div>`;
-  root.classList.add('open');
-  root.querySelector('.modal-overlay').addEventListener('click', e => {
-    if(e.target.classList.contains('modal-overlay')) closeModal();
-  });
-}
-function closeModal(){
-  const root = $('modal-root');
-  root.classList.remove('open');
-  root.innerHTML = '';
-}
-document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
-
-/* ---------------------------- МОДАЛКА ОЦЕНКИ ---------------------------- */
-function openGradeModal(subjectId, gradeId){
-  const st = getCurrentStudent();
-  if(!st) return;
-  const subject = (st.subjects || []).find(s => s.id === subjectId);
-  if(!subject) return;
-
-  const isNew = !gradeId;
-  if(isNew && !canAddGrade()) return;
-
-  const grade = isNew
-    ? { id:null, value:5, type: DEFAULT_TYPE, date:todayISO(), comment:'' }
-    : (subject.grades || []).find(g => g.id === gradeId);
-  if(!grade) return;
-
-  const editable = isAdmin() || (isNew && isStudentRole());
-  const dis = editable ? '' : 'disabled';
-
-  const valueOpts = Array.from({length:10}, (_,i) => i + 1)
-    .map(v => `<option value="${v}" ${Number(grade.value) === v ? 'selected' : ''}>${v}</option>`).join('');
-  const typeOpts = GRADE_TYPES
-    .map(t => `<option value="${esc(t.name)}" ${grade.type === t.name ? 'selected' : ''}>${esc(t.name)}</option>`).join('');
-
-  openModal(`
-    <h2>${isNew ? 'Новая оценка' : 'Оценка'} — ${esc(subject.name)}</h2>
-    ${!editable ? '<p class="muted small">Режим просмотра.</p>' : ''}
-    <label><span>Оценка</span><select id="m-value" ${dis}>${valueOpts}</select></label>
-    <label><span>Тип работы</span><select id="m-type" ${dis}>${typeOpts}</select></label>
-    <label><span>Дата</span><input type="date" id="m-date" value="${esc(grade.date || todayISO())}" ${dis}></label>
-    <label><span>Описание</span><textarea id="m-comment" rows="3" ${dis}>${esc(grade.comment || '')}</textarea></label>
-    <div class="modal-actions">
-      <button id="m-cancel" class="secondary">${editable ? 'Отмена' : 'Закрыть'}</button>
-      ${editable ? '<button id="m-save">Сохранить</button>' : ''}
-      ${(!isNew && isAdmin()) ? '<button id="m-delete" class="danger">Удалить</button>' : ''}
-    </div>
-  `);
-
-  $('m-cancel').addEventListener('click', closeModal);
-
-  const saveBtn = $('m-save');
-  if(saveBtn){
-    saveBtn.addEventListener('click', async () => {
-      const value   = Number($('m-value').value);
-      const type    = $('m-type').value;
-      const date    = $('m-date').value;
-      const comment = $('m-comment').value.trim();
-
-      const currentData = DataStore.get();
-      const s = currentData.students.find(x => x.id === st.id);
-      if(!s) return closeModal();
-      const subj = s.subjects.find(x => x.id === subjectId);
-      if(!subj) return closeModal();
-      subj.grades = subj.grades || [];
-
-      let savedGradeId;
-      if(isNew){
-        savedGradeId = uid();
-        subj.grades.push({ id: savedGradeId, value, type, date, comment });
-      }else{
-        savedGradeId = gradeId;
-        const g = subj.grades.find(x => x.id === gradeId);
-        if(g){ g.value = value; g.type = type; g.date = date; g.comment = comment; }
-      }
-      DataStore.save(currentData);
-      data = currentData;
-      renderAll();
-      closeModal();
-
-      // Если ученик — отправляем заявку
-      if(isStudentRole() && currentUser){
-        const change = {
-          id: uid(),
-          timestamp: new Date().toISOString(),
-          type: 'grade',
-          studentEmail: currentUser.email,
-          studentName: st.studentName,
-          studentId: st.id,
-          status: 'pending',
-          action: isNew ? 'add' : 'update',
-          subjectId: subject.id,
-          subjectName: subject.name,
-          gradeId: savedGradeId,
-          grade: { value, type, date, comment }
-        };
-        try{
-          await submitChangeToPending(change);
-          if(!window.__pendingHintShown){
-            window.__pendingHintShown = true;
-            alert('📤 Изменение сохранено локально и отправлено администратору на проверку.');
-          }
-        }catch(e){
-          alert('⚠️ Сохранено локально, но не отправлено на проверку: ' + e.message);
-        }
-      }
-    });
-  }
-
-  const delBtn = $('m-delete');
-  if(delBtn){
-    delBtn.addEventListener('click', () => {
-      if(!confirm('Удалить эту оценку?')) return;
-      const currentData = DataStore.get();
-      const s = currentData.students.find(x => x.id === st.id);
-      if(!s) return closeModal();
-      const subj = s.subjects.find(x => x.id === subjectId);
-      if(!subj) return closeModal();
-      subj.grades = (subj.grades || []).filter(g => g.id !== gradeId);
-      DataStore.save(currentData);
-      data = currentData;
-      renderAll();
-      closeModal();
-    });
-  }
-}
-
-/* ---------------------------- МОДАЛКА УРОКА ---------------------------- */
-function openLessonModal(lessonId, day){
-  if(!isAdmin()) return;
-  const st = getCurrentStudent();
-  if(!st) return;
-
-  const isNew = !lessonId;
-  const lesson = isNew
-    ? { id:null, day:day || DAYS[0], time:'', subject:'', room:'', homework:'' }
-    : (st.schedule || []).find(l => l.id === lessonId);
-  if(!lesson) return;
-
-  const catalog = st.catalog || [];
-  const subjOpts = catalog.length
-    ? catalog.map(c => `<option value="${esc(c)}" ${lesson.subject === c ? 'selected' : ''}>${esc(c)}</option>`).join('')
-    : '<option value="">— каталог пуст —</option>';
-  const dayOpts = DAYS
-    .map(d => `<option value="${esc(d)}" ${lesson.day === d ? 'selected' : ''}>${esc(d)}</option>`).join('');
-
-  openModal(`
-    <h2>${isNew ? 'Новый урок' : 'Урок'}</h2>
-    <label><span>День недели</span><select id="m-day">${dayOpts}</select></label>
-    <label><span>Предмет (из каталога)</span><select id="m-subject">${subjOpts}</select></label>
-    <label><span>Время</span><input id="m-time" placeholder="08:30–09:15" value="${esc(lesson.time || '')}"></label>
-    <label><span>Кабинет</span><input id="m-room" placeholder="каб. 12" value="${esc(lesson.room || '')}"></label>
-    <label><span>Домашнее задание</span><textarea id="m-hw" rows="3">${esc(lesson.homework || '')}</textarea></label>
-    <div class="modal-actions">
-      <button id="m-cancel" class="secondary">Отмена</button>
-      <button id="m-save">Сохранить</button>
-      ${!isNew ? '<button id="m-delete" class="danger">Удалить</button>' : ''}
-    </div>
-  `);
-
-  $('m-cancel').addEventListener('click', closeModal);
-  $('m-save').addEventListener('click', () => {
-    const payload = {
-      day: $('m-day').value,
-      subject: $('m-subject').value,
-      time: $('m-time').value.trim(),
-      room: $('m-room').value.trim(),
-      homework: $('m-hw').value.trim()
-    };
-    const currentData = DataStore.get();
-    const s = currentData.students.find(x => x.id === st.id);
-    if(!s) return closeModal();
-    s.schedule = s.schedule || [];
-    if(isNew) s.schedule.push(Object.assign({ id: uid() }, payload));
-    else {
-      const l = s.schedule.find(x => x.id === lessonId);
-      if(l) Object.assign(l, payload);
-    }
-    DataStore.save(currentData);
-    data = currentData;
-    renderAll();
-    closeModal();
-  });
-
-  const delBtn = $('m-delete');
-  if(delBtn){
-    delBtn.addEventListener('click', () => {
-      if(!confirm('Удалить этот урок?')) return;
-      const currentData = DataStore.get();
-      const s = currentData.students.find(x => x.id === st.id);
-      if(!s) return closeModal();
-      s.schedule = (s.schedule || []).filter(l => l.id !== lessonId);
-      DataStore.save(currentData);
-      data = currentData;
-      renderAll();
-      closeModal();
-    });
-  }
-}
-
-/* ============================================================================
-   ДОБАВЛЕНИЕ ПРЕДМЕТА ИЗ КАТАЛОГА
-   ============================================================================ */
-function addSubjectPrompt(){
-  if(!isAdmin()) return;
-  const st = getCurrentStudent();
-  if(!st) return;
-
-  const catalog = st.catalog || [];
-  const existing = new Set((st.subjects || []).map(s => s.name.toLowerCase()));
-  const available = catalog.filter(c => !existing.has(c.toLowerCase()));
-
-  if(!catalog.length) return alert('Сначала добавьте предметы в каталог.');
-  if(!available.length) return alert('Все предметы из каталога уже добавлены.');
-
-  const opts = available.map(c => `<option value="${esc(c)}">${esc(c)}</option>`).join('');
-  openModal(`
-    <h2>Добавить предмет из каталога</h2>
-    <label><span>Предмет</span><select id="m-subject-catalog">${opts}</select></label>
-    <div class="modal-actions">
-      <button id="m-cancel" class="secondary">Отмена</button>
-      <button id="m-save">Добавить</button>
-    </div>
-  `);
-
-  $('m-cancel').addEventListener('click', closeModal);
-  $('m-save').addEventListener('click', () => {
-    const name = $('m-subject-catalog').value;
-    if(!name) return closeModal();
-    const currentData = DataStore.get();
-    const s = currentData.students.find(x => x.id === st.id);
-    if(!s) return closeModal();
-    s.subjects = s.subjects || [];
-    s.subjects.push({ id: uid(), name, grades: [] });
-    DataStore.save(currentData);
-    data = currentData;
-    renderAll();
-    closeModal();
-  });
-}
-
-/* ============================================================================
-   ДЕЙСТВИЯ
-   ============================================================================ */
-function deleteSubject(subjectId){
-  if(!isAdmin()) return;
-  const st = getCurrentStudent();
-  if(!st) return;
-  const s_ = (st.subjects || []).find(x => x.id === subjectId);
-  if(!s_) return;
-  if(!confirm(`Удалить предмет «${s_.name}» со всеми оценками?`)) return;
-
-  const currentData = DataStore.get();
-  const s = currentData.students.find(x => x.id === st.id);
-  s.subjects = s.subjects.filter(x => x.id !== subjectId);
-  DataStore.save(currentData);
-  data = currentData;
-  renderAll();
-}
-
-function addCatalogItem(){
-  if(!isAdmin()) return;
-  const st = getCurrentStudent();
-  if(!st) return;
-  const val = ($('catalog-input').value || '').trim();
-  if(!val) return;
-  const currentData = DataStore.get();
-  const s = currentData.students.find(x => x.id === st.id);
-  s.catalog = s.catalog || [];
-  if(s.catalog.some(c => c.toLowerCase() === val.toLowerCase()))
-    return alert('Такой предмет уже есть.');
-  s.catalog.push(val);
-  DataStore.save(currentData);
-  data = currentData;
-  renderAll();
-}
-function deleteCatalogItem(index){
-  if(!isAdmin()) return;
-  const st = getCurrentStudent();
-  if(!st) return;
-  const currentData = DataStore.get();
-  const s = currentData.students.find(x => x.id === st.id);
-  s.catalog.splice(index, 1);
-  DataStore.save(currentData);
-  data = currentData;
-  renderAll();
-}
-
-function inviteUser(){
-  if(!isAdmin()) return;
-  const email = ($('invite-email').value || '').trim().toLowerCase();
-  const role_ = $('invite-role').value;
-  if(!email || email.indexOf('@') < 0) return alert('Введите корректный email');
-  if(Users.findEmail(email)) return alert('Такой email уже зарегистрирован');
-  if(Invites.findByEmail(email)) return alert('Приглашение уже существует');
-  Invites.add({ id: uid(), email, role: role_, invitedBy: currentUser.email });
-  invites = Invites.all();
-  $('invite-email').value = '';
-  renderCabinet();
-}
-function deleteInvite(id){
-  if(!isAdmin()) return;
-  if(!confirm('Удалить приглашение?')) return;
-  Invites.remove(id);
-  invites = Invites.all();
-  renderCabinet();
-}
-
-/* ============================================================================
-   ФАЙЛ-ПРИГЛАШЕНИЕ
-   ============================================================================ */
-function generateInviteFile(invite){
-  if(!isAdmin() || !invite || !invite.email) return;
-  const inject =
-    '<script>window.__APP_INVITE=' + JSON.stringify({ email: invite.email, role: invite.role || 'viewer' }) +
-    ';<\/script>';
-  const html = APP_HTML_SNAPSHOT.replace(/<head>/i, '<head>\n' + inject);
-  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
-  const url = URL.createObjectURL(blob);
-  const safe = invite.email.replace(/[^a-z0-9]+/gi, '_');
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'invite-' + safe + '.html';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  setTimeout(() => URL.revokeObjectURL(url), 4000);
-}
-
-/* ============================================================================
-   ЭКСПОРТ / ИМПОРТ / СБРОС
-   ============================================================================ */
-function exportJSON(){
-  const payload = {
-    app: 'school-progress', version: 2,
-    exportedAt: new Date().toISOString(),
-    data
-  };
-  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `school-progress-${todayISO()}.json`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-}
-function importJSON(file){
-  if(!isAdmin()) return;
-  const reader = new FileReader();
-  reader.onload = e => {
-    try{
-      const parsed = JSON.parse(e.target.result);
-      const raw = parsed.data ? parsed.data : parsed;
-      if(!raw || typeof raw !== 'object') throw new Error('Неверный формат');
-      if(!confirm('Импорт заменит данные ВСЕХ учеников. Продолжить?')) return;
-      data = normalizeData(raw);
-      DataStore.save(data);
-      currentStudentId = data.students[0] ? data.students[0].id : null;
-      renderAll();
-      alert('Импорт выполнен.');
-    }catch(err){ alert('Ошибка импорта: ' + err.message); }
-  };
-  reader.readAsText(file);
-}
-function resetAll(){
-  if(!isAdmin()) return;
-  if(!confirm('Удалить ВСЕ данные всех учеников?')) return;
-  if(!confirm('Последнее подтверждение. Продолжить?')) return;
-  data = defaultData();
-  DataStore.save(data);
-  currentStudentId = null;
-  renderAll();
-  alert('Все данные сброшены.');
-}
-
-/* ============================================================================
-   ПОДСКАЗКИ
-   ============================================================================ */
-const tipEl = $('tooltip');
-let tipTimer = null;
-let longPressFired = false;
-
-function buildTipHtml(el){
-  const type    = el.dataset.ttype || DEFAULT_TYPE;
-  const date    = el.dataset.tdate ? formatDate(el.dataset.tdate) : '—';
-  const comment = el.dataset.tcomment || '';
-  return `<div class="tip-row"><b>${esc(type)}</b></div>
-          <div class="tip-row">📅 ${esc(date)}</div>
-          ${comment ? `<div class="tip-comment">${esc(comment)}</div>` : ''}`;
-}
-function positionTip(el){
-  tipEl.innerHTML = buildTipHtml(el);
-  tipEl.style.left = '0px'; tipEl.style.top = '0px';
-  tipEl.classList.add('show');
-  const r = el.getBoundingClientRect();
-  const tr = tipEl.getBoundingClientRect();
-  let left = r.left + r.width / 2 - tr.width / 2;
-  left = Math.max(8, Math.min(left, window.innerWidth - tr.width - 8));
-  let top = r.top - tr.height - 10;
-  if(top < 8) top = r.bottom + 10;
-  tipEl.style.left = left + 'px';
-  tipEl.style.top  = top + 'px';
-}
-function hideTip(){ tipEl.classList.remove('show'); clearTimeout(tipTimer); }
-
-document.addEventListener('mouseover', e => {
-  const el = e.target.closest && e.target.closest('[data-tip]');
-  if(!el) return;
-  if(e.relatedTarget && el.contains(e.relatedTarget)) return;
-  clearTimeout(tipTimer);
-  tipTimer = setTimeout(() => positionTip(el), 800);
-});
-document.addEventListener('mouseout', e => {
-  const el = e.target.closest && e.target.closest('[data-tip]');
-  if(!el) return;
-  if(e.relatedTarget && el.contains(e.relatedTarget)) return;
-  hideTip();
-});
-document.addEventListener('touchstart', e => {
-  const el = e.target.closest && e.target.closest('[data-tip]');
-  if(!el) return;
-  longPressFired = false;
-  clearTimeout(tipTimer);
-  tipTimer = setTimeout(() => { longPressFired = true; positionTip(el); }, 550);
-}, { passive: true });
-document.addEventListener('touchmove', () => { hideTip(); longPressFired = false; }, { passive: true });
-document.addEventListener('touchend', () => {
-  clearTimeout(tipTimer);
-  if(longPressFired) setTimeout(hideTip, 1800);
-});
-
-/* ============================================================================
-   ОБРАБОТЧИКИ
-   ============================================================================ */
-$('tabs').addEventListener('click', e => {
-  const btn = e.target.closest('button[data-tab]');
-  if(!btn) return;
-  document.querySelectorAll('nav.tabs button').forEach(b => b.classList.toggle('active', b === btn));
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  const panel = $('tab-' + btn.dataset.tab);
-  if(panel) panel.classList.add('active');
-  if(btn.dataset.tab === 'cabinet' && isAdmin()) refreshPending();
-});
-
-$('grades-actions').addEventListener('click', e => {
-  if(e.target.closest('#add-subject-btn')) addSubjectPrompt();
-});
-
-function handleGradesClick(e){
-  const g = e.target.closest('.grade');
-  if(g) return openGradeModal(g.dataset.subject, g.dataset.grade);
-  const add = e.target.closest('[data-add-grade]');
-  if(add) return openGradeModal(add.dataset.addGrade, null);
-  const del = e.target.closest('[data-del-subject]');
-  if(del) return deleteSubject(del.dataset.delSubject);
-}
-$('grades-table').addEventListener('click', handleGradesClick);
-$('grades-cards').addEventListener('click', handleGradesClick);
-
-function handleGradesTouchEnd(e){
-  const g = e.target.closest('.grade');
-  if(!g) return;
-  if(longPressFired){ longPressFired = false; return; }
-  e.preventDefault();
-  openGradeModal(g.dataset.subject, g.dataset.grade);
-}
-$('grades-table').addEventListener('touchend', handleGradesTouchEnd, { passive: false });
-$('grades-cards').addEventListener('touchend', handleGradesTouchEnd, { passive: false });
-
-$('schedule-grid').addEventListener('click', e => {
-  const add = e.target.closest('[data-add-lesson]');
-  if(add) return openLessonModal(null, add.dataset.addLesson);
-  const lesson = e.target.closest('[data-lesson]');
-  if(lesson && isAdmin()) return openLessonModal(lesson.dataset.lesson, null);
-});
-
-$('cabinet-content').addEventListener('click', e => {
-  const appr = e.target.closest('[data-approve]');
-  if(appr) return approveChange(appr.dataset.approve);
-  const rej = e.target.closest('[data-reject]');
-  if(rej) return rejectChange(rej.dataset.reject);
-  if(e.target.closest('#refresh-pending-btn')) return refreshPending();
-
-  if(e.target.closest('#catalog-add')) return addCatalogItem();
-  const catDel = e.target.closest('[data-catalog-del]');
-  if(catDel) return deleteCatalogItem(Number(catDel.dataset.catalogDel));
-
-  if(e.target.closest('#invite-btn')) return inviteUser();
-  const invDel = e.target.closest('[data-invite-del]');
-  if(invDel) return deleteInvite(invDel.dataset.inviteDel);
-  const invDl = e.target.closest('[data-invite-download]');
-  if(invDl){
-    const inv = Invites.all().find(x => x.id === invDl.dataset.inviteDownload);
-    if(inv) return generateInviteFile(inv);
-    return;
-  }
-
-  if(e.target.closest('#publish-btn')) return publishToGitHub();
-  if(e.target.closest('#forget-token-btn')){
-    if(confirm('Удалить сохранённый GitHub-токен?')){
-      localStorage.removeItem('gh_token');
-      alert('Токен удалён.');
-    }
-    return;
-  }
-
-  if(e.target.closest('#export-btn')) return exportJSON();
-  if(e.target.closest('#import-btn')) return $('import-file').click();
-  if(e.target.closest('#reset-btn'))  return resetAll();
-});
-
-$('cabinet-content').addEventListener('keydown', e => {
-  if(e.key !== 'Enter') return;
-  if(e.target.id === 'catalog-input'){ e.preventDefault(); addCatalogItem(); }
-  if(e.target.id === 'invite-email'){ e.preventDefault(); inviteUser(); }
-});
-
-$('cabinet-content').addEventListener('change', e => {
-  if(e.target.id === 'import-file' && e.target.files[0]){
-    importJSON(e.target.files[0]);
-    e.target.value = '';
-  }
-  if(e.target.id === 'student-name-input'){
-    if(!isAdmin() && !isStudentRole()) return;
-    const st = getCurrentStudent();
-    if(!st) return;
-    const newName = e.target.value.trim();
-    if(!newName) return;
-    const currentData = DataStore.get();
-    const s = currentData.students.find(x => x.id === st.id);
-    if(!s) return;
-    s.studentName = newName;
-    DataStore.save(currentData);
-    data = currentData;
-    // Обновим и пользователя, если это его ученик
-    if(currentUser.studentId === st.id) Users.update(currentUser.uid, { name: newName });
-    renderAll();
-  }
-});
-
-window.addEventListener('scroll', hideTip, { passive: true });
-window.addEventListener('resize', hideTip);
-
-/* ============================================================================
-   СТАРТ
-   ============================================================================ */
-bootSession();
-</script>
-</body>
-</html>
+  <section class="tab-panel" id="tab-users">
+    <div
