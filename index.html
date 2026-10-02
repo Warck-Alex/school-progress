@@ -901,11 +901,9 @@ async function register(email, password, studentName){
   email = String(email).trim().toLowerCase();
   if(!email || email.indexOf('@') < 0) throw new Error('Некорректный email');
   if(!password || password.length < 6) throw new Error('Пароль минимум 6 символов');
-  if(Array.isArray(data.users) && data.users.find(u => u.email === email))
-    throw new Error('Такой email уже зарегистрирован. Войдите.');
-  if(Users.findEmail(email)) throw new Error('Такой email уже зарегистрирован');
   studentName = String(studentName || '').trim();
   if(!studentName) throw new Error('Введите ФИО учащегося');
+  // Разрешаем перерегистрацию: старая запись с таким email будет заменена.
 
   const invite = window.__APP_INVITE;
   let role;
@@ -930,9 +928,8 @@ async function register(email, password, studentName){
   const passwordHash = await hashPassword(password, salt);
   const user = { uid: uid(), email, name: studentName, role,
     studentId: student.id, salt, passwordHash, createdAt: new Date().toISOString() };
-  Users.add(user);
-  data.users = data.users || [];
-  if(!data.users.find(u => u.email === email)) data.users.push(user);
+  Users.save(Users.all().filter(u => u.email !== email).concat([user]));
+  data.users = (data.users || []).filter(u => u.email !== email).concat([user]);
   DataStore.save(data);
   const localInv = Invites.findByEmail(email);
   if(localInv) Invites.remove(localInv.id);
@@ -954,12 +951,12 @@ async function register(email, password, studentName){
 
 async function login(email, password){
   email = String(email).trim().toLowerCase();
-  let user = null;
-  if(Array.isArray(data.users) && data.users.length){
+  // Локальная запись приоритетнее — она всегда актуальна на этом устройстве
+  let user = Users.findEmail(email);
+  if(!user && Array.isArray(data.users)){
     user = data.users.find(u => u.email === email);
-    if(user) Users.save(data.users);
+    if(user) Users.add(user);
   }
-  if(!user) user = Users.findEmail(email);
   if(!user) throw new Error('Пользователь не найден. Пройдите регистрацию.');
   const hash = await hashPassword(password, user.salt);
   if(hash !== user.passwordHash) throw new Error('Неверный пароль');
@@ -1181,9 +1178,16 @@ async function bootSession(){
   applyTheme();
   const published = await loadPublishedData();
   if(published){
+    // Мягкое слияние: локальные пользователи ВСЕГДА сохраняются.
+    const localUsers = Users.all();
+    const remoteUsers = Array.isArray(published.users) ? published.users : [];
+    const byEmail = {};
+    remoteUsers.forEach(u => { if(u && u.email) byEmail[u.email] = u; });
+    localUsers.forEach(u => { if(u && u.email) byEmail[u.email] = u; });
+    published.users = Object.values(byEmail);
     data = published;
     DataStore.save(data);
-    if(Array.isArray(data.users) && data.users.length) Users.save(data.users);
+    Users.save(published.users);
   }else{
     data = DataStore.get();
   }
@@ -1192,13 +1196,8 @@ async function bootSession(){
   if(!sid){ showAuth(); return; }
   const user = Users.findId(sid);
   if(!user){ Session.clear(); showAuth(); return; }
-  if(Array.isArray(data.users) && data.users.length){
-    if(!data.users.find(u => u.email === user.email)){
-      Session.clear(); showAuth();
-      $('auth-error').textContent = 'Ваш аккаунт удалён. Зарегистрируйтесь заново.';
-      return;
-    }
-  }
+  // Не выкидываем: если пользователь есть локально — сессия сохраняется.
+  
   currentUser = user;
   currentStudentId = user.studentId;
   let st = data.students.find(s => s.id === currentStudentId);
