@@ -562,6 +562,32 @@ async function publishToGitHub(){
     }else if(msg.includes('403')){
       alert('❌ У токена нет прав на запись.');
     }else{ alert('❌ Ошибка: ' + msg); }
+    /* Тихая публикация — без confirm, для автосинхронизации */
+async function publishToGitHubSilent(){
+  if(!isAdmin()) return false;
+  const token = localStorage.getItem('gh_token');
+  if(!token) return false;   // токен не сохранён — тихо выходим
+  const apiUrl = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_FILE}`;
+  const headers = { 'Authorization': 'Bearer ' + token,
+    'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json' };
+  try{
+    const getRes = await fetch(apiUrl, { headers });
+    let sha = null;
+    if(getRes.ok){ sha = (await getRes.json()).sha; }
+    else if(getRes.status !== 404) return false;
+    const toPublish = Object.assign({}, data, { publishedAt: new Date().toISOString() });
+    const content = JSON.stringify(toPublish, null, 2);
+    const body = { message: 'Auto-publish ' + new Date().toLocaleString('ru-RU'),
+      content: btoa(unescape(encodeURIComponent(content))) };
+    if(sha) body.sha = sha;
+    const putRes = await fetch(apiUrl, { method: 'PUT', headers, body: JSON.stringify(body) });
+    if(!putRes.ok) return false;
+    data.publishedAt = toPublish.publishedAt;
+    DataStore.save(data);
+    renderAll();
+    return true;
+  }catch(e){ console.warn('Auto-publish:', e); return false; }
+}
   }
 }
 
@@ -1039,6 +1065,9 @@ function renderCabinet(){
       <p class="muted small" style="margin:0 0 10px">Отправляет данные всех учеников и пользователей в <code>data.json</code>.</p>
       <div class="row">
         <button id="publish-btn">📤 Опубликовать</button>
+        <button id="sync-btn" class="secondary">🔄 Обновить с GitHub</button>
+      </div>
+      <div class="row" style="margin-top:8px">
         <button id="forget-token-btn" class="ghost">Забыть токен</button>
       </div>
     </div>` : '';
@@ -1564,7 +1593,7 @@ $('cabinet-content').addEventListener('click', e => {
     if(inv) return generateInviteFile(inv);
     return;
   }
-  if(e.target.closest('#publish-btn')) return publishToGitHub();
+  if(e.target.closest('#sync-btn')) return syncFromGitHub();
   if(e.target.closest('#forget-token-btn')){
     if(confirm('Удалить токен?')){ localStorage.removeItem('gh_token'); alert('Удалён.'); }
     return;
@@ -1593,6 +1622,26 @@ $('cabinet-content').addEventListener('change', e => {
     if(currentUser.studentId === st.id) Users.update(currentUser.uid, { name: newName });
     renderAll();
   }
+  async function syncFromGitHub(){
+  if(!isAdmin()) return;
+  try{
+    const published = await loadPublishedData();
+    if(!published){ alert('Не удалось получить data.json с GitHub.'); return; }
+    const oldUsers = (data.users || []).length;
+    // Мержим локальное с удалённым, локальные приоритетнее
+    if(Array.isArray(published.users) && published.users.length){
+      const byEmail = {};
+      published.users.forEach(u => { byEmail[u.email] = u; });
+      (data.users || []).forEach(u => { byEmail[u.email] = u; });
+      published.users = Object.values(byEmail);
+    }
+    data = published;
+    DataStore.save(data);
+    Users.save(data.users || []);
+    renderAll();
+    alert('🔄 Данные обновлены с GitHub.\nПользователей: ' + oldUsers + ' → ' + (data.users || []).length);
+  }catch(e){ alert('Ошибка синхронизации: ' + e.message); }
+}
 });
 $('users-content').addEventListener('change', e => {
   const sel = e.target.closest('select[data-role-uid]'); if(!sel) return;
