@@ -276,14 +276,14 @@
   ],
   "users": [
     {
-      "uid": "muqwpgl9senu19",
+      "uid": "muqw7edft1qzht",
       "email": "warck@mail.ru",
       "name": "Михайлов Даниил",
       "role": "admin",
       "studentId": "muo1pbs7od9pzd",
-      "salt": "a3c47ec60673ffd34feb9eb5933bba87",
-      "passwordHash": "033e11a29a50fbc960feeb77437d12eee3819992c312bf30b68a580321967b7d",
-      "createdAt": "2026-10-02T11:55:36.381Z"
+      "salt": "30793237542acb5e101431d46d1c6a5c",
+      "passwordHash": "173d87d0e35732d434e32ec680ae0deb98a5c2616569179a3be5e54810ab07cd",
+      "createdAt": "2026-10-02T11:41:33.699Z"
     },
     {
       "uid": "muqwtxf97enu0x",
@@ -294,7 +294,17 @@
       "salt": "77d3a9dd8ea7f51c7cabf8d0cab3cd27",
       "passwordHash": "a23abbcafcdce205bef9c003bf40e2f50b3e39911b21d41b4b1cbd00bb435f82",
       "createdAt": "2026-10-02T11:59:04.821Z"
+    },
+    {
+      "uid": "muqw9wxe2py2g1",
+      "email": "delorj81@gmail.com",
+      "name": "Михайлов Даниил",
+      "role": "viewer",
+      "studentId": "muo1pbs7od9pzd",
+      "salt": "84a1f3a80f02d9a862d049882f9fec40",
+      "passwordHash": "27619426df38c560888effc88a3afea22453cb4cc7d160edd9e94bc213109a10",
+      "createdAt": "2026-10-02T11:43:31.058Z"
     }
   ],
-  "publishedAt": "2026-10-02T12:03:29.762Z"
+  "publishedAt": "2026-10-02T12:30:16.837Z"
 }
