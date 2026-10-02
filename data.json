@@ -251,7 +251,248 @@
           "grades": []
         }
       ],
-      "schedule": [],
+      "schedule": [
+        {
+          "id": "mur1gfpwl8ehve",
+          "day": "Понедельник",
+          "subject": "Рус. яз.",
+          "time": "08.30-09.15",
+          "room": "",
+          "homework": ""
+        },
+        {
+          "id": "mur1glwy5aei5b",
+          "day": "Понедельник",
+          "subject": "География",
+          "time": "",
+          "room": "",
+          "homework": ""
+        },
+        {
+          "id": "mur1gv38xajujj",
+          "day": "Понедельник",
+          "subject": "Физика",
+          "time": "",
+          "room": "",
+          "homework": ""
+        },
+        {
+          "id": "mur1h4uumaysra",
+          "day": "Понедельник",
+          "subject": "Математика",
+          "time": "",
+          "room": "",
+          "homework": ""
+        },
+        {
+          "id": "mur1h9hsibh1le",
+          "day": "Понедельник",
+          "subject": "Всемирная история",
+          "time": "",
+          "room": "",
+          "homework": ""
+        },
+        {
+          "id": "mur1hgo6nd20nl",
+          "day": "Понедельник",
+          "subject": "Бел. яз.",
+          "time": "",
+          "room": "",
+          "homework": ""
+        },
+        {
+          "id": "mur1j7m8r9ucsf",
+          "day": "Вторник",
+          "subject": "Математика",
+          "time": "",
+          "room": "",
+          "homework": ""
+        },
+        {
+          "id": "mur1jghuejmjtb",
+          "day": "Вторник",
+          "subject": "Физическая культура.",
+          "time": "",
+          "room": "",
+          "homework": ""
+        },
+        {
+          "id": "mur1jlqon175i7",
+          "day": "Вторник",
+          "subject": "Химия",
+          "time": "",
+          "room": "",
+          "homework": ""
+        },
+        {
+          "id": "mur1js6qdp3fiu",
+          "day": "Вторник",
+          "subject": "Бел. яз.",
+          "time": "",
+          "room": "",
+          "homework": ""
+        },
+        {
+          "id": "mur1jvkeikv6nn",
+          "day": "Вторник",
+          "subject": "Бел. лит.",
+          "time": "",
+          "room": "",
+          "homework": ""
+        },
+        {
+          "id": "mur1k85yo3u3nk",
+          "day": "Вторник",
+          "subject": "Информатика.",
+          "time": "",
+          "room": "",
+          "homework": ""
+        },
+        {
+          "id": "mur1ke9cevfvr2",
+          "day": "Среда",
+          "subject": "Физика",
+          "time": "",
+          "room": "",
+          "homework": ""
+        },
+        {
+          "id": "mur1khw4frsb7m",
+          "day": "Среда",
+          "subject": "Рус. лит.",
+          "time": "",
+          "room": "",
+          "homework": ""
+        },
+        {
+          "id": "mur1kn6uhmfn6a",
+          "day": "Среда",
+          "subject": "Рус. яз.",
+          "time": "",
+          "room": "",
+          "homework": ""
+        },
+        {
+          "id": "mur1ksc8qioaf3",
+          "day": "Среда",
+          "subject": "Обществоведение.",
+          "time": "",
+          "room": "",
+          "homework": ""
+        },
+        {
+          "id": "mur1kwpm72voqb",
+          "day": "Среда",
+          "subject": "Математика",
+          "time": "",
+          "room": "",
+          "homework": ""
+        },
+        {
+          "id": "mur1l0oestaq9i",
+          "day": "Среда",
+          "subject": "География",
+          "time": "",
+          "room": "",
+          "homework": ""
+        },
+        {
+          "id": "mur1lepiweosey",
+          "day": "Четверг",
+          "subject": "Физическая культура.",
+          "time": "",
+          "room": "",
+          "homework": ""
+        },
+        {
+          "id": "mur1lxlk0bzzrv",
+          "day": "Четверг",
+          "subject": "История Беларуси",
+          "time": "",
+          "room": "",
+          "homework": ""
+        },
+        {
+          "id": "mur1qye210z1em",
+          "day": "Четверг",
+          "subject": "Биология",
+          "time": "",
+          "room": "",
+          "homework": ""
+        },
+        {
+          "id": "mur1r38cwp99n5",
+          "day": "Четверг",
+          "subject": "Физика",
+          "time": "",
+          "room": "",
+          "homework": ""
+        },
+        {
+          "id": "mur1r7gu288x4k",
+          "day": "Четверг",
+          "subject": "Англ. яз.",
+          "time": "",
+          "room": "",
+          "homework": ""
+        },
+        {
+          "id": "mur1rdfd7qgzrt",
+          "day": "Четверг",
+          "subject": "Рус. лит.",
+          "time": "",
+          "room": "",
+          "homework": ""
+        },
+        {
+          "id": "mur1rsrs0olhwl",
+          "day": "Пятница",
+          "subject": "Химия",
+          "time": "",
+          "room": "",
+          "homework": ""
+        },
+        {
+          "id": "mur1rwkw6y0b41",
+          "day": "Пятница",
+          "subject": "Физическая культура.",
+          "time": "",
+          "room": "",
+          "homework": ""
+        },
+        {
+          "id": "mur1s0oux4kp7d",
+          "day": "Пятница",
+          "subject": "Биология",
+          "time": "",
+          "room": "",
+          "homework": ""
+        },
+        {
+          "id": "mur1s5a268lsjw",
+          "day": "Пятница",
+          "subject": "Физика",
+          "time": "",
+          "room": "",
+          "homework": ""
+        },
+        {
+          "id": "mur1s9sv69nx41",
+          "day": "Пятница",
+          "subject": "Англ. яз.",
+          "time": "",
+          "room": "",
+          "homework": ""
+        },
+        {
+          "id": "mur1sd1w2r2eye",
+          "day": "Пятница",
+          "subject": "Математика",
+          "time": "",
+          "room": "",
+          "homework": ""
+        }
+      ],
       "catalog": [
         "Математика",
         "Физика",
@@ -306,5 +547,5 @@
       "createdAt": "2026-10-02T11:43:31.058Z"
     }
   ],
-  "publishedAt": "2026-10-02T14:04:48.956Z"
+  "publishedAt": "2026-10-02T14:22:10.331Z"
 }
