@@ -276,20 +276,20 @@
   ],
   "users": [
     {
-      "uid": "muqw7edft1qzht",
+      "uid": "muqwpgl9senu19",
       "email": "warck@mail.ru",
       "name": "Михайлов Даниил",
       "role": "admin",
       "studentId": "muo1pbs7od9pzd",
-      "salt": "30793237542acb5e101431d46d1c6a5c",
-      "passwordHash": "173d87d0e35732d434e32ec680ae0deb98a5c2616569179a3be5e54810ab07cd",
-      "createdAt": "2026-10-02T11:41:33.699Z"
+      "salt": "a3c47ec60673ffd34feb9eb5933bba87",
+      "passwordHash": "033e11a29a50fbc960feeb77437d12eee3819992c312bf30b68a580321967b7d",
+      "createdAt": "2026-10-02T11:55:36.381Z"
     },
     {
       "uid": "muqwtxf97enu0x",
       "email": "warck@yandex.ru",
       "name": "Михайлов Даниил",
-      "role": "viewer",
+      "role": "student",
       "studentId": "muo1pbs7od9pzd",
       "salt": "77d3a9dd8ea7f51c7cabf8d0cab3cd27",
       "passwordHash": "a23abbcafcdce205bef9c003bf40e2f50b3e39911b21d41b4b1cbd00bb435f82",
@@ -306,5 +306,5 @@
       "createdAt": "2026-10-02T11:43:31.058Z"
     }
   ],
-  "publishedAt": "2026-10-02T12:30:16.837Z"
+  "publishedAt": "2026-10-02T12:49:17.582Z"
 }
