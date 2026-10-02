@@ -274,6 +274,17 @@
       "createdAt": "2026-09-30T11:52:09.703Z"
     }
   ],
-  "users": [],
-  "publishedAt": "2026-10-02T11:42:00.261Z"
+  "users": [
+    {
+      "uid": "muqwpgl9senu19",
+      "email": "warck@mail.ru",
+      "name": "Михайлов Даниил",
+      "role": "admin",
+      "studentId": "muo1pbs7od9pzd",
+      "salt": "a3c47ec60673ffd34feb9eb5933bba87",
+      "passwordHash": "033e11a29a50fbc960feeb77437d12eee3819992c312bf30b68a580321967b7d",
+      "createdAt": "2026-10-02T11:55:36.381Z"
+    }
+  ],
+  "publishedAt": "2026-10-02T11:57:38.908Z"
 }
