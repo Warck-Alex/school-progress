@@ -31,6 +31,7 @@ body.dark .chip{background:#252a3d}
 body.dark input,body.dark select,body.dark textarea{background:#252a3d;color:var(--text);border-color:var(--border)}
 body.dark .avg{background:#252a3d}
 body.dark .invite-list li{background:#252a3d}
+body.dark .pending-item{background:#252a3d}
 body.dark .modal{background:#1e2231}
 body.dark .auth-card{background:#1e2231}
 body.dark button.secondary{background:#2e3446;color:var(--text)}
@@ -40,9 +41,13 @@ body.dark .users-table tr:hover td{background:#232842}
 body.dark .waiting-box{background:#2a2418;border-color:#5c4a1a;color:#d4b86a}
 body.dark .hint-box{background:#2a2418;border-color:#5c4a1a;color:#d4b86a}
 body.dark .pending-panel{background:#2a2418;border-color:#5c4a1a}
+body.dark .pending-filter button{background:#252a3d;color:#d4b86a;border-color:#5c4a1a}
+body.dark .pending-filter button.active{background:#f59e0b;color:#fff}
 body.dark .pub-chip{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.15)}
 body.dark .tooltip{background:#0a0d15}
 body.dark .stats-bar{background:#2e3446}
+body.dark .dev-code-box{background:#2a2418;border-color:#5c4a1a;color:#d4b86a}
+body.dark .dev-code-value{color:#fff}
 html,body{margin:0;padding:0;min-height:100%}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
   background:var(--bg);color:var(--text);font-size:15px;line-height:1.45;padding-bottom:40px;
@@ -179,6 +184,19 @@ td.subject-cell{text-align:left!important;background:#eef2fd!important;padding:8
 button.wide{width:100%;margin-top:10px}
 .hint-box{background:#fff8e6;border:1px solid #ffe1a8;border-radius:10px;padding:9px 11px;
   font-size:12.5px;color:#7a5b00;margin:8px 0 0;line-height:1.4}
+.pending-panel{background:#fff8e6;border:2px solid #f59e0b;border-radius:12px;
+  padding:14px;margin-bottom:12px}
+.pending-panel h3{margin:0 0 10px;font-size:14.5px;color:#7a5b00}
+.pending-filter{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.pending-filter button{background:#fff;color:#7a5b00;padding:5px 11px;font-size:12px;
+  border:1px solid #ffe1a8}
+.pending-filter button.active{background:#f59e0b;color:#fff;border-color:#f59e0b}
+.pending-item{background:#fff;border:1px solid #ffe1a8;border-radius:9px;padding:9px 11px;
+  margin-bottom:7px;font-size:13px;line-height:1.4}
+.pending-item .pending-head{font-weight:700;margin-bottom:3px}
+.pending-item .pending-meta{color:#7a5b00;font-size:12px;margin-bottom:4px}
+.pending-item .pending-grade{margin:5px 0}
+.pending-item .pending-actions{display:flex;gap:6px;margin-top:7px;flex-wrap:wrap}
 .stats-list{display:flex;flex-direction:column;gap:7px}
 .stats-row{display:flex;align-items:center;gap:9px;font-size:13px}
 .stats-name{flex:0 0 130px;font-weight:600;overflow:hidden;text-overflow:ellipsis;
@@ -216,6 +234,12 @@ body.dark .auth-card{background:#1e2231;color:var(--text)}
 .auth-forgot{text-align:center;margin-top:10px}
 .auth-forgot a{color:var(--accent);font-size:13px;text-decoration:none;cursor:pointer}
 .auth-forgot a:hover{text-decoration:underline}
+.code-input{font-size:24px;letter-spacing:8px;text-align:center;font-weight:800;
+  padding:14px;font-family:monospace}
+.dev-code-box{background:#fff8e6;border:1px dashed #f59e0b;border-radius:10px;
+  padding:12px;margin:0 0 12px;text-align:center;color:#7a5b00}
+.dev-code-value{font-size:34px;font-weight:900;letter-spacing:10px;
+  font-family:monospace;color:#151a2d;line-height:1;margin-top:8px}
 #modal-root{display:none}
 #modal-root.open{display:block}
 .modal-overlay{position:fixed;inset:0;z-index:300;background:rgba(15,20,40,.5);
@@ -328,7 +352,14 @@ body.dark .auth-card{background:#1e2231;color:var(--text)}
 <div id="modal-root"></div>
 
 <script>
+/* ============================================================================
+   СНИМОК HTML (для генерации файла-приглашения)
+   ============================================================================ */
 const APP_HTML_SNAPSHOT = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+
+/* ============================================================================
+   ЛОКАЛЬНОЕ ХРАНИЛИЩЕ
+   ============================================================================ */
 const LS_PREFIX = 'schoolApp_v3_';
 const DB = {
   read(key, def){
@@ -341,14 +372,42 @@ const DB = {
   }
 };
 
-/* ⚠️ ВАШ EMAIL — этот пользователь всегда будет администратором. */
-const ADMIN_EMAIL = 'Warck@mail.ru';
+/* ============================================================================
+   EMAILJS — отправка кодов на email
+   Пока заглушки — код показывается прямо в модальном окне.
+   Чтобы включить реальную отправку, заполните три поля ниже.
+   ============================================================================ */
+const EMAILJS = {
+  serviceId:  'service_xxx',
+  templateId: 'template_xxx',
+  publicKey:  'xxxxxxxxxxxxxxx'
+};
+function emailJsEnabled(){
+  return EMAILJS.serviceId && EMAILJS.serviceId !== 'service_xxx' &&
+         EMAILJS.templateId && EMAILJS.templateId !== 'template_xxx' &&
+         EMAILJS.publicKey  && EMAILJS.publicKey  !== 'xxxxxxxxxxxxxxx';
+}
+
+/* ============================================================================
+   GITHUB
+   ============================================================================ */
+const ADMIN_EMAIL = 'warck@mail.ru';    // ⚠️ этот email всегда = админ
 
 const GH_OWNER = 'Warck-Alex';
 const GH_REPO  = 'school-progress';
 const GH_FILE  = 'data.json';
 const DATA_URL = 'data.json';
 
+const GH_PENDING = {
+  owner: 'Warck-Alex',
+  repo:  'school-pending',
+  file:  'pending.json',
+  token: 'github_pat_ВСТАВЬТЕ_СЮДА_ТОКЕН'   // ⚠️ student-token от school-pending
+};
+
+/* ============================================================================
+   КОНСТАНТЫ
+   ============================================================================ */
 const DAYS = ['Понедельник','Вторник','Среда','Четверг','Пятница','Суббота'];
 const GRADE_TYPES = [
   { name:'Контрольная работа',    short:'КР'    },
@@ -370,12 +429,19 @@ const GRADE_COLORS = {
   6:'#84cc16', 7:'#22c55e', 8:'#16a34a', 9:'#15803d', 10:'#2563eb'
 };
 
+/* ============================================================================
+   СОСТОЯНИЕ
+   ============================================================================ */
 let currentUser = null;
 let currentStudentId = null;
 let data = null;
 let invites = [];
 let pendingChanges = [];
+let pendingFilter = 'all';
 
+/* ============================================================================
+   УТИЛИТЫ
+   ============================================================================ */
 const $ = id => document.getElementById(id);
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g,
   c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -414,6 +480,9 @@ const canAddGrade   = () => isAdmin() || isStudentRole();
 const canEditSchedule = () => isAdmin() || isStudentRole();
 const roleLabel = r => ({admin:'Администратор', student:'Ученик', viewer:'Наблюдатель'}[r] || r);
 
+/* ============================================================================
+   ТЕМА
+   ============================================================================ */
 function applyTheme(){
   const t = DB.read('theme', 'light');
   if(t === 'dark') document.body.classList.add('dark');
@@ -427,6 +496,9 @@ $('theme-btn').addEventListener('click', () => {
   applyTheme();
 });
 
+/* ============================================================================
+   СТРУКТУРЫ ДАННЫХ
+   ============================================================================ */
 function defaultStudent(name){
   return { id: uid(), studentName: name || '', subjects: [], schedule: [],
     catalog: DEFAULT_CATALOG.slice(), members: [], createdAt: new Date().toISOString() };
@@ -470,6 +542,9 @@ function overallGpa(){
   return n ? sum / n : null;
 }
 
+/* ============================================================================
+   ПАРОЛЬ
+   ============================================================================ */
 function randomSalt(){
   const arr = new Uint8Array(16);
   (window.crypto || {}).getRandomValues
@@ -488,6 +563,38 @@ async function hashPassword(password, salt){
   return 'fb_' + Math.abs(h).toString(16);
 }
 
+/* ============================================================================
+   EMAILJS — отправка кодов
+   ============================================================================ */
+async function sendCodeEmail(toEmail, code, purpose){
+  if(!emailJsEnabled()) return true;   // тестовый режим: код показывается в окне
+  try{
+    const res = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        service_id:  EMAILJS.serviceId,
+        template_id: EMAILJS.templateId,
+        user_id:     EMAILJS.publicKey,
+        template_params: { to_email: toEmail, code: code, purpose: purpose }
+      })
+    });
+    if(!res.ok){
+      const text = await res.text();
+      console.warn('EmailJS error:', text);
+      alert('Не удалось отправить письмо. Ваш код: ' + code);
+    }
+    return true;
+  }catch(e){
+    console.warn('EmailJS exception:', e);
+    alert('Ошибка отправки. Ваш код: ' + code);
+    return true;
+  }
+}
+
+/* ============================================================================
+   КОЛЛЕКЦИИ
+   ============================================================================ */
 const Users = {
   all: () => DB.read('users', []),
   save: (list) => DB.write('users', list),
@@ -517,6 +624,15 @@ const Session = {
   clear: () => DB.write('session', null)
 };
 
+/* ============================================================================
+   GITHUB API — чтение и публикация data.json
+   ============================================================================ */
+function decodeBase64(str){
+  str = String(str || '').replace(/\s+/g, '');
+  try{ return decodeURIComponent(escape(atob(str))); }
+  catch{ try{ return atob(str); }catch{ return ''; } }
+}
+
 async function loadPublishedData(){
   try{
     const res = await fetch(DATA_URL + '?_=' + Date.now(), { cache: 'no-store' });
@@ -524,6 +640,7 @@ async function loadPublishedData(){
     return normalizeData(await res.json());
   }catch(e){ console.warn('data.json недоступен:', e); return null; }
 }
+
 async function publishToGitHub(){
   if(!isAdmin()) return;
   let token = localStorage.getItem('gh_token');
@@ -562,11 +679,14 @@ async function publishToGitHub(){
     }else if(msg.includes('403')){
       alert('❌ У токена нет прав на запись.');
     }else{ alert('❌ Ошибка: ' + msg); }
-    /* Тихая публикация — без confirm, для автосинхронизации */
+  }
+}
+
+/* Тихая публикация — без confirm, для автосинхронизации */
 async function publishToGitHubSilent(){
   if(!isAdmin()) return false;
   const token = localStorage.getItem('gh_token');
-  if(!token) return false;   // токен не сохранён — тихо выходим
+  if(!token) return false;
   const apiUrl = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_FILE}`;
   const headers = { 'Authorization': 'Bearer ' + token,
     'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json' };
@@ -588,9 +708,195 @@ async function publishToGitHubSilent(){
     return true;
   }catch(e){ console.warn('Auto-publish:', e); return false; }
 }
-  }
+
+async function syncFromGitHub(){
+  if(!isAdmin()) return;
+  try{
+    const published = await loadPublishedData();
+    if(!published){ alert('Не удалось получить data.json с GitHub.'); return; }
+    const oldUsers = (data.users || []).length;
+    if(Array.isArray(published.users) && published.users.length){
+      const byEmail = {};
+      published.users.forEach(u => { byEmail[u.email] = u; });
+      (data.users || []).forEach(u => { byEmail[u.email] = u; });
+      published.users = Object.values(byEmail);
+    }
+    data = published;
+    DataStore.save(data);
+    Users.save(data.users || []);
+    renderAll();
+    alert('🔄 Данные обновлены с GitHub.\nПользователей: ' + oldUsers + ' → ' + (data.users || []).length);
+  }catch(e){ alert('Ошибка синхронизации: ' + e.message); }
 }
 
+/* ============================================================================
+   PENDING — заявки учеников через school-pending
+   ============================================================================ */
+async function fetchPending(){
+  const url = `https://api.github.com/repos/${GH_PENDING.owner}/${GH_PENDING.repo}/contents/${GH_PENDING.file}`;
+  const res = await fetch(url, { headers: {
+    'Authorization': 'Bearer ' + GH_PENDING.token,
+    'Accept': 'application/vnd.github+json' }, cache: 'no-store' });
+  if(res.status === 404) return { list: [], sha: null };
+  if(!res.ok) throw new Error('HTTP ' + res.status);
+  const info = await res.json();
+  const content = decodeBase64(info.content);
+  let list = []; try{ list = JSON.parse(content || '[]'); }catch(e){ list = []; }
+  return { list, sha: info.sha };
+}
+async function pushPending(list, sha){
+  const url = `https://api.github.com/repos/${GH_PENDING.owner}/${GH_PENDING.repo}/contents/${GH_PENDING.file}`;
+  const body = { message: 'Pending update ' + new Date().toLocaleString('ru-RU'),
+    content: btoa(unescape(encodeURIComponent(JSON.stringify(list, null, 2)))) };
+  if(sha) body.sha = sha;
+  const res = await fetch(url, { method: 'PUT', headers: {
+    'Authorization': 'Bearer ' + GH_PENDING.token,
+    'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json' },
+    body: JSON.stringify(body) });
+  if(!res.ok){ const err = await res.json().catch(()=>({})); throw new Error(err.message || 'HTTP ' + res.status); }
+}
+async function submitChangeToPending(change){
+  const { list, sha } = await fetchPending();
+  const idx = list.findIndex(x => x.status === 'pending' &&
+    x.studentId === change.studentId && x.gradeId === change.gradeId && x.type === change.type);
+  if(idx >= 0) list[idx] = change; else list.push(change);
+  await pushPending(list, sha);
+}
+async function refreshPending(){
+  if(!isAdmin()) return;
+  try{
+    const { list } = await fetchPending();
+    pendingChanges = list.filter(x => x.status === 'pending');
+    updatePendingBadge();
+    if($('tab-cabinet').classList.contains('active')) renderCabinet();
+  }catch(e){
+    console.warn('Pending недоступен:', e);
+    pendingChanges = []; updatePendingBadge();
+  }
+}
+function updatePendingBadge(){
+  const btn = document.querySelector('nav.tabs button[data-tab="cabinet"]');
+  if(!btn) return;
+  const ex = btn.querySelector('.badge-pending'); if(ex) ex.remove();
+  if(isAdmin() && pendingChanges.length > 0){
+    const s = document.createElement('span');
+    s.className = 'badge-pending'; s.textContent = pendingChanges.length;
+    btn.appendChild(s);
+  }
+}
+async function removePendingItem(changeId){
+  const { list, sha } = await fetchPending();
+  const filtered = list.filter(x => x.id !== changeId);
+  await pushPending(filtered, sha);
+  pendingChanges = filtered.filter(x => x.status === 'pending');
+  updatePendingBadge();
+}
+async function approveChange(changeId){
+  const change = pendingChanges.find(c => c.id === changeId);
+  if(!change) return;
+  try{
+    if(change.type === 'new_student'){
+      const exists = data.students.find(s => s.id === change.studentId ||
+        s.studentName.toLowerCase() === (change.studentName || '').toLowerCase());
+      if(exists){
+        const u = Users.findEmail(change.studentEmail);
+        if(u) Users.update(u.uid, { studentId: exists.id });
+        alert('Ученик с таким ФИО уже есть — пользователь привязан к нему.');
+      }else{
+        data.students.push(normalizeStudent({
+          id: change.studentId, studentName: change.studentName,
+          subjects: [], schedule: [], catalog: DEFAULT_CATALOG.slice(), members: []
+        }));
+      }
+      if(change.user && change.user.email){
+        data.users = data.users || [];
+        if(!data.users.find(u => u.email === change.user.email)) data.users.push(change.user);
+      }
+    }else if(change.type === 'new_user'){
+      if(change.user && change.user.email){
+        data.users = data.users || [];
+        if(!data.users.find(u => u.email === change.user.email)) data.users.push(change.user);
+      }
+    }else if(change.type === 'password_reset'){
+      data.users = data.users || [];
+      const idx = data.users.findIndex(u => u.email === change.userEmail);
+      if(idx >= 0){
+        data.users[idx].passwordHash = change.newPasswordHash;
+        data.users[idx].salt = change.newSalt;
+      }else{
+        alert('Пользователь не найден.');
+        await removePendingItem(changeId);
+        return;
+      }
+    }else{
+      const st = data.students.find(s => s.id === change.studentId);
+      if(!st){ alert('Ученик не найден'); return; }
+      let subj = (st.subjects || []).find(s => s.id === change.subjectId);
+      if(!subj){
+        if(!confirm('Предмет «' + change.subjectName + '» не найден. Создать?')) return;
+        subj = { id: change.subjectId, name: change.subjectName, grades: [] };
+        st.subjects = st.subjects || []; st.subjects.push(subj);
+      }
+      subj.grades = subj.grades || [];
+      if(change.action === 'add'){
+        if(!subj.grades.find(g => g.id === change.gradeId))
+          subj.grades.push(Object.assign({ id: change.gradeId || uid() }, change.grade));
+      }else if(change.action === 'update'){
+        const g = subj.grades.find(x => x.id === change.gradeId);
+        if(g) Object.assign(g, change.grade);
+        else subj.grades.push(Object.assign({ id: change.gradeId || uid() }, change.grade));
+      }else if(change.action === 'delete'){
+        subj.grades = subj.grades.filter(x => x.id !== change.gradeId);
+      }
+    }
+    DataStore.save(data);
+    if(data.users) Users.save(data.users);
+    await removePendingItem(changeId);
+    renderAll();
+    const pubOk = await publishToGitHubSilent();
+    if(pubOk){
+      alert('✅ Принято и сразу опубликовано.\n\nЧерез 1–2 минуты изменения увидят все.');
+    }else{
+      alert('✅ Принято локально.\n\nНажмите «📤 Опубликовать данные» — нет сохранённого токена или GitHub недоступен.');
+    }
+  }catch(e){ alert('Ошибка: ' + e.message); }
+}
+async function rejectChange(changeId){
+  const reason = prompt('Причина отклонения (необязательно):');
+  if(reason === null) return;
+  try{
+    await removePendingItem(changeId);
+    renderCabinet();
+    if(reason.trim()) alert('Заявка отклонена. Причина: ' + reason.trim());
+  }catch(e){ alert('Не удалось отклонить: ' + e.message); }
+}
+
+/* ============================================================================
+   ВЕРИФИКАЦИЯ EMAIL
+   ============================================================================ */
+function generateCode(){
+  return String(Math.floor(100 + Math.random() * 900));
+}
+function saveVerification(email, code, purpose){
+  DB.write('verify_' + purpose, {
+    email, code,
+    expiresAt: Date.now() + 10 * 60 * 1000,
+    attempts: 0
+  });
+}
+function getVerification(purpose){
+  const v = DB.read('verify_' + purpose, null);
+  if(!v) return null;
+  if(Date.now() > v.expiresAt){ DB.write('verify_' + purpose, null); return null; }
+  return v;
+}
+function clearVerification(purpose){
+  DB.write('verify_' + purpose, null);
+}
+
+/* ============================================================================
+   АВТОРИЗАЦИЯ
+   ============================================================================ */
 async function register(email, password, studentName){
   email = String(email).trim().toLowerCase();
   if(!email || email.indexOf('@') < 0) throw new Error('Некорректный email');
@@ -603,9 +909,11 @@ async function register(email, password, studentName){
 
   const invite = window.__APP_INVITE;
   let role;
-  if(email === String(ADMIN_EMAIL).toLowerCase()) role = 'admin';
-  else if(invite && invite.email === email) role = invite.role || 'viewer';
-  else{
+  if(email === String(ADMIN_EMAIL).toLowerCase()){
+    role = 'admin';
+  } else if(invite && invite.email === email){
+    role = invite.role || 'viewer';
+  } else {
     const localInv = Invites.findByEmail(email);
     role = localInv ? (localInv.role || 'viewer') : 'viewer';
   }
@@ -631,6 +939,16 @@ async function register(email, password, studentName){
   if(invite && invite.email === email){ try{ delete window.__APP_INVITE; }catch(e){} }
   Session.set(user.uid);
   currentStudentId = student.id;
+  // Отправляем заявку админу
+  try{
+    await submitChangeToPending({
+      id: uid(), timestamp: new Date().toISOString(),
+      type: isNewStudent ? 'new_student' : 'new_user',
+      status: 'pending',
+      studentEmail: email, studentName: studentName, studentId: student.id,
+      user: user
+    });
+  }catch(e){ console.warn('Заявка не отправлена:', e); }
   return { user, isNewStudent };
 }
 
@@ -645,7 +963,7 @@ async function login(email, password){
   if(!user) throw new Error('Пользователь не найден. Пройдите регистрацию.');
   const hash = await hashPassword(password, user.salt);
   if(hash !== user.passwordHash) throw new Error('Неверный пароль');
-  // Принудительный админ для указанного email
+  // Принудительный админ
   if(email === String(ADMIN_EMAIL).toLowerCase() && user.role !== 'admin'){
     Users.update(user.uid, { role: 'admin' });
     if(data.users){
@@ -687,6 +1005,9 @@ function showApp(){
   $('main').style.display = 'block';
 }
 
+/* ============================================================================
+   ОБРАБОТЧИКИ АВТОРИЗАЦИИ
+   ============================================================================ */
 $('btn-login').addEventListener('click', async () => {
   const email = $('auth-email').value.trim();
   const pass  = $('auth-password').value;
@@ -698,30 +1019,50 @@ $('btn-login').addEventListener('click', async () => {
     currentStudentId = r.studentId;
     invites = Invites.all();
     showApp(); renderAll();
+    if(isAdmin()) refreshPending();
   }catch(e){ $('auth-error').textContent = e.message; }
   finally{ $('btn-login').disabled = false; }
 });
 
 $('btn-register').addEventListener('click', async () => {
-  const email = $('auth-email').value.trim();
+  const email = $('auth-email').value.trim().toLowerCase();
   const pass  = $('auth-password').value;
   const name  = $('auth-student-name').value.trim();
   $('auth-error').textContent = '';
-  try{
-    $('btn-register').disabled = true;
-    const result = await register(email, pass, name);
-    const user = result.user;
-    currentUser = Users.findId(user.uid) || user;
-    currentStudentId = user.studentId;
-    invites = Invites.all();
-    showApp(); renderAll();
-    if(result.isNewStudent){
-      alert('✅ Аккаунт создан!\n\nПрофиль «' + user.name + '» создан и пока пуст. Добавьте оценки и расписание.');
-    } else {
-      alert('✅ Аккаунт создан!\n\nВы вошли как ' + roleLabel(user.role) + '.');
-    }
-  }catch(e){ $('auth-error').textContent = e.message; }
-  finally{ $('btn-register').disabled = false; }
+
+  if(!email || email.indexOf('@') < 0) return $('auth-error').textContent = 'Введите корректный email';
+  if(!pass || pass.length < 6) return $('auth-error').textContent = 'Пароль минимум 6 символов';
+  if(!name) return $('auth-error').textContent = 'Введите ФИО учащегося';
+  if(Array.isArray(data.users) && data.users.find(u => u.email === email))
+    return $('auth-error').textContent = 'Email уже зарегистрирован';
+  if(Users.findEmail(email)) return $('auth-error').textContent = 'Email уже зарегистрирован';
+
+  const code = generateCode();
+  saveVerification(email, code, 'register');
+  await sendCodeEmail(email, code, 'регистрации');
+  openCodeModal(email, 'register', 'Подтверждение email', code, async (enteredCode) => {
+    const v = getVerification('register');
+    if(!v){ alert('Код истёк. Запросите новый.'); return false; }
+    if(v.email !== email){ alert('Email изменился.'); return false; }
+    v.attempts++;
+    DB.write('verify_register', v);
+    if(v.attempts > 5){ clearVerification('register'); alert('Слишком много попыток.'); return false; }
+    if(enteredCode !== v.code){ alert('Неверный код.'); return false; }
+    clearVerification('register');
+    try{
+      $('btn-register').disabled = true;
+      const result = await register(email, pass, name);
+      const user = result.user;
+      currentUser = Users.findId(user.uid) || user;
+      currentStudentId = user.studentId;
+      invites = Invites.all();
+      showApp(); renderAll();
+      if(isAdmin()) refreshPending();
+      alert('✅ Аккаунт создан!\n\nЗаявка отправлена администратору.');
+    }catch(e){ $('auth-error').textContent = e.message; }
+    finally{ $('btn-register').disabled = false; }
+    return true;
+  });
 });
 
 $('btn-logout').addEventListener('click', logout);
@@ -734,19 +1075,108 @@ $('forgot-link').addEventListener('click', async () => {
   let user = (data.users || []).find(u => u.email === emailNorm);
   if(!user) user = Users.findEmail(emailNorm);
   if(!user) return alert('Пользователь с таким email не найден.');
-  const newPass = prompt('Придумайте новый пароль (минимум 6 символов):');
-  if(!newPass || newPass.length < 6) return alert('Пароль слишком короткий.');
-  const newSalt = randomSalt();
-  const newHash = await hashPassword(newPass, newSalt);
-  Users.update(user.uid, { salt: newSalt, passwordHash: newHash });
-  if(data.users){
-    const du = data.users.find(x => x.email === emailNorm);
-    if(du){ du.salt = newSalt; du.passwordHash = newHash; }
-  }
-  DataStore.save(data);
-  alert('✅ Пароль изменён. Войдите с новым паролем.');
+  const code = generateCode();
+  saveVerification(emailNorm, code, 'reset');
+  await sendCodeEmail(emailNorm, code, 'восстановления пароля');
+  openCodeModal(emailNorm, 'reset', 'Восстановление пароля', code, async (enteredCode) => {
+    const v = getVerification('reset');
+    if(!v){ alert('Код истёк.'); return false; }
+    if(v.email !== emailNorm){ alert('Email изменился.'); return false; }
+    v.attempts++;
+    DB.write('verify_reset', v);
+    if(v.attempts > 5){ clearVerification('reset'); alert('Слишком много попыток.'); return false; }
+    if(enteredCode !== v.code){ alert('Неверный код.'); return false; }
+    clearVerification('reset');
+    setTimeout(async () => {
+      const newPass = prompt('Придумайте новый пароль (минимум 6 символов):');
+      if(!newPass || newPass.length < 6) return alert('Пароль слишком короткий.');
+      const newSalt = randomSalt();
+      const newHash = await hashPassword(newPass, newSalt);
+      Users.update(user.uid, { salt: newSalt, passwordHash: newHash });
+      if(data.users){
+        const du = data.users.find(x => x.email === emailNorm);
+        if(du){ du.salt = newSalt; du.passwordHash = newHash; }
+      }
+      DataStore.save(data);
+      try{
+        await submitChangeToPending({
+          id: uid(), timestamp: new Date().toISOString(),
+          type: 'password_reset', status: 'pending',
+          studentEmail: emailNorm, studentName: user.name || '',
+          studentId: user.studentId || '',
+          userEmail: emailNorm,
+          newSalt: newSalt, newPasswordHash: newHash
+        });
+        alert('✅ Пароль изменён.\n\nАдминистратор получил уведомление.');
+      }catch(e){
+        alert('⚠️ Пароль изменён локально, но заявка не отправлена: ' + e.message);
+      }
+    }, 200);
+    return true;
+  });
 });
 
+/* ============================================================================
+   МОДАЛКА ВВОДА КОДА
+   ============================================================================ */
+function openCodeModal(email, purpose, title, devCode, onVerify){
+  const isDev = !emailJsEnabled();
+  const devHint = isDev ? `
+    <div class="dev-code-box">
+      <div class="small">🧪 EmailJS не настроен — тестовый режим</div>
+      <div style="font-size:12px;margin-top:6px">Ваш код:</div>
+      <div class="dev-code-value">${esc(devCode || '???')}</div>
+    </div>` : '';
+  openModal(`
+    <h2>${esc(title)}</h2>
+    <p class="muted small" style="margin:0 0 12px">
+      ${isDev
+        ? `Введите код, показанный ниже, для <b>${esc(email)}</b>.`
+        : `Мы отправили 3-значный код на <b>${esc(email)}</b>.<br>Введите его ниже. Код действует 10 минут.`}
+    </p>
+    ${devHint}
+    <input id="code-input" class="code-input" maxlength="3" inputmode="numeric"
+      autocomplete="one-time-code" placeholder="•••" value="">
+    <div class="modal-actions">
+      <button id="code-cancel" class="secondary">Отмена</button>
+      <button id="code-submit">Проверить</button>
+    </div>
+    ${isDev ? '' : `<p class="muted small" style="margin:10px 0 0;text-align:center">
+      Не пришло? <a id="code-resend" style="color:var(--accent);cursor:pointer">Отправить заново</a>
+    </p>`}
+  `);
+  const input = $('code-input');
+  setTimeout(() => input && input.focus(), 100);
+  input.addEventListener('input', () => {
+    input.value = input.value.replace(/\D/g, '').slice(0,3);
+    if(input.value.length === 3) $('code-submit').click();
+  });
+  input.addEventListener('keydown', e => { if(e.key === 'Enter') $('code-submit').click(); });
+  $('code-cancel').addEventListener('click', closeModal);
+  $('code-submit').addEventListener('click', async () => {
+    const val = (input.value || '').trim();
+    if(val.length !== 3) return alert('Введите 3-значный код');
+    const ok = await onVerify(val);
+    if(ok) closeModal();
+  });
+  const resendLink = $('code-resend');
+  if(resendLink){
+    resendLink.addEventListener('click', async () => {
+      const newCode = generateCode();
+      saveVerification(email, newCode, purpose);
+      await sendCodeEmail(email, newCode, purpose === 'reset' ? 'восстановления пароля' : 'регистрации');
+      if(emailJsEnabled()) alert('Новый код отправлен.');
+      else{
+        closeModal();
+        openCodeModal(email, purpose, title, newCode, onVerify);
+      }
+    });
+  }
+}
+
+/* ============================================================================
+   СТАРТ СЕССИИ
+   ============================================================================ */
 async function bootSession(){
   applyTheme();
   const published = await loadPublishedData();
@@ -784,6 +1214,7 @@ async function bootSession(){
   }
   invites = Invites.all();
   showApp(); renderAll();
+  if(isAdmin()) refreshPending();
 }
 function applyEmbeddedInvite(){
   if(!window.__APP_INVITE) return;
@@ -802,6 +1233,9 @@ function applyEmbeddedInvite(){
   }
 }
 
+/* ============================================================================
+   РЕНДЕРИНГ
+   ============================================================================ */
 function renderAll(){
   if(!data) return;
   renderHeader(); renderGrades(); renderSchedule(); renderCabinet();
@@ -953,7 +1387,7 @@ function renderSchedule(){
   if(canEdit) initDragDrop();
 }
 
-/* Drag & Drop для расписания */
+/* Drag & Drop расписания */
 let dragLessonId = null;
 function initDragDrop(){
   const grid = $('schedule-grid');
@@ -1024,7 +1458,6 @@ function moveLesson(srcId, targetId, targetDay){
     if(tgtIdx >= 0) s.schedule.splice(tgtIdx, 0, lesson);
     else s.schedule.push(lesson);
   }else{
-    // Вставить в конец уроков этого дня
     let lastIdx = -1;
     s.schedule.forEach((l, i) => { if(l.day === targetDay) lastIdx = i; });
     if(lastIdx >= 0) s.schedule.splice(lastIdx + 1, 0, lesson);
@@ -1035,11 +1468,87 @@ function moveLesson(srcId, targetId, targetDay){
   renderAll();
 }
 
+/* ============================================================================
+   ЛИЧНЫЙ КАБИНЕТ
+   ============================================================================ */
+function filteredPending(){
+  if(pendingFilter === 'all') return pendingChanges;
+  if(pendingFilter === 'users') return pendingChanges.filter(c => c.type === 'new_student' || c.type === 'new_user' || c.type === 'password_reset');
+  if(pendingFilter === 'grades') return pendingChanges.filter(c => c.type === 'grade');
+  return pendingChanges;
+}
 function renderCabinet(){
   if(!data || !currentUser) return;
   const el = $('cabinet-content');
   const admin = isAdmin();
   const st = getCurrentStudent();
+
+  const list = filteredPending();
+  const cntAll = pendingChanges.length;
+  const cntUsers = pendingChanges.filter(c => c.type === 'new_student' || c.type === 'new_user' || c.type === 'password_reset').length;
+  const cntGrades = pendingChanges.filter(c => c.type === 'grade').length;
+
+  const pendingPanel = (admin && cntAll) ? `
+    <div class="pending-panel">
+      <h3>🔔 Заявки: ${cntAll}</h3>
+      <div class="pending-filter">
+        <button data-pfilter="all"    class="${pendingFilter==='all'?'active':''}">Все (${cntAll})</button>
+        <button data-pfilter="users"  class="${pendingFilter==='users'?'active':''}">👤 Пользователи (${cntUsers})</button>
+        <button data-pfilter="grades" class="${pendingFilter==='grades'?'active':''}">📝 Оценки (${cntGrades})</button>
+      </div>
+      ${list.length ? list.map(c => {
+        if(c.type === 'new_student'){
+          return `<div class="pending-item">
+            <div class="pending-head">🆕 Новый ученик</div>
+            <div class="pending-meta">от ${esc(c.studentEmail)} · ${esc(formatDate((c.timestamp||'').slice(0,10)))}</div>
+            <div class="pending-grade">ФИО: <b>${esc(c.studentName)}</b></div>
+            <div class="pending-actions">
+              <button class="ghost" data-approve="${esc(c.id)}">✅ Принять</button>
+              <button class="ghost" style="color:#ef4444" data-reject="${esc(c.id)}">✖ Отклонить</button>
+            </div>
+          </div>`;
+        }
+        if(c.type === 'new_user'){
+          return `<div class="pending-item">
+            <div class="pending-head">👤 Новый пользователь</div>
+            <div class="pending-meta">от ${esc(c.studentEmail)}</div>
+            <div class="pending-grade">ФИО: <b>${esc(c.studentName)}</b> · роль: ${esc(roleLabel((c.user||{}).role||'viewer'))}</div>
+            <div class="pending-actions">
+              <button class="ghost" data-approve="${esc(c.id)}">✅ Принять</button>
+              <button class="ghost" style="color:#ef4444" data-reject="${esc(c.id)}">✖ Отклонить</button>
+            </div>
+          </div>`;
+        }
+        if(c.type === 'password_reset'){
+          return `<div class="pending-item">
+            <div class="pending-head">🔑 Сброс пароля</div>
+            <div class="pending-meta">от ${esc(c.userEmail)} · ${esc(formatDate((c.timestamp||'').slice(0,10)))}</div>
+            <div class="pending-grade">Пользователь: <b>${esc(c.studentName || c.userEmail)}</b></div>
+            <div class="pending-actions">
+              <button class="ghost" data-approve="${esc(c.id)}">✅ Принять</button>
+              <button class="ghost" style="color:#ef4444" data-reject="${esc(c.id)}">✖ Отклонить</button>
+            </div>
+          </div>`;
+        }
+        const act = c.action === 'add' ? '➕ Новая оценка' :
+                    c.action === 'update' ? '✏️ Изменение оценки' : 'Изменение';
+        const g = c.grade || {};
+        return `<div class="pending-item">
+          <div class="pending-head">${act} — ${esc(c.subjectName)}</div>
+          <div class="pending-meta">от ${esc(c.studentEmail)} · ${esc(c.studentName || '?')}</div>
+          <div class="pending-grade">Оценка: <b style="font-size:15px">${esc(String(g.value ?? '—'))}</b>
+            ${g.type ? ' · ' + esc(g.type) : ''}${g.date ? ' · ' + esc(formatDate(g.date)) : ''}</div>
+          ${g.comment ? '<div class="small muted">💬 ' + esc(g.comment) + '</div>' : ''}
+          <div class="pending-actions">
+            <button class="ghost" data-approve="${esc(c.id)}">✅ Принять</button>
+            <button class="ghost" style="color:#ef4444" data-reject="${esc(c.id)}">✖ Отклонить</button>
+          </div>
+        </div>`;
+      }).join('') : '<p class="muted small" style="margin:0">В этой категории заявок нет.</p>'}
+      <div style="margin-top:8px">
+        <button id="refresh-pending-btn" class="ghost">🔄 Обновить</button>
+      </div>
+    </div>` : '';
 
   const profilePanel = `
     <div class="panel">
@@ -1124,6 +1633,7 @@ function renderCabinet(){
       </ul>
     </div>` : '';
   el.innerHTML = `
+    ${pendingPanel}
     <div class="cabinet-grid">
       <div class="cabinet-col">${profilePanel}${studentPanel}${publishPanel}${dataPanel}</div>
       <div class="cabinet-col">${catalogPanel}${statsPanel}${invitesPanel}</div>
@@ -1206,6 +1716,9 @@ function renderUsersTab(){
   `;
 }
 
+/* ============================================================================
+   МОДАЛЬНЫЕ ОКНА
+   ============================================================================ */
 function openModal(html){
   const root = $('modal-root');
   root.innerHTML = `<div class="modal-overlay"><div class="modal">${html}</div></div>`;
@@ -1256,13 +1769,30 @@ function openGradeModal(subjectId, gradeId){
       const s = currentData.students.find(x => x.id === st.id); if(!s) return closeModal();
       const subj = s.subjects.find(x => x.id === subjectId); if(!subj) return closeModal();
       subj.grades = subj.grades || [];
+      let savedGradeId;
       if(isNew){
-        subj.grades.push({ id: uid(), value, type, date, comment });
+        savedGradeId = uid();
+        subj.grades.push({ id: savedGradeId, value, type, date, comment });
       }else{
+        savedGradeId = gradeId;
         const g = subj.grades.find(x => x.id === gradeId);
         if(g){ g.value = value; g.type = type; g.date = date; g.comment = comment; }
       }
       DataStore.save(currentData); data = currentData; renderAll(); closeModal();
+      if(isStudentRole() && currentUser){
+        const change = { id: uid(), timestamp: new Date().toISOString(), type: 'grade',
+          studentEmail: currentUser.email, studentName: st.studentName, studentId: st.id,
+          status: 'pending', action: isNew ? 'add' : 'update',
+          subjectId: subject.id, subjectName: subject.name, gradeId: savedGradeId,
+          grade: { value, type, date, comment } };
+        try{
+          await submitChangeToPending(change);
+          if(!window.__pendingHintShown){
+            window.__pendingHintShown = true;
+            alert('📤 Изменение отправлено администратору на проверку.');
+          }
+        }catch(e){ alert('⚠️ Сохранено локально, но не отправлено: ' + e.message); }
+      }
     });
   }
   const delBtn = $('m-delete');
@@ -1326,6 +1856,9 @@ function openLessonModal(lessonId, day){
   }
 }
 
+/* ============================================================================
+   ДЕЙСТВИЯ С ДАННЫМИ
+   ============================================================================ */
 function addSubjectPrompt(){
   if(!isAdmin()) return;
   const st = getCurrentStudent(); if(!st) return;
@@ -1447,6 +1980,9 @@ function resetAll(){
   renderAll(); alert('Сброшено.');
 }
 
+/* ============================================================================
+   PDF-ТАБЕЛЬ
+   ============================================================================ */
 async function exportToPDF(){
   const st = getCurrentStudent();
   if(!st) return alert('Ученик не найден.');
@@ -1501,6 +2037,9 @@ async function exportToPDF(){
   finally{ document.body.removeChild(wrap); }
 }
 
+/* ============================================================================
+   ПОДСКАЗКИ
+   ============================================================================ */
 const tipEl = $('tooltip');
 let tipTimer = null;
 let longPressFired = false;
@@ -1544,11 +2083,15 @@ document.addEventListener('touchend', () => {
   if(longPressFired) setTimeout(hideTip, 1800);
 });
 
+/* ============================================================================
+   ГЛОБАЛЬНЫЕ ОБРАБОТЧИКИ
+   ============================================================================ */
 $('tabs').addEventListener('click', e => {
   const btn = e.target.closest('button[data-tab]'); if(!btn) return;
   document.querySelectorAll('nav.tabs button').forEach(b => b.classList.toggle('active', b === btn));
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   const panel = $('tab-' + btn.dataset.tab); if(panel) panel.classList.add('active');
+  if(btn.dataset.tab === 'cabinet' && isAdmin()) refreshPending();
   if(btn.dataset.tab === 'users' && isAdmin()) renderUsersTab();
 });
 $('grades-actions').addEventListener('click', e => {
@@ -1581,6 +2124,11 @@ $('schedule-grid').addEventListener('click', e => {
   if(lesson && canEditSchedule()) return openLessonModal(lesson.dataset.lesson, null);
 });
 $('cabinet-content').addEventListener('click', e => {
+  const pf = e.target.closest('[data-pfilter]');
+  if(pf){ pendingFilter = pf.dataset.pfilter; renderCabinet(); return; }
+  const appr = e.target.closest('[data-approve]'); if(appr) return approveChange(appr.dataset.approve);
+  const rej = e.target.closest('[data-reject]'); if(rej) return rejectChange(rej.dataset.reject);
+  if(e.target.closest('#refresh-pending-btn')) return refreshPending();
   if(e.target.closest('#catalog-add')) return addCatalogItem();
   const catDel = e.target.closest('[data-catalog-del]');
   if(catDel) return deleteCatalogItem(Number(catDel.dataset.catalogDel));
@@ -1593,6 +2141,7 @@ $('cabinet-content').addEventListener('click', e => {
     if(inv) return generateInviteFile(inv);
     return;
   }
+  if(e.target.closest('#publish-btn')) return publishToGitHub();
   if(e.target.closest('#sync-btn')) return syncFromGitHub();
   if(e.target.closest('#forget-token-btn')){
     if(confirm('Удалить токен?')){ localStorage.removeItem('gh_token'); alert('Удалён.'); }
@@ -1622,26 +2171,6 @@ $('cabinet-content').addEventListener('change', e => {
     if(currentUser.studentId === st.id) Users.update(currentUser.uid, { name: newName });
     renderAll();
   }
-  async function syncFromGitHub(){
-  if(!isAdmin()) return;
-  try{
-    const published = await loadPublishedData();
-    if(!published){ alert('Не удалось получить data.json с GitHub.'); return; }
-    const oldUsers = (data.users || []).length;
-    // Мержим локальное с удалённым, локальные приоритетнее
-    if(Array.isArray(published.users) && published.users.length){
-      const byEmail = {};
-      published.users.forEach(u => { byEmail[u.email] = u; });
-      (data.users || []).forEach(u => { byEmail[u.email] = u; });
-      published.users = Object.values(byEmail);
-    }
-    data = published;
-    DataStore.save(data);
-    Users.save(data.users || []);
-    renderAll();
-    alert('🔄 Данные обновлены с GitHub.\nПользователей: ' + oldUsers + ' → ' + (data.users || []).length);
-  }catch(e){ alert('Ошибка синхронизации: ' + e.message); }
-}
 });
 $('users-content').addEventListener('change', e => {
   const sel = e.target.closest('select[data-role-uid]'); if(!sel) return;
@@ -1675,6 +2204,9 @@ $('users-content').addEventListener('click', e => {
 window.addEventListener('scroll', hideTip, { passive: true });
 window.addEventListener('resize', hideTip);
 
+/* ============================================================================
+   СТАРТ
+   ============================================================================ */
 bootSession();
 </script>
 </body>
