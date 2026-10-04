@@ -225,7 +225,15 @@
         {
           "id": "unzlxygo",
           "name": "Биология",
-          "grades": []
+          "grades": [
+            {
+              "id": "mutz1gcq38xwme",
+              "value": 9,
+              "type": "Другое",
+              "date": "2026-10-04",
+              "comment": ""
+            }
+          ]
         },
         {
           "id": "mts1xqgs",
@@ -535,5 +543,5 @@
     }
   ],
   "deletedEmails": [],
-  "publishedAt": "2026-10-04T15:23:55.885Z"
+  "publishedAt": "2026-10-04T15:24:14.190Z"
 }
