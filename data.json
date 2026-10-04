@@ -73,13 +73,13 @@
         {
           "id": "muub3h4u6ztqu1u",
           "name": "Физкультура",
-          "order": 11,
+          "order": 12,
           "grades": []
         },
         {
           "id": "muub4260342y8rz",
           "name": "Обществоведение",
-          "order": 12,
+          "order": 11,
           "grades": []
         }
       ],
@@ -101,7 +101,7 @@
       ],
       "createdBy": "self",
       "createdAt": "2026-10-04T20:04:07.276Z",
-      "updatedAt": "2026-10-04T21:02:10.680Z"
+      "updatedAt": "2026-10-04T21:02:13.850Z"
     }
   ],
   "users": [
@@ -130,5 +130,5 @@
   ],
   "deletedEmails": [],
   "invites": [],
-  "publishedAt": "2026-10-04T21:02:12.803Z"
+  "publishedAt": "2026-10-04T21:02:15.901Z"
 }
