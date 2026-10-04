@@ -115,20 +115,11 @@
       "passwordHash": "6b76ad10ed5efb8fe5460703a99a46625a5018aff23b7f3bb4ca58c5db77786c",
       "createdAt": "2026-10-04T20:04:07.276Z",
       "updatedAt": "2026-10-04T20:04:07.276Z"
-    },
-    {
-      "uid": "super_admin",
-      "email": "superadmin@example.com",
-      "name": "Супер-администратор",
-      "studentId": null,
-      "createdAt": "2026-10-04T20:05:00.157Z",
-      "role": "student",
-      "salt": "school_salt_superadmin_v1",
-      "passwordHash": "dd6efde15a35848a186eb7facfc08a1e8e3165f30fad07a689f11a6df41fd6a9",
-      "updatedAt": "2026-10-04T21:14:02.301Z"
     }
   ],
-  "deletedEmails": [],
+  "deletedEmails": [
+    "superadmin@example.com"
+  ],
   "invites": [],
-  "publishedAt": "2026-10-04T21:14:07.971Z"
+  "publishedAt": "2026-10-04T21:14:38.197Z"
 }
