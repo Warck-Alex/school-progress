@@ -352,14 +352,7 @@ body.dark .auth-card{background:#1e2231;color:var(--text)}
 <div id="modal-root"></div>
 
 <script>
-/* ============================================================================
-   СНИМОК HTML (для генерации файла-приглашения)
-   ============================================================================ */
 const APP_HTML_SNAPSHOT = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
-
-/* ============================================================================
-   ЛОКАЛЬНОЕ ХРАНИЛИЩЕ
-   ============================================================================ */
 const LS_PREFIX = 'schoolApp_v3_';
 const DB = {
   read(key, def){
@@ -372,9 +365,6 @@ const DB = {
   }
 };
 
-/* ============================================================================
-   EMAILJS
-   ============================================================================ */
 const EMAILJS = {
   serviceId:  'service_xxx',
   templateId: 'template_xxx',
@@ -386,11 +376,7 @@ function emailJsEnabled(){
          EMAILJS.publicKey  && EMAILJS.publicKey  !== 'xxxxxxxxxxxxxxx';
 }
 
-/* ============================================================================
-   GITHUB
-   ============================================================================ */
-const ADMIN_EMAIL = 'warck@mail.ru';    // ⚠️ этот email всегда = админ
-
+const ADMIN_EMAIL = 'warck@mail.ru';
 const GH_OWNER = 'Warck-Alex';
 const GH_REPO  = 'school-progress';
 const GH_FILE  = 'data.json';
@@ -400,27 +386,18 @@ const GH_PENDING = {
   owner: 'Warck-Alex',
   repo:  'school-pending',
   file:  'pending.json',
-  token: 'github_pat_ВСТАВЬТЕ_СЮДА_ТОКЕН'   // ⚠️ student-token
+  token: 'github_pat_ВСТАВЬТЕ_СЮДА_ТОКЕН'
 };
-/* ============================================================================
-   УВЕДОМЛЕНИЯ АДМИНУ
-   ============================================================================
-   Telegram (опционально):
-   1. Откройте @BotFather в Telegram → /newbot → получите токен бота.
-   2. Напишите боту что угодно. Откройте https://api.telegram.org/bot<ТОКЕН>/getUpdates
-      и найдите chat_id. Вставьте ниже.
-   3. Все уведомления будут приходить в этот чат.
-   ============================================================================ */
+
+/* Уведомления */
 const NOTIFY = {
-  pollInterval: 20000,   // как часто проверять pending (мс)
-  telegramBot:  '8816000161:AAHRSrHBoYeMA9IBLquW8ZWFnxyDs9gZAjQ',      // токен бота, например '123456:ABC-DEF...'
-  telegramChat: '778769416'       // ваш chat_id, например '123456789'
+  pollInterval: 20000,
+  telegramBot:  '',
+  telegramChat: ''
 };
 let notifyTimer = null;
 let lastSeenPendingIds = new Set();
-/* ============================================================================
-   КОНСТАНТЫ
-   ============================================================================ */
+
 const DAYS = ['Понедельник','Вторник','Среда','Четверг','Пятница','Суббота'];
 const GRADE_TYPES = [
   { name:'Контрольная работа',    short:'КР'    },
@@ -442,9 +419,6 @@ const GRADE_COLORS = {
   6:'#84cc16', 7:'#22c55e', 8:'#16a34a', 9:'#15803d', 10:'#2563eb'
 };
 
-/* ============================================================================
-   СОСТОЯНИЕ
-   ============================================================================ */
 let currentUser = null;
 let currentStudentId = null;
 let data = null;
@@ -452,9 +426,6 @@ let invites = [];
 let pendingChanges = [];
 let pendingFilter = 'all';
 
-/* ============================================================================
-   УТИЛИТЫ
-   ============================================================================ */
 const $ = id => document.getElementById(id);
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g,
   c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -494,9 +465,6 @@ const canEditSchedule = () => isAdmin() || isStudentRole();
 const canPublish    = () => isAdmin();
 const roleLabel = r => ({admin:'Администратор', student:'Ученик', viewer:'Наблюдатель'}[r] || r);
 
-/* ============================================================================
-   ТЕМА
-   ============================================================================ */
 function applyTheme(){
   const t = DB.read('theme', 'light');
   if(t === 'dark') document.body.classList.add('dark');
@@ -510,9 +478,6 @@ $('theme-btn').addEventListener('click', () => {
   applyTheme();
 });
 
-/* ============================================================================
-   СТРУКТУРЫ
-   ============================================================================ */
 function defaultStudent(name){
   return { id: uid(), studentName: name || '', subjects: [], schedule: [],
     catalog: DEFAULT_CATALOG.slice(), members: [], createdAt: new Date().toISOString() };
@@ -557,9 +522,6 @@ function overallGpa(){
   return n ? sum / n : null;
 }
 
-/* ============================================================================
-   ПАРОЛЬ
-   ============================================================================ */
 function randomSalt(){
   const arr = new Uint8Array(16);
   (window.crypto || {}).getRandomValues
@@ -578,9 +540,6 @@ async function hashPassword(password, salt){
   return 'fb_' + Math.abs(h).toString(16);
 }
 
-/* ============================================================================
-   EMAILJS
-   ============================================================================ */
 async function sendCodeEmail(toEmail, code, purpose){
   if(!emailJsEnabled()) return true;
   try{
@@ -607,9 +566,6 @@ async function sendCodeEmail(toEmail, code, purpose){
   }
 }
 
-/* ============================================================================
-   КОЛЛЕКЦИИ
-   ============================================================================ */
 const Users = {
   all: () => DB.read('users', []),
   save: (list) => DB.write('users', list),
@@ -639,9 +595,6 @@ const Session = {
   clear: () => DB.write('session', null)
 };
 
-/* ============================================================================
-   GITHUB API
-   ============================================================================ */
 function decodeBase64(str){
   str = String(str || '').replace(/\s+/g, '');
   try{ return decodeURIComponent(escape(atob(str))); }
@@ -656,15 +609,13 @@ async function loadPublishedData(){
   }catch(e){ console.warn('data.json недоступен:', e); return null; }
 }
 
-/* Токен публикации — запрашиваем один раз на устройстве */
 async function ensurePublishToken(){
   let token = localStorage.getItem('gh_token');
   if(token) return token;
   token = prompt(
     'Введите GitHub токен для публикации данных.\n\n' +
-    '• Если вы администратор — создайте на github.com/settings/tokens?type=beta\n' +
-    '  Права: Contents → Read and write для репозитория school-progress\n\n' +
-    '• Если вы ученик — попросите токен у администратора.\n' +
+    'Создать: github.com/settings/tokens?type=beta\n' +
+    'Права: Contents → Read and write для school-progress\n\n' +
     'Токен сохранится только на этом устройстве.'
   );
   if(!token) return null;
@@ -673,7 +624,6 @@ async function ensurePublishToken(){
   return token;
 }
 
-/* Тихая публикация — без confirm, для автосинхронизации */
 async function publishToGitHubSilent(){
   if(!canPublish()) return false;
   const token = localStorage.getItem('gh_token');
@@ -743,12 +693,10 @@ async function syncFromGitHub(){
     if(!published){ alert('Не удалось получить data.json с GitHub.'); return; }
     const deleted = new Set(published.deletedEmails || []);
     const oldUsers = (data.users || []).length;
-    // Мержим: удалённые из blacklist исключаются, остальные объединяются
     const byEmail = {};
     (published.users || []).forEach(u => { if(u && u.email && !deleted.has(u.email)) byEmail[u.email] = u; });
     (data.users || []).forEach(u => { if(u && u.email && !deleted.has(u.email)) byEmail[u.email] = u; });
     published.users = Object.values(byEmail);
-    // Локальные deletedEmails тоже сохраняем
     const localDeleted = new Set(data.deletedEmails || []);
     published.deletedEmails = Array.from(new Set([...deleted, ...localDeleted]));
     data = published;
@@ -759,9 +707,6 @@ async function syncFromGitHub(){
   }catch(e){ alert('Ошибка синхронизации: ' + e.message); }
 }
 
-/* ============================================================================
-   PENDING
-   ============================================================================ */
 async function fetchPending(){
   const url = `https://api.github.com/repos/${GH_PENDING.owner}/${GH_PENDING.repo}/contents/${GH_PENDING.file}`;
   const res = await fetch(url, { headers: {
@@ -792,62 +737,26 @@ async function submitChangeToPending(change){
   if(idx >= 0) list[idx] = change; else list.push(change);
   await pushPending(list, sha);
 }
-async function refreshPending(){
-  if(!isAdmin()) return;
-  try{
-    const { list } = await fetchPending();
-    pendingChanges = list.filter(x => x.status === 'pending');
-    // Ищем новые (которых не было в прошлый раз)
-    const newOnes = pendingChanges.filter(c => !lastSeenPendingIds.has(c.id));
-    if(newOnes.length && lastSeenPendingIds.size > 0){
-      newOnes.forEach(c => {
-        const who = c.studentName || c.studentEmail || 'кто-то';
-        const what =
-          c.type === 'new_student'   ? '🆕 Зарегистрировался новый ученик' :
-          c.type === 'new_user'      ? '👤 Новый пользователь' :
-          c.type === 'password_reset'? '🔑 Сброс пароля' :
-          c.action === 'add'         ? '➕ Новая оценка' :
-          c.action === 'update'      ? '✏️ Изменение оценки' :
-          c.action === 'delete'      ? '🗑️ Удаление оценки' : '📝 Изменение';
-        notifyAdmin('Новая заявка', `${what}\nот ${who}`);
-      });
-    }
-    lastSeenPendingIds = new Set(pendingChanges.map(c => c.id));
-    updatePendingBadge();
-    if($('tab-cabinet').classList.contains('active')) renderCabinet();
-  }catch(e){
-    console.warn('Pending недоступен:', e);
-    pendingChanges = []; updatePendingBadge();
-  }
-}
+
 function requestNotifyPermission(){
   if(!('Notification' in window)) return;
   if(Notification.permission === 'default'){
     Notification.requestPermission().catch(()=>{});
   }
 }
-
 function notifyAdmin(title, body){
-  // 1. Браузерное уведомление
   try{
     if('Notification' in window && Notification.permission === 'granted'){
       new Notification(title, { body: body });
     }
   }catch(e){ console.warn('Browser notify:', e); }
-
-  // 2. Telegram (если настроен)
   if(NOTIFY.telegramBot && NOTIFY.telegramChat){
     fetch(`https://api.telegram.org/bot${NOTIFY.telegramBot}/sendMessage`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id: NOTIFY.telegramChat,
-        text: title + '\n\n' + body
-      })
+      body: JSON.stringify({ chat_id: NOTIFY.telegramChat, text: title + '\n\n' + body })
     }).catch(e => console.warn('Telegram:', e));
   }
-
-  // 3. Звуковой сигнал
   try{
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
     const osc = ctx.createOscillator();
@@ -859,7 +768,6 @@ function notifyAdmin(title, body){
     osc.stop(ctx.currentTime + 0.15);
   }catch(e){}
 }
-
 function startPendingPolling(){
   if(notifyTimer) clearInterval(notifyTimer);
   if(!isAdmin()) return;
@@ -870,9 +778,37 @@ function startPendingPolling(){
     refreshPending();
   }, NOTIFY.pollInterval);
 }
-
 function stopPendingPolling(){
   if(notifyTimer){ clearInterval(notifyTimer); notifyTimer = null; }
+}
+
+async function refreshPending(){
+  if(!isAdmin()) return;
+  try{
+    const { list } = await fetchPending();
+    pendingChanges = list.filter(x => x.status === 'pending');
+    const newOnes = pendingChanges.filter(c => !lastSeenPendingIds.has(c.id));
+    if(newOnes.length && lastSeenPendingIds.size > 0){
+      newOnes.forEach(c => {
+        const who = c.studentName || c.studentEmail || 'кто-то';
+        const what =
+          c.type === 'new_student'   ? '🆕 Зарегистрировался новый ученик' :
+          c.type === 'new_user'      ? '👤 Новый пользователь' :
+          c.type === 'password_reset'? '🔑 Сброс пароля' :
+          c.action === 'add'         ? '➕ Новая оценка' :
+          c.action === 'update'      ? '✏️ Изменение оценки' :
+          c.action === 'delete'      ? '🗑️ Удаление оценки' :
+          c.type === 'schedule'      ? '📅 Изменение расписания' : '📝 Изменение';
+        notifyAdmin('Новая заявка', `${what}\nот ${who}`);
+      });
+    }
+    lastSeenPendingIds = new Set(pendingChanges.map(c => c.id));
+    updatePendingBadge();
+    if($('tab-cabinet').classList.contains('active')) renderCabinet();
+  }catch(e){
+    console.warn('Pending недоступен:', e);
+    pendingChanges = []; updatePendingBadge();
+  }
 }
 function updatePendingBadge(){
   const btn = document.querySelector('nav.tabs button[data-tab="cabinet"]');
@@ -928,6 +864,18 @@ async function approveChange(changeId){
         await removePendingItem(changeId);
         return;
       }
+    }else if(change.type === 'schedule'){
+      const st = data.students.find(s => s.id === change.studentId);
+      if(!st){ alert('Ученик не найден'); return; }
+      st.schedule = st.schedule || [];
+      if(change.action === 'add'){
+        if(!st.schedule.find(l => l.id === change.lessonId))
+          st.schedule.push(Object.assign({ id: change.lessonId || uid() }, change.lesson));
+      }else{
+        const l = st.schedule.find(x => x.id === change.lessonId);
+        if(l) Object.assign(l, change.lesson);
+        else st.schedule.push(Object.assign({ id: change.lessonId || uid() }, change.lesson));
+      }
     }else{
       const st = data.students.find(s => s.id === change.studentId);
       if(!st){ alert('Ученик не найден'); return; }
@@ -971,17 +919,12 @@ async function rejectChange(changeId){
   }catch(e){ alert('Не удалось отклонить: ' + e.message); }
 }
 
-/* ============================================================================
-   ВЕРИФИКАЦИЯ
-   ============================================================================ */
 function generateCode(){
   return String(Math.floor(100 + Math.random() * 900));
 }
 function saveVerification(email, code, purpose){
   DB.write('verify_' + purpose, {
-    email, code,
-    expiresAt: Date.now() + 10 * 60 * 1000,
-    attempts: 0
+    email, code, expiresAt: Date.now() + 10 * 60 * 1000, attempts: 0
   });
 }
 function getVerification(purpose){
@@ -990,13 +933,8 @@ function getVerification(purpose){
   if(Date.now() > v.expiresAt){ DB.write('verify_' + purpose, null); return null; }
   return v;
 }
-function clearVerification(purpose){
-  DB.write('verify_' + purpose, null);
-}
+function clearVerification(purpose){ DB.write('verify_' + purpose, null); }
 
-/* ============================================================================
-   АВТОРИЗАЦИЯ
-   ============================================================================ */
 async function register(email, password, studentName){
   email = String(email).trim().toLowerCase();
   if(!email || email.indexOf('@') < 0) throw new Error('Некорректный email');
@@ -1025,7 +963,6 @@ async function register(email, password, studentName){
   const user = { uid: uid(), email, name: studentName, role,
     studentId: student.id, salt, passwordHash, createdAt: new Date().toISOString() };
 
-  // Убираем старую запись с тем же email и из blacklist
   Users.save(Users.all().filter(u => u.email !== email).concat([user]));
   data.users = (data.users || []).filter(u => u.email !== email).concat([user]);
   data.deletedEmails = (data.deletedEmails || []).filter(e => e !== email);
@@ -1037,7 +974,6 @@ async function register(email, password, studentName){
   Session.set(user.uid);
   currentStudentId = student.id;
 
-  // Отправляем заявку админу (для истории)
   try{
     await submitChangeToPending({
       id: uid(), timestamp: new Date().toISOString(),
@@ -1048,11 +984,9 @@ async function register(email, password, studentName){
     });
   }catch(e){ console.warn('Заявка не отправлена:', e); }
 
-  // Автопубликация — только для админа
   if(isAdmin() && localStorage.getItem('gh_token')){
     setTimeout(() => publishToGitHubSilent(), 100);
   }
-
   return { user, isNewStudent };
 }
 
@@ -1204,7 +1138,7 @@ $('forgot-link').addEventListener('click', async () => {
           userEmail: emailNorm,
           newSalt: newSalt, newPasswordHash: newHash
         });
-        alert('✅ Пароль изменён.\n\nАдминистратор получил уведомление.');
+        alert('✅ Пароль изменён.');
       }catch(e){
         alert('⚠️ Пароль изменён локально, но заявка не отправлена: ' + e.message);
       }
@@ -1226,7 +1160,7 @@ function openCodeModal(email, purpose, title, devCode, onVerify){
     <p class="muted small" style="margin:0 0 12px">
       ${isDev
         ? `Введите код, показанный ниже, для <b>${esc(email)}</b>.`
-        : `Мы отправили 3-значный код на <b>${esc(email)}</b>.<br>Введите его ниже. Код действует 10 минут.`}
+        : `Мы отправили 3-значный код на <b>${esc(email)}</b>.`}
     </p>
     ${devHint}
     <input id="code-input" class="code-input" maxlength="3" inputmode="numeric"
@@ -1268,9 +1202,6 @@ function openCodeModal(email, purpose, title, devCode, onVerify){
   }
 }
 
-/* ============================================================================
-   СТАРТ
-   ============================================================================ */
 async function bootSession(){
   applyTheme();
   const published = await loadPublishedData();
@@ -1278,7 +1209,6 @@ async function bootSession(){
     const deleted = new Set(published.deletedEmails || []);
     const localUsers = Users.all();
     const remoteUsers = published.users || [];
-    // Мержим, исключая blacklist
     const byEmail = {};
     remoteUsers.forEach(u => { if(u && u.email && !deleted.has(u.email)) byEmail[u.email] = u; });
     localUsers.forEach(u => { if(u && u.email && !deleted.has(u.email)) byEmail[u.email] = u; });
@@ -1336,9 +1266,6 @@ function applyEmbeddedInvite(){
   }
 }
 
-/* ============================================================================
-   РЕНДЕР
-   ============================================================================ */
 function renderAll(){
   if(!data) return;
   renderHeader(); renderGrades(); renderSchedule(); renderCabinet();
@@ -1564,16 +1491,13 @@ function moveLesson(srcId, targetId, targetDay){
   DataStore.save(currentData);
   data = currentData;
   renderAll();
-  if(localStorage.getItem('gh_token')) setTimeout(() => publishToGitHubSilent(), 100);
+  if(isAdmin() && localStorage.getItem('gh_token')) setTimeout(() => publishToGitHubSilent(), 100);
 }
 
-/* ============================================================================
-   ЛИЧНЫЙ КАБИНЕТ
-   ============================================================================ */
 function filteredPending(){
   if(pendingFilter === 'all') return pendingChanges;
   if(pendingFilter === 'users') return pendingChanges.filter(c => c.type === 'new_student' || c.type === 'new_user' || c.type === 'password_reset');
-  if(pendingFilter === 'grades') return pendingChanges.filter(c => c.type === 'grade');
+  if(pendingFilter === 'grades') return pendingChanges.filter(c => c.type === 'grade' || c.type === 'schedule');
   return pendingChanges;
 }
 function renderCabinet(){
@@ -1585,7 +1509,7 @@ function renderCabinet(){
   const list = filteredPending();
   const cntAll = pendingChanges.length;
   const cntUsers = pendingChanges.filter(c => c.type === 'new_student' || c.type === 'new_user' || c.type === 'password_reset').length;
-  const cntGrades = pendingChanges.filter(c => c.type === 'grade').length;
+  const cntGrades = pendingChanges.filter(c => c.type === 'grade' || c.type === 'schedule').length;
 
   const pendingPanel = (admin && cntAll) ? `
     <div class="pending-panel">
@@ -1611,6 +1535,18 @@ function renderCabinet(){
           return `<div class="pending-item">
             <div class="pending-head">🔑 Сброс пароля</div>
             <div class="pending-meta">от ${esc(c.userEmail)}</div>
+            <div class="pending-actions">
+              <button class="ghost" data-approve="${esc(c.id)}">✅ Принять</button>
+              <button class="ghost" style="color:#ef4444" data-reject="${esc(c.id)}">✖ Отклонить</button>
+            </div>
+          </div>`;
+        }
+        if(c.type === 'schedule'){
+          const l = c.lesson || {};
+          return `<div class="pending-item">
+            <div class="pending-head">📅 ${c.action === 'add' ? 'Новый урок' : 'Изменение урока'}</div>
+            <div class="pending-meta">от ${esc(c.studentEmail)} · ${esc(c.studentName || '?')}</div>
+            <div class="pending-grade">${esc(l.subject || '?')} · ${esc(l.day || '')} · ${esc(l.time || '')}</div>
             <div class="pending-actions">
               <button class="ghost" data-approve="${esc(c.id)}">✅ Принять</button>
               <button class="ghost" style="color:#ef4444" data-reject="${esc(c.id)}">✖ Отклонить</button>
@@ -1798,13 +1734,9 @@ function renderUsersTab(){
         </tbody>
       </table>
     </div>
-    <p class="muted small" style="margin-top:10px">Удаление вступает в силу немедленно (при наличии токена публикации). Удалённые пользователи не вернутся.</p>
   `;
 }
 
-/* ============================================================================
-   МОДАЛЬНЫЕ ОКНА
-   ============================================================================ */
 function openModal(html){
   const root = $('modal-root');
   root.innerHTML = `<div class="modal-overlay"><div class="modal">${html}</div></div>`;
@@ -1865,11 +1797,9 @@ function openGradeModal(subjectId, gradeId){
         if(g){ g.value = value; g.type = type; g.date = date; g.comment = comment; }
       }
       DataStore.save(currentData); data = currentData; renderAll(); closeModal();
-          // Автопубликация — только для админа
       if(isAdmin() && localStorage.getItem('gh_token')){
         setTimeout(() => publishToGitHubSilent(), 100);
       }
-      // Ученик — отправляет заявку админу
       if(isStudentRole() && currentUser){
         const change = { id: uid(), timestamp: new Date().toISOString(), type: 'grade',
           studentEmail: currentUser.email, studentName: st.studentName, studentId: st.id,
@@ -1880,36 +1810,34 @@ function openGradeModal(subjectId, gradeId){
           await submitChangeToPending(change);
           alert('📤 Заявка отправлена администратору.\n\nОценка появится у всех после одобрения.');
         }catch(e){
-          alert('⚠️ Не удалось отправить заявку администратору:\n' + e.message +
-                '\n\nОценка сохранена только на этом устройстве.');
+          alert('⚠️ Не удалось отправить заявку администратору:\n' + e.message);
         }
       }
     });
   }
   const delBtn = $('m-delete');
   if(delBtn){
-    delBtn.addEventListener('click', () => {
+    delBtn.addEventListener('click', async () => {
       if(!confirm('Удалить эту оценку?')) return;
       const currentData = DataStore.get();
       const s = currentData.students.find(x => x.id === st.id); if(!s) return closeModal();
       const subj = s.subjects.find(x => x.id === subjectId); if(!subj) return closeModal();
       subj.grades = (subj.grades || []).filter(g => g.id !== gradeId);
-    DataStore.save(currentData); data = currentData; renderAll(); closeModal();
-    if(isAdmin() && localStorage.getItem('gh_token')) setTimeout(() => publishToGitHubSilent(), 100);
-    if(isStudentRole() && currentUser){
-      try{
-        await submitChangeToPending({
-          id: uid(), timestamp: new Date().toISOString(), type: 'schedule',
-          status: 'pending', action: isNew ? 'add' : 'update',
-          studentEmail: currentUser.email, studentName: st.studentName, studentId: st.id,
-          lessonId: lessonId || null, lesson: payload
-        });
-        alert('📤 Заявка на изменение расписания отправлена администратору.');
-      }catch(e){
-        alert('⚠️ Расписание сохранено локально, но заявка не отправлена:\n' + e.message);
+      DataStore.save(currentData); data = currentData; renderAll(); closeModal();
+      if(isAdmin() && localStorage.getItem('gh_token')) setTimeout(() => publishToGitHubSilent(), 100);
+      if(isStudentRole() && currentUser){
+        try{
+          await submitChangeToPending({
+            id: uid(), timestamp: new Date().toISOString(), type: 'grade',
+            status: 'pending', action: 'delete',
+            studentEmail: currentUser.email, studentName: st.studentName, studentId: st.id,
+            subjectId: subject.id, subjectName: subject.name, gradeId: gradeId,
+            grade: null
+          });
+          alert('📤 Заявка на удаление отправлена администратору.');
+        }catch(e){ alert('⚠️ Не удалось отправить заявку: ' + e.message); }
       }
-    }
-  });
+    });
   }
 }
 
@@ -1945,10 +1873,28 @@ function openLessonModal(lessonId, day){
     const currentData = DataStore.get();
     const s = currentData.students.find(x => x.id === st.id); if(!s) return closeModal();
     s.schedule = s.schedule || [];
-    if(isNew) s.schedule.push(Object.assign({ id: uid() }, payload));
-    else{ const l = s.schedule.find(x => x.id === lessonId); if(l) Object.assign(l, payload); }
+    let savedLessonId;
+    if(isNew){ savedLessonId = uid(); s.schedule.push(Object.assign({ id: savedLessonId }, payload)); }
+    else{
+      savedLessonId = lessonId;
+      const l = s.schedule.find(x => x.id === lessonId);
+      if(l) Object.assign(l, payload);
+    }
     DataStore.save(currentData); data = currentData; renderAll(); closeModal();
-    if(localStorage.getItem('gh_token')) setTimeout(() => publishToGitHubSilent(), 100);
+    if(isAdmin() && localStorage.getItem('gh_token')) setTimeout(() => publishToGitHubSilent(), 100);
+    if(isStudentRole() && currentUser){
+      try{
+        await submitChangeToPending({
+          id: uid(), timestamp: new Date().toISOString(), type: 'schedule',
+          status: 'pending', action: isNew ? 'add' : 'update',
+          studentEmail: currentUser.email, studentName: st.studentName, studentId: st.id,
+          lessonId: savedLessonId, lesson: payload
+        });
+        alert('📤 Заявка на изменение расписания отправлена администратору.');
+      }catch(e){
+        alert('⚠️ Расписание сохранено локально, но заявка не отправлена:\n' + e.message);
+      }
+    }
   });
   const delBtn = $('m-delete');
   if(delBtn){
@@ -1958,14 +1904,11 @@ function openLessonModal(lessonId, day){
       const s = currentData.students.find(x => x.id === st.id); if(!s) return closeModal();
       s.schedule = (s.schedule || []).filter(l => l.id !== lessonId);
       DataStore.save(currentData); data = currentData; renderAll(); closeModal();
-      if(localStorage.getItem('gh_token')) setTimeout(() => publishToGitHubSilent(), 100);
+      if(isAdmin() && localStorage.getItem('gh_token')) setTimeout(() => publishToGitHubSilent(), 100);
     });
   }
 }
 
-/* ============================================================================
-   ДЕЙСТВИЯ
-   ============================================================================ */
 function addSubjectPrompt(){
   if(!isAdmin()) return;
   const st = getCurrentStudent(); if(!st) return;
@@ -1984,13 +1927,13 @@ function addSubjectPrompt(){
     </div>
   `);
   $('m-cancel').addEventListener('click', closeModal);
-  $('m-save').addEventListener('click', async () => {
+  $('m-save').addEventListener('click', () => {
     const name = $('m-subject-catalog').value; if(!name) return closeModal();
     const currentData = DataStore.get();
     const s = currentData.students.find(x => x.id === st.id); if(!s) return closeModal();
     s.subjects = s.subjects || []; s.subjects.push({ id: uid(), name, grades: [] });
     DataStore.save(currentData); data = currentData; renderAll(); closeModal();
-    if(localStorage.getItem('gh_token')) setTimeout(() => publishToGitHubSilent(), 100);
+    if(isAdmin() && localStorage.getItem('gh_token')) setTimeout(() => publishToGitHubSilent(), 100);
   });
 }
 function deleteSubject(subjectId){
@@ -2002,7 +1945,7 @@ function deleteSubject(subjectId){
   const s = currentData.students.find(x => x.id === st.id);
   s.subjects = s.subjects.filter(x => x.id !== subjectId);
   DataStore.save(currentData); data = currentData; renderAll();
-  if(localStorage.getItem('gh_token')) setTimeout(() => publishToGitHubSilent(), 100);
+  if(isAdmin() && localStorage.getItem('gh_token')) setTimeout(() => publishToGitHubSilent(), 100);
 }
 function addCatalogItem(){
   if(!isAdmin() && !isStudentRole()) return;
@@ -2033,7 +1976,7 @@ function inviteUser(){
   Invites.add({ id: uid(), email, role: role_, invitedBy: currentUser.email });
   invites = Invites.all();
   $('invite-email').value = '';
-   renderCabinet();
+  renderCabinet();
 }
 function deleteInvite(id){
   if(!isAdmin()) return;
@@ -2088,9 +2031,6 @@ function resetAll(){
   renderAll(); alert('Сброшено.');
 }
 
-/* ============================================================================
-   PDF
-   ============================================================================ */
 async function exportToPDF(){
   const st = getCurrentStudent();
   if(!st) return alert('Ученик не найден.');
@@ -2143,9 +2083,6 @@ async function exportToPDF(){
   finally{ document.body.removeChild(wrap); }
 }
 
-/* ============================================================================
-   ПОДСКАЗКИ
-   ============================================================================ */
 const tipEl = $('tooltip');
 let tipTimer = null;
 let longPressFired = false;
@@ -2189,9 +2126,6 @@ document.addEventListener('touchend', () => {
   if(longPressFired) setTimeout(hideTip, 1800);
 });
 
-/* ============================================================================
-   ОБРАБОТЧИКИ
-   ============================================================================ */
 $('tabs').addEventListener('click', e => {
   const btn = e.target.closest('button[data-tab]'); if(!btn) return;
   document.querySelectorAll('nav.tabs button').forEach(b => b.classList.toggle('active', b === btn));
@@ -2277,10 +2211,10 @@ $('cabinet-content').addEventListener('change', e => {
     DataStore.save(currentData); data = currentData;
     if(currentUser.studentId === st.id) Users.update(currentUser.uid, { name: newName });
     renderAll();
-    if(localStorage.getItem('gh_token')) setTimeout(() => publishToGitHubSilent(), 100);
+    if(isAdmin() && localStorage.getItem('gh_token')) setTimeout(() => publishToGitHubSilent(), 100);
   }
 });
-$('users-content').addEventListener('change', e => {
+$('users-content').addEventListener('change', async e => {
   const sel = e.target.closest('select[data-role-uid]'); if(!sel) return;
   const uid_ = sel.dataset.roleUid; const newRole = sel.value;
   if(!isAdmin()) return;
@@ -2291,7 +2225,7 @@ $('users-content').addEventListener('change', e => {
   if(data.users){ const du = data.users.find(x => x.uid === uid_); if(du) du.role = newRole; }
   DataStore.save(data);
   renderUsersTab();
-  if(localStorage.getItem('gh_token')) setTimeout(() => publishToGitHubSilent(), 100);
+  if(localStorage.getItem('gh_token')) await publishToGitHubSilent();
 });
 $('users-content').addEventListener('click', async e => {
   const del = e.target.closest('[data-del-user]'); if(!del) return;
@@ -2304,15 +2238,12 @@ $('users-content').addEventListener('click', async e => {
   if(u.role === 'admin' && adminsCount === 1) return alert('Нельзя удалить последнего админа.');
   if(!confirm('Удалить ' + u.email + '?\n\nПользователь больше никогда не сможет войти.')) return;
   const deletedEmail = u.email;
-  // Добавляем в blacklist — чтобы не вернулся при синхронизации
   data.deletedEmails = data.deletedEmails || [];
   if(!data.deletedEmails.includes(deletedEmail)) data.deletedEmails.push(deletedEmail);
-  // Удаляем из локального и из data
   Users.remove(uid_);
   if(data.users) data.users = data.users.filter(x => x.uid !== uid_);
   DataStore.save(data);
   renderUsersTab();
-  // Автопубликация
   if(localStorage.getItem('gh_token')){
     const ok = await publishToGitHubSilent();
     if(ok) alert('✅ Пользователь удалён и данные опубликованы.');
@@ -2324,9 +2255,6 @@ $('users-content').addEventListener('click', async e => {
 window.addEventListener('scroll', hideTip, { passive: true });
 window.addEventListener('resize', hideTip);
 
-/* ============================================================================
-   СТАРТ
-   ============================================================================ */
 bootSession();
 </script>
 </body>
