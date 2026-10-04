@@ -181,6 +181,13 @@
               "type": "",
               "date": "2026-09-29",
               "comment": ""
+            },
+            {
+              "id": "mutz12bim34kl3",
+              "value": 8,
+              "type": "Другое",
+              "date": "2026-10-04",
+              "comment": ""
             }
           ]
         },
@@ -528,5 +535,5 @@
     }
   ],
   "deletedEmails": [],
-  "publishedAt": "2026-10-04T15:23:34.724Z"
+  "publishedAt": "2026-10-04T15:23:55.885Z"
 }
