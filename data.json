@@ -63,6 +63,12 @@
           "name": "География",
           "order": 9,
           "grades": []
+        },
+        {
+          "id": "muub3eyibh52r60",
+          "name": "Биология",
+          "order": 10,
+          "grades": []
         }
       ],
       "schedule": [],
@@ -82,7 +88,7 @@
       ],
       "createdBy": "self",
       "createdAt": "2026-10-04T20:04:07.276Z",
-      "updatedAt": "2026-10-04T21:01:37.762Z"
+      "updatedAt": "2026-10-04T21:01:40.602Z"
     }
   ],
   "users": [
@@ -111,5 +117,5 @@
   ],
   "deletedEmails": [],
   "invites": [],
-  "publishedAt": "2026-10-04T21:01:39.673Z"
+  "publishedAt": "2026-10-04T21:01:42.637Z"
 }
