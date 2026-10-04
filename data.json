@@ -51,6 +51,12 @@
           "name": "Химия",
           "order": 7,
           "grades": []
+        },
+        {
+          "id": "muub38kwvci1k21",
+          "name": "Информатика",
+          "order": 8,
+          "grades": []
         }
       ],
       "schedule": [],
@@ -70,7 +76,7 @@
       ],
       "createdBy": "self",
       "createdAt": "2026-10-04T20:04:07.276Z",
-      "updatedAt": "2026-10-04T21:01:24.298Z"
+      "updatedAt": "2026-10-04T21:01:32.336Z"
     }
   ],
   "users": [
@@ -99,5 +105,5 @@
   ],
   "deletedEmails": [],
   "invites": [],
-  "publishedAt": "2026-10-04T21:01:27.808Z"
+  "publishedAt": "2026-10-04T21:01:34.430Z"
 }
