@@ -21,6 +21,12 @@
           "name": "Белорусский язык",
           "order": 2,
           "grades": []
+        },
+        {
+          "id": "muub2hbgxwdwzlj",
+          "name": "Белорусская литература",
+          "order": 3,
+          "grades": []
         }
       ],
       "schedule": [],
@@ -40,7 +46,7 @@
       ],
       "createdBy": "self",
       "createdAt": "2026-10-04T20:04:07.276Z",
-      "updatedAt": "2026-10-04T21:00:50.292Z"
+      "updatedAt": "2026-10-04T21:00:57.004Z"
     }
   ],
   "users": [
@@ -69,5 +75,5 @@
   ],
   "deletedEmails": [],
   "invites": [],
-  "publishedAt": "2026-10-04T21:00:52.624Z"
+  "publishedAt": "2026-10-04T21:00:59.204Z"
 }
