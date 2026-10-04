@@ -49,34 +49,6 @@
               "type": "Другое",
               "date": "2026-09-28",
               "comment": ""
-            },
-            {
-              "id": "mutz58zc7us3sj",
-              "value": 8,
-              "type": "Другое",
-              "date": "2026-10-04",
-              "comment": ""
-            },
-            {
-              "id": "mutz5cj2to2v8x",
-              "value": 8,
-              "type": "Другое",
-              "date": "2026-10-04",
-              "comment": ""
-            },
-            {
-              "id": "mutz5iake5tzwb",
-              "value": 8,
-              "type": "Другое",
-              "date": "2026-10-04",
-              "comment": ""
-            },
-            {
-              "id": "mutz5o9wkknf7q",
-              "value": 8,
-              "type": "Другое",
-              "date": "2026-10-04",
-              "comment": ""
             }
           ]
         },
@@ -84,6 +56,20 @@
           "id": "l0jziyvl",
           "name": "физика",
           "grades": [
+            {
+              "id": "wayp82ix",
+              "value": 2,
+              "type": "Домашняя работа",
+              "date": "2026-09-04",
+              "comment": ""
+            },
+            {
+              "id": "bsui3as3",
+              "value": 2,
+              "type": "Домашняя работа",
+              "date": "2026-09-07",
+              "comment": ""
+            },
             {
               "id": "zwhmau9d",
               "value": 4,
@@ -96,27 +82,6 @@
               "value": 6,
               "type": "Другое",
               "date": "2026-09-28",
-              "comment": ""
-            },
-            {
-              "id": "mutz3mu4cpm31l",
-              "value": 7,
-              "type": "Другое",
-              "date": "2026-10-04",
-              "comment": ""
-            },
-            {
-              "id": "mutz50zu343eun",
-              "value": 8,
-              "type": "Другое",
-              "date": "2026-10-04",
-              "comment": ""
-            },
-            {
-              "id": "mutz54ykb5gj7c",
-              "value": 8,
-              "type": "Другое",
-              "date": "2026-10-04",
               "comment": ""
             }
           ]
@@ -230,28 +195,13 @@
               "type": "",
               "date": "2026-09-29",
               "comment": ""
-            },
-            {
-              "id": "mutz12bim34kl3",
-              "value": 8,
-              "type": "Другое",
-              "date": "2026-10-04",
-              "comment": ""
             }
           ]
         },
         {
           "id": "ctwe9ook",
           "name": "Всемирная история",
-          "grades": [
-            {
-              "id": "mutz2n4efocgdl",
-              "value": 8,
-              "type": "Другое",
-              "date": "2026-10-04",
-              "comment": ""
-            }
-          ]
+          "grades": []
         },
         {
           "id": "y1jvd9e6",
@@ -282,28 +232,12 @@
         {
           "id": "unzlxygo",
           "name": "Биология",
-          "grades": [
-            {
-              "id": "mutz1gcq38xwme",
-              "value": 9,
-              "type": "Другое",
-              "date": "2026-10-04",
-              "comment": ""
-            }
-          ]
+          "grades": []
         },
         {
           "id": "mts1xqgs",
           "name": "Обществоведение.",
-          "grades": [
-            {
-              "id": "mutz2590cf2c8n",
-              "value": 10,
-              "type": "Другое",
-              "date": "2026-10-04",
-              "comment": ""
-            }
-          ]
+          "grades": []
         },
         {
           "id": "qrf9944p",
@@ -328,15 +262,7 @@
         {
           "id": "ilpwpnfx",
           "name": "Физическая культура.",
-          "grades": [
-            {
-              "id": "mutz1u8m3y5w5x",
-              "value": 7,
-              "type": "Другое",
-              "date": "2026-10-04",
-              "comment": ""
-            }
-          ]
+          "grades": []
         }
       ],
       "schedule": [
@@ -616,5 +542,5 @@
     }
   ],
   "deletedEmails": [],
-  "publishedAt": "2026-10-04T15:27:31.021Z"
+  "publishedAt": "2026-10-04T15:28:40.432Z"
 }
