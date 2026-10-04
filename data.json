@@ -149,6 +149,13 @@
               "type": "Домашняя работа",
               "date": "2026-09-30",
               "comment": ""
+            },
+            {
+              "id": "muty6x2bxcziq4",
+              "value": 7,
+              "type": "Другое",
+              "date": "2026-10-01",
+              "comment": ""
             }
           ]
         },
@@ -542,5 +549,5 @@
     }
   ],
   "deletedEmails": [],
-  "publishedAt": "2026-10-04T15:00:06.408Z"
+  "publishedAt": "2026-10-04T15:00:29.422Z"
 }
