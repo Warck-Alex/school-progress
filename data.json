@@ -135,13 +135,6 @@
               "type": "Другое",
               "date": "2026-09-24",
               "comment": ""
-            },
-            {
-              "id": "muplkdvu6dt6vi",
-              "value": 7,
-              "type": "Ответ на уроке",
-              "date": "2026-10-01",
-              "comment": ""
             }
           ]
         },
@@ -535,5 +528,5 @@
     }
   ],
   "deletedEmails": [],
-  "publishedAt": "2026-10-04T15:10:57.798Z"
+  "publishedAt": "2026-10-04T15:11:05.591Z"
 }
