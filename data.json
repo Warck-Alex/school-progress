@@ -39,6 +39,12 @@
           "name": "Математика",
           "order": 5,
           "grades": []
+        },
+        {
+          "id": "muub30fepjkfwm7",
+          "name": "Физика",
+          "order": 6,
+          "grades": []
         }
       ],
       "schedule": [],
@@ -58,7 +64,7 @@
       ],
       "createdBy": "self",
       "createdAt": "2026-10-04T20:04:07.276Z",
-      "updatedAt": "2026-10-04T21:01:19.390Z"
+      "updatedAt": "2026-10-04T21:01:21.770Z"
     }
   ],
   "users": [
@@ -87,5 +93,5 @@
   ],
   "deletedEmails": [],
   "invites": [],
-  "publishedAt": "2026-10-04T21:01:21.467Z"
+  "publishedAt": "2026-10-04T21:01:23.998Z"
 }
