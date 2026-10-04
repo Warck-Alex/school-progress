@@ -120,6 +120,16 @@
   "deletedEmails": [
     "superadmin@example.com"
   ],
-  "invites": [],
-  "publishedAt": "2026-10-04T21:19:43.954Z"
+  "invites": [
+    {
+      "id": "muubxl8sbzti98h",
+      "email": "warck@tut.by",
+      "role": "student",
+      "studentId": "muu91ecs2xn7yt5",
+      "studentName": "Михайлов Даниил",
+      "invitedBy": "warck@mail.ru",
+      "createdAt": "2026-10-04T21:25:08.428Z"
+    }
+  ],
+  "publishedAt": "2026-10-04T21:25:10.636Z"
 }
