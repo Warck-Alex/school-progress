@@ -33,6 +33,12 @@
           "name": "Английский язык",
           "order": 4,
           "grades": []
+        },
+        {
+          "id": "muub2ylaqk57qrh",
+          "name": "Математика",
+          "order": 5,
+          "grades": []
         }
       ],
       "schedule": [],
@@ -52,7 +58,7 @@
       ],
       "createdBy": "self",
       "createdAt": "2026-10-04T20:04:07.276Z",
-      "updatedAt": "2026-10-04T21:01:02.694Z"
+      "updatedAt": "2026-10-04T21:01:19.390Z"
     }
   ],
   "users": [
@@ -81,5 +87,5 @@
   ],
   "deletedEmails": [],
   "invites": [],
-  "publishedAt": "2026-10-04T21:01:04.749Z"
+  "publishedAt": "2026-10-04T21:01:21.467Z"
 }
