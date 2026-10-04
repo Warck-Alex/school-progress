@@ -122,13 +122,13 @@
       "name": "Супер-администратор",
       "studentId": null,
       "createdAt": "2026-10-04T20:05:00.157Z",
-      "role": "admin",
+      "role": "student",
       "salt": "school_salt_superadmin_v1",
       "passwordHash": "dd6efde15a35848a186eb7facfc08a1e8e3165f30fad07a689f11a6df41fd6a9",
-      "updatedAt": "2026-10-04T20:55:58.564Z"
+      "updatedAt": "2026-10-04T21:14:02.301Z"
     }
   ],
   "deletedEmails": [],
   "invites": [],
-  "publishedAt": "2026-10-04T21:02:38.381Z"
+  "publishedAt": "2026-10-04T21:14:04.296Z"
 }
