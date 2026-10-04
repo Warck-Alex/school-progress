@@ -238,7 +238,15 @@
         {
           "id": "mts1xqgs",
           "name": "Обществоведение.",
-          "grades": []
+          "grades": [
+            {
+              "id": "mutz2590cf2c8n",
+              "value": 10,
+              "type": "Другое",
+              "date": "2026-10-04",
+              "comment": ""
+            }
+          ]
         },
         {
           "id": "qrf9944p",
@@ -551,5 +559,5 @@
     }
   ],
   "deletedEmails": [],
-  "publishedAt": "2026-10-04T15:24:32.185Z"
+  "publishedAt": "2026-10-04T15:24:46.356Z"
 }
