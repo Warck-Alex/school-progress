@@ -49,6 +49,13 @@
               "type": "Другое",
               "date": "2026-09-28",
               "comment": ""
+            },
+            {
+              "id": "mutz58zc7us3sj",
+              "value": 8,
+              "type": "Другое",
+              "date": "2026-10-04",
+              "comment": ""
             }
           ]
         },
@@ -588,5 +595,5 @@
     }
   ],
   "deletedEmails": [],
-  "publishedAt": "2026-10-04T15:27:05.975Z"
+  "publishedAt": "2026-10-04T15:27:11.166Z"
 }
