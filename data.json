@@ -1,44 +1,6 @@
 {
-  "students": [
-    {
-      "id": "muu1yxfdaa6unka",
-      "studentName": "Михайлов Даниил",
-      "subjects": [],
-      "schedule": [],
-      "catalog": [
-        "Математика",
-        "Русский язык",
-        "Белорусский язык",
-        "Литература",
-        "Физика",
-        "Химия",
-        "Биология",
-        "История",
-        "География",
-        "Английский язык",
-        "Информатика",
-        "Физкультура",
-        "Труд",
-        "ИЗО",
-        "Музыка",
-        "ОБЖ"
-      ],
-      "members": [],
-      "createdAt": "2026-10-04T16:46:14.713Z"
-    }
-  ],
-  "users": [
-    {
-      "uid": "muu1yxfd13f0zmp",
-      "email": "warck@mail.ru",
-      "name": "Михайлов Даниил",
-      "role": "admin",
-      "studentId": "muu1yxfdaa6unka",
-      "salt": "muu1yxfcdwszx8rmuu1yxfcsczzeu4",
-      "passwordHash": "27fa8fc847897a552dd3b2369d8856626cbe994d46d9fddd4ba16639de6972a6",
-      "createdAt": "2026-10-04T16:46:14.713Z"
-    }
-  ],
+  "students": [],
+  "users": [],
   "deletedEmails": [],
-  "publishedAt": "2026-10-04T17:37:28.992Z"
+  "publishedAt": "2026-10-04T17:37:39.407Z"
 }
