@@ -192,8 +192,8 @@
             {
               "id": "6soydgpo",
               "value": 6,
-              "type": "",
-              "date": "2026-09-29",
+              "type": "Другое",
+              "date": "2026-09-25",
               "comment": ""
             },
             {
@@ -549,5 +549,5 @@
     }
   ],
   "deletedEmails": [],
-  "publishedAt": "2026-10-04T15:08:47.232Z"
+  "publishedAt": "2026-10-04T15:09:00.900Z"
 }
