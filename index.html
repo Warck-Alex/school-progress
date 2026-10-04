@@ -1984,7 +1984,7 @@ function addSubjectPrompt(){
     </div>
   `);
   $('m-cancel').addEventListener('click', closeModal);
-  $('m-save').addEventListener('click', () => {
+  $('m-save').addEventListener('click', async () => {
     const name = $('m-subject-catalog').value; if(!name) return closeModal();
     const currentData = DataStore.get();
     const s = currentData.students.find(x => x.id === st.id); if(!s) return closeModal();
