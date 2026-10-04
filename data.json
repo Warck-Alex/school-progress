@@ -144,13 +144,6 @@
               "comment": ""
             },
             {
-              "id": "muty61n9k4r4am",
-              "value": 4,
-              "type": "Домашняя работа",
-              "date": "2026-09-30",
-              "comment": ""
-            },
-            {
               "id": "muty6x2bxcziq4",
               "value": 7,
               "type": "Другое",
@@ -549,5 +542,5 @@
     }
   ],
   "deletedEmails": [],
-  "publishedAt": "2026-10-04T15:09:57.021Z"
+  "publishedAt": "2026-10-04T15:10:54.655Z"
 }
