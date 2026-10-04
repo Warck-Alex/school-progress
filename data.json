@@ -194,7 +194,15 @@
         {
           "id": "ctwe9ook",
           "name": "Всемирная история",
-          "grades": []
+          "grades": [
+            {
+              "id": "mutz2n4efocgdl",
+              "value": 8,
+              "type": "Другое",
+              "date": "2026-10-04",
+              "comment": ""
+            }
+          ]
         },
         {
           "id": "y1jvd9e6",
@@ -559,5 +567,5 @@
     }
   ],
   "deletedEmails": [],
-  "publishedAt": "2026-10-04T15:24:46.356Z"
+  "publishedAt": "2026-10-04T15:25:09.554Z"
 }
