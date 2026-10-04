@@ -373,9 +373,7 @@ const DB = {
 };
 
 /* ============================================================================
-   EMAILJS — отправка кодов на email
-   Пока заглушки — код показывается прямо в модальном окне.
-   Чтобы включить реальную отправку, заполните три поля ниже.
+   EMAILJS
    ============================================================================ */
 const EMAILJS = {
   serviceId:  'service_xxx',
@@ -402,7 +400,7 @@ const GH_PENDING = {
   owner: 'Warck-Alex',
   repo:  'school-pending',
   file:  'pending.json',
-  token: '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'   // ⚠️ student-token от school-pending
+  token: 'github_pat_ВСТАВЬТЕ_СЮДА_ТОКЕН'   // ⚠️ student-token
 };
 
 /* ============================================================================
@@ -478,6 +476,7 @@ const isAdmin       = () => role() === 'admin';
 const isStudentRole = () => role() === 'student';
 const canAddGrade   = () => isAdmin() || isStudentRole();
 const canEditSchedule = () => isAdmin() || isStudentRole();
+const canPublish    = () => isAdmin() || isStudentRole();
 const roleLabel = r => ({admin:'Администратор', student:'Ученик', viewer:'Наблюдатель'}[r] || r);
 
 /* ============================================================================
@@ -497,13 +496,13 @@ $('theme-btn').addEventListener('click', () => {
 });
 
 /* ============================================================================
-   СТРУКТУРЫ ДАННЫХ
+   СТРУКТУРЫ
    ============================================================================ */
 function defaultStudent(name){
   return { id: uid(), studentName: name || '', subjects: [], schedule: [],
     catalog: DEFAULT_CATALOG.slice(), members: [], createdAt: new Date().toISOString() };
 }
-function defaultData(){ return { students: [], users: [], publishedAt: null }; }
+function defaultData(){ return { students: [], users: [], deletedEmails: [], publishedAt: null }; }
 function normalizeStudent(s){
   return {
     id: s.id || uid(),
@@ -523,6 +522,7 @@ function normalizeData(d){
   return {
     students: arr,
     users: Array.isArray(d.users) ? d.users : [],
+    deletedEmails: Array.isArray(d.deletedEmails) ? d.deletedEmails : [],
     publishedAt: d.publishedAt || null
   };
 }
@@ -564,10 +564,10 @@ async function hashPassword(password, salt){
 }
 
 /* ============================================================================
-   EMAILJS — отправка кодов
+   EMAILJS
    ============================================================================ */
 async function sendCodeEmail(toEmail, code, purpose){
-  if(!emailJsEnabled()) return true;   // тестовый режим: код показывается в окне
+  if(!emailJsEnabled()) return true;
   try{
     const res = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
       method: 'POST',
@@ -625,7 +625,7 @@ const Session = {
 };
 
 /* ============================================================================
-   GITHUB API — чтение и публикация data.json
+   GITHUB API
    ============================================================================ */
 function decodeBase64(str){
   str = String(str || '').replace(/\s+/g, '');
@@ -641,15 +641,54 @@ async function loadPublishedData(){
   }catch(e){ console.warn('data.json недоступен:', e); return null; }
 }
 
-async function publishToGitHub(){
-  if(!isAdmin()) return;
+/* Токен публикации — запрашиваем один раз на устройстве */
+async function ensurePublishToken(){
   let token = localStorage.getItem('gh_token');
-  if(!token){
-    token = prompt('Вставьте GitHub Personal Access Token (для school-progress).\n\nСоздать: github.com/settings/tokens?type=beta\nПрава: Contents → Read and write.');
-    if(!token) return;
-    token = token.trim();
-    if(confirm('Запомнить токен?')) localStorage.setItem('gh_token', token);
-  }
+  if(token) return token;
+  token = prompt(
+    'Введите GitHub токен для публикации данных.\n\n' +
+    '• Если вы администратор — создайте на github.com/settings/tokens?type=beta\n' +
+    '  Права: Contents → Read and write для репозитория school-progress\n\n' +
+    '• Если вы ученик — попросите токен у администратора.\n' +
+    'Токен сохранится только на этом устройстве.'
+  );
+  if(!token) return null;
+  token = token.trim();
+  localStorage.setItem('gh_token', token);
+  return token;
+}
+
+/* Тихая публикация — без confirm, для автосинхронизации */
+async function publishToGitHubSilent(){
+  if(!canPublish()) return false;
+  const token = localStorage.getItem('gh_token');
+  if(!token) return false;
+  const apiUrl = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_FILE}`;
+  const headers = { 'Authorization': 'Bearer ' + token,
+    'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json' };
+  try{
+    const getRes = await fetch(apiUrl, { headers });
+    let sha = null;
+    if(getRes.ok){ sha = (await getRes.json()).sha; }
+    else if(getRes.status !== 404) return false;
+    const toPublish = Object.assign({}, data, { publishedAt: new Date().toISOString() });
+    const content = JSON.stringify(toPublish, null, 2);
+    const body = { message: 'Auto-publish ' + new Date().toLocaleString('ru-RU'),
+      content: btoa(unescape(encodeURIComponent(content))) };
+    if(sha) body.sha = sha;
+    const putRes = await fetch(apiUrl, { method: 'PUT', headers, body: JSON.stringify(body) });
+    if(!putRes.ok) return false;
+    data.publishedAt = toPublish.publishedAt;
+    DataStore.save(data);
+    renderAll();
+    return true;
+  }catch(e){ console.warn('Auto-publish:', e); return false; }
+}
+
+async function publishToGitHub(){
+  if(!canPublish()) return;
+  const token = await ensurePublishToken();
+  if(!token) return;
   if(!confirm('Опубликовать данные всех учеников и пользователей?')) return;
   const apiUrl = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_FILE}`;
   const headers = { 'Authorization': 'Bearer ' + token,
@@ -682,55 +721,31 @@ async function publishToGitHub(){
   }
 }
 
-/* Тихая публикация — без confirm, для автосинхронизации */
-async function publishToGitHubSilent(){
-  if(!isAdmin()) return false;
-  const token = localStorage.getItem('gh_token');
-  if(!token) return false;
-  const apiUrl = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_FILE}`;
-  const headers = { 'Authorization': 'Bearer ' + token,
-    'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json' };
-  try{
-    const getRes = await fetch(apiUrl, { headers });
-    let sha = null;
-    if(getRes.ok){ sha = (await getRes.json()).sha; }
-    else if(getRes.status !== 404) return false;
-    const toPublish = Object.assign({}, data, { publishedAt: new Date().toISOString() });
-    const content = JSON.stringify(toPublish, null, 2);
-    const body = { message: 'Auto-publish ' + new Date().toLocaleString('ru-RU'),
-      content: btoa(unescape(encodeURIComponent(content))) };
-    if(sha) body.sha = sha;
-    const putRes = await fetch(apiUrl, { method: 'PUT', headers, body: JSON.stringify(body) });
-    if(!putRes.ok) return false;
-    data.publishedAt = toPublish.publishedAt;
-    DataStore.save(data);
-    renderAll();
-    return true;
-  }catch(e){ console.warn('Auto-publish:', e); return false; }
-}
-
 async function syncFromGitHub(){
-  if(!isAdmin()) return;
+  if(!canPublish()) return;
   try{
     const published = await loadPublishedData();
     if(!published){ alert('Не удалось получить data.json с GitHub.'); return; }
+    const deleted = new Set(published.deletedEmails || []);
     const oldUsers = (data.users || []).length;
-    if(Array.isArray(published.users) && published.users.length){
-      const byEmail = {};
-      published.users.forEach(u => { byEmail[u.email] = u; });
-      (data.users || []).forEach(u => { byEmail[u.email] = u; });
-      published.users = Object.values(byEmail);
-    }
+    // Мержим: удалённые из blacklist исключаются, остальные объединяются
+    const byEmail = {};
+    (published.users || []).forEach(u => { if(u && u.email && !deleted.has(u.email)) byEmail[u.email] = u; });
+    (data.users || []).forEach(u => { if(u && u.email && !deleted.has(u.email)) byEmail[u.email] = u; });
+    published.users = Object.values(byEmail);
+    // Локальные deletedEmails тоже сохраняем
+    const localDeleted = new Set(data.deletedEmails || []);
+    published.deletedEmails = Array.from(new Set([...deleted, ...localDeleted]));
     data = published;
     DataStore.save(data);
-    Users.save(data.users || []);
+    Users.save(data.users);
     renderAll();
     alert('🔄 Данные обновлены с GitHub.\nПользователей: ' + oldUsers + ' → ' + (data.users || []).length);
   }catch(e){ alert('Ошибка синхронизации: ' + e.message); }
 }
 
 /* ============================================================================
-   PENDING — заявки учеников через school-pending
+   PENDING
    ============================================================================ */
 async function fetchPending(){
   const url = `https://api.github.com/repos/${GH_PENDING.owner}/${GH_PENDING.repo}/contents/${GH_PENDING.file}`;
@@ -872,7 +887,7 @@ async function rejectChange(changeId){
 }
 
 /* ============================================================================
-   ВЕРИФИКАЦИЯ EMAIL
+   ВЕРИФИКАЦИЯ
    ============================================================================ */
 function generateCode(){
   return String(Math.floor(100 + Math.random() * 900));
@@ -903,15 +918,12 @@ async function register(email, password, studentName){
   if(!password || password.length < 6) throw new Error('Пароль минимум 6 символов');
   studentName = String(studentName || '').trim();
   if(!studentName) throw new Error('Введите ФИО учащегося');
-  // Разрешаем перерегистрацию: старая запись с таким email будет заменена.
 
   const invite = window.__APP_INVITE;
   let role;
-  if(email === String(ADMIN_EMAIL).toLowerCase()){
-    role = 'admin';
-  } else if(invite && invite.email === email){
-    role = invite.role || 'viewer';
-  } else {
+  if(email === String(ADMIN_EMAIL).toLowerCase()) role = 'admin';
+  else if(invite && invite.email === email) role = invite.role || 'viewer';
+  else{
     const localInv = Invites.findByEmail(email);
     role = localInv ? (localInv.role || 'viewer') : 'viewer';
   }
@@ -921,22 +933,26 @@ async function register(email, password, studentName){
   if(!student){
     student = defaultStudent(studentName);
     data.students.push(student);
-    DataStore.save(data);
     isNewStudent = true;
   }
   const salt = randomSalt();
   const passwordHash = await hashPassword(password, salt);
   const user = { uid: uid(), email, name: studentName, role,
     studentId: student.id, salt, passwordHash, createdAt: new Date().toISOString() };
+
+  // Убираем старую запись с тем же email и из blacklist
   Users.save(Users.all().filter(u => u.email !== email).concat([user]));
   data.users = (data.users || []).filter(u => u.email !== email).concat([user]);
+  data.deletedEmails = (data.deletedEmails || []).filter(e => e !== email);
   DataStore.save(data);
+
   const localInv = Invites.findByEmail(email);
   if(localInv) Invites.remove(localInv.id);
   if(invite && invite.email === email){ try{ delete window.__APP_INVITE; }catch(e){} }
   Session.set(user.uid);
   currentStudentId = student.id;
-  // Отправляем заявку админу
+
+  // Отправляем заявку админу (для истории)
   try{
     await submitChangeToPending({
       id: uid(), timestamp: new Date().toISOString(),
@@ -946,12 +962,17 @@ async function register(email, password, studentName){
       user: user
     });
   }catch(e){ console.warn('Заявка не отправлена:', e); }
+
+  // Автопубликация (если есть токен)
+  if(localStorage.getItem('gh_token')){
+    setTimeout(() => publishToGitHubSilent(), 100);
+  }
+
   return { user, isNewStudent };
 }
 
 async function login(email, password){
   email = String(email).trim().toLowerCase();
-  // Локальная запись приоритетнее — она всегда актуальна на этом устройстве
   let user = Users.findEmail(email);
   if(!user && Array.isArray(data.users)){
     user = data.users.find(u => u.email === email);
@@ -960,7 +981,6 @@ async function login(email, password){
   if(!user) throw new Error('Пользователь не найден. Пройдите регистрацию.');
   const hash = await hashPassword(password, user.salt);
   if(hash !== user.passwordHash) throw new Error('Неверный пароль');
-  // Принудительный админ
   if(email === String(ADMIN_EMAIL).toLowerCase() && user.role !== 'admin'){
     Users.update(user.uid, { role: 'admin' });
     if(data.users){
@@ -1002,9 +1022,6 @@ function showApp(){
   $('main').style.display = 'block';
 }
 
-/* ============================================================================
-   ОБРАБОТЧИКИ АВТОРИЗАЦИИ
-   ============================================================================ */
 $('btn-login').addEventListener('click', async () => {
   const email = $('auth-email').value.trim();
   const pass  = $('auth-password').value;
@@ -1030,16 +1047,13 @@ $('btn-register').addEventListener('click', async () => {
   if(!email || email.indexOf('@') < 0) return $('auth-error').textContent = 'Введите корректный email';
   if(!pass || pass.length < 6) return $('auth-error').textContent = 'Пароль минимум 6 символов';
   if(!name) return $('auth-error').textContent = 'Введите ФИО учащегося';
-  if(Array.isArray(data.users) && data.users.find(u => u.email === email))
-    return $('auth-error').textContent = 'Email уже зарегистрирован';
-  if(Users.findEmail(email)) return $('auth-error').textContent = 'Email уже зарегистрирован';
 
   const code = generateCode();
   saveVerification(email, code, 'register');
   await sendCodeEmail(email, code, 'регистрации');
   openCodeModal(email, 'register', 'Подтверждение email', code, async (enteredCode) => {
     const v = getVerification('register');
-    if(!v){ alert('Код истёк. Запросите новый.'); return false; }
+    if(!v){ alert('Код истёк.'); return false; }
     if(v.email !== email){ alert('Email изменился.'); return false; }
     v.attempts++;
     DB.write('verify_register', v);
@@ -1055,7 +1069,7 @@ $('btn-register').addEventListener('click', async () => {
       invites = Invites.all();
       showApp(); renderAll();
       if(isAdmin()) refreshPending();
-      alert('✅ Аккаунт создан!\n\nЗаявка отправлена администратору.');
+      alert('✅ Аккаунт создан!');
     }catch(e){ $('auth-error').textContent = e.message; }
     finally{ $('btn-register').disabled = false; }
     return true;
@@ -1113,9 +1127,6 @@ $('forgot-link').addEventListener('click', async () => {
   });
 });
 
-/* ============================================================================
-   МОДАЛКА ВВОДА КОДА
-   ============================================================================ */
 function openCodeModal(email, purpose, title, devCode, onVerify){
   const isDev = !emailJsEnabled();
   const devHint = isDev ? `
@@ -1172,19 +1183,22 @@ function openCodeModal(email, purpose, title, devCode, onVerify){
 }
 
 /* ============================================================================
-   СТАРТ СЕССИИ
+   СТАРТ
    ============================================================================ */
 async function bootSession(){
   applyTheme();
   const published = await loadPublishedData();
   if(published){
-    // Мягкое слияние: локальные пользователи ВСЕГДА сохраняются.
+    const deleted = new Set(published.deletedEmails || []);
     const localUsers = Users.all();
-    const remoteUsers = Array.isArray(published.users) ? published.users : [];
+    const remoteUsers = published.users || [];
+    // Мержим, исключая blacklist
     const byEmail = {};
-    remoteUsers.forEach(u => { if(u && u.email) byEmail[u.email] = u; });
-    localUsers.forEach(u => { if(u && u.email) byEmail[u.email] = u; });
+    remoteUsers.forEach(u => { if(u && u.email && !deleted.has(u.email)) byEmail[u.email] = u; });
+    localUsers.forEach(u => { if(u && u.email && !deleted.has(u.email)) byEmail[u.email] = u; });
     published.users = Object.values(byEmail);
+    const localDeleted = new Set(data ? (data.deletedEmails || []) : []);
+    published.deletedEmails = Array.from(new Set([...deleted, ...localDeleted]));
     data = published;
     DataStore.save(data);
     Users.save(published.users);
@@ -1196,8 +1210,12 @@ async function bootSession(){
   if(!sid){ showAuth(); return; }
   const user = Users.findId(sid);
   if(!user){ Session.clear(); showAuth(); return; }
-  // Не выкидываем: если пользователь есть локально — сессия сохраняется.
-  
+  const deleted = new Set(data.deletedEmails || []);
+  if(deleted.has(user.email)){
+    Session.clear(); showAuth();
+    $('auth-error').textContent = 'Ваш аккаунт удалён администратором.';
+    return;
+  }
   currentUser = user;
   currentStudentId = user.studentId;
   let st = data.students.find(s => s.id === currentStudentId);
@@ -1233,7 +1251,7 @@ function applyEmbeddedInvite(){
 }
 
 /* ============================================================================
-   РЕНДЕРИНГ
+   РЕНДЕР
    ============================================================================ */
 function renderAll(){
   if(!data) return;
@@ -1301,9 +1319,10 @@ function renderGrades(){
   const subjects = st.subjects || [];
   const canAdd = canAddGrade();
   let actionsHtml = '';
-  if(isAdmin()) actionsHtml += '<button id="add-subject-btn">+ Добавить предмет</button> ';
+  if(isAdmin()) actionsHtml += '<button id="add-subject-btn">+ Предмет</button> ';
   actionsHtml += '<button id="print-btn" class="secondary" title="Печать">🖨</button> ';
-  actionsHtml += '<button id="pdf-btn" class="secondary" title="Скачать PDF-табель">📄 PDF</button>';
+  actionsHtml += '<button id="pdf-btn" class="secondary" title="PDF-табель">📄 PDF</button>';
+  if(canPublish()) actionsHtml += ' <button id="publish-quick-btn" class="secondary" title="Опубликовать на GitHub">📤</button>';
   $('grades-actions').innerHTML = actionsHtml;
   if(!subjects.length){
     let html;
@@ -1314,11 +1333,10 @@ function renderGrades(){
         <b style="font-size:16px">Начните с расписания и оценок</b>
         <div class="small" style="margin-top:8px;max-width:440px;margin-left:auto;margin-right:auto;opacity:.85">
           Зайдите в «Личный кабинет» → «Каталог предметов» → добавьте предметы.
-          Затем на вкладке «Оценки» нажмите «+ Добавить предмет».
         </div>
       </div>`;
     } else if(isAdmin() || isStudentRole()){
-      html = `<div class="empty">Предметов пока нет.<br><br>Добавьте предметы в каталог (Личный кабинет).</div>`;
+      html = `<div class="empty">Предметов пока нет.<br><br>Добавьте предметы в каталог.</div>`;
     } else {
       html = `<div class="empty">Предметов пока нет.</div>`;
     }
@@ -1385,8 +1403,6 @@ function renderSchedule(){
   }).join('');
   if(canEdit) initDragDrop();
 }
-
-/* Drag & Drop расписания */
 let dragLessonId = null;
 function initDragDrop(){
   const grid = $('schedule-grid');
@@ -1434,11 +1450,8 @@ function initDragDrop(){
       col.classList.remove('drag-over');
       const day = col.dataset.day;
       const lessonEl = e.target.closest('.lesson');
-      if(lessonEl){
-        moveLesson(dragLessonId, lessonEl.dataset.lesson, day);
-      }else{
-        moveLesson(dragLessonId, null, day);
-      }
+      if(lessonEl) moveLesson(dragLessonId, lessonEl.dataset.lesson, day);
+      else moveLesson(dragLessonId, null, day);
     });
   });
 }
@@ -1465,6 +1478,7 @@ function moveLesson(srcId, targetId, targetDay){
   DataStore.save(currentData);
   data = currentData;
   renderAll();
+  if(localStorage.getItem('gh_token')) setTimeout(() => publishToGitHubSilent(), 100);
 }
 
 /* ============================================================================
@@ -1496,21 +1510,10 @@ function renderCabinet(){
         <button data-pfilter="grades" class="${pendingFilter==='grades'?'active':''}">📝 Оценки (${cntGrades})</button>
       </div>
       ${list.length ? list.map(c => {
-        if(c.type === 'new_student'){
+        if(c.type === 'new_student' || c.type === 'new_user'){
           return `<div class="pending-item">
-            <div class="pending-head">🆕 Новый ученик</div>
+            <div class="pending-head">${c.type === 'new_student' ? '🆕 Новый ученик' : '👤 Новый пользователь'}</div>
             <div class="pending-meta">от ${esc(c.studentEmail)} · ${esc(formatDate((c.timestamp||'').slice(0,10)))}</div>
-            <div class="pending-grade">ФИО: <b>${esc(c.studentName)}</b></div>
-            <div class="pending-actions">
-              <button class="ghost" data-approve="${esc(c.id)}">✅ Принять</button>
-              <button class="ghost" style="color:#ef4444" data-reject="${esc(c.id)}">✖ Отклонить</button>
-            </div>
-          </div>`;
-        }
-        if(c.type === 'new_user'){
-          return `<div class="pending-item">
-            <div class="pending-head">👤 Новый пользователь</div>
-            <div class="pending-meta">от ${esc(c.studentEmail)}</div>
             <div class="pending-grade">ФИО: <b>${esc(c.studentName)}</b> · роль: ${esc(roleLabel((c.user||{}).role||'viewer'))}</div>
             <div class="pending-actions">
               <button class="ghost" data-approve="${esc(c.id)}">✅ Принять</button>
@@ -1521,8 +1524,7 @@ function renderCabinet(){
         if(c.type === 'password_reset'){
           return `<div class="pending-item">
             <div class="pending-head">🔑 Сброс пароля</div>
-            <div class="pending-meta">от ${esc(c.userEmail)} · ${esc(formatDate((c.timestamp||'').slice(0,10)))}</div>
-            <div class="pending-grade">Пользователь: <b>${esc(c.studentName || c.userEmail)}</b></div>
+            <div class="pending-meta">от ${esc(c.userEmail)}</div>
             <div class="pending-actions">
               <button class="ghost" data-approve="${esc(c.id)}">✅ Принять</button>
               <button class="ghost" style="color:#ef4444" data-reject="${esc(c.id)}">✖ Отклонить</button>
@@ -1537,7 +1539,6 @@ function renderCabinet(){
           <div class="pending-meta">от ${esc(c.studentEmail)} · ${esc(c.studentName || '?')}</div>
           <div class="pending-grade">Оценка: <b style="font-size:15px">${esc(String(g.value ?? '—'))}</b>
             ${g.type ? ' · ' + esc(g.type) : ''}${g.date ? ' · ' + esc(formatDate(g.date)) : ''}</div>
-          ${g.comment ? '<div class="small muted">💬 ' + esc(g.comment) + '</div>' : ''}
           <div class="pending-actions">
             <button class="ghost" data-approve="${esc(c.id)}">✅ Принять</button>
             <button class="ghost" style="color:#ef4444" data-reject="${esc(c.id)}">✖ Отклонить</button>
@@ -1570,7 +1571,6 @@ function renderCabinet(){
   const publishPanel = admin ? `
     <div class="panel">
       <h3>📤 Публикация</h3>
-      <p class="muted small" style="margin:0 0 10px">Отправляет данные всех учеников и пользователей в <code>data.json</code>.</p>
       <div class="row">
         <button id="publish-btn">📤 Опубликовать</button>
         <button id="sync-btn" class="secondary">🔄 Обновить с GitHub</button>
@@ -1712,6 +1712,7 @@ function renderUsersTab(){
         </tbody>
       </table>
     </div>
+    <p class="muted small" style="margin-top:10px">Удаление вступает в силу немедленно (при наличии токена публикации). Удалённые пользователи не вернутся.</p>
   `;
 }
 
@@ -1778,19 +1779,19 @@ function openGradeModal(subjectId, gradeId){
         if(g){ g.value = value; g.type = type; g.date = date; g.comment = comment; }
       }
       DataStore.save(currentData); data = currentData; renderAll(); closeModal();
+      // Автопубликация
+      if(localStorage.getItem('gh_token')){
+        setTimeout(() => publishToGitHubSilent(), 100);
+      }
+      // Отправка заявки для ученика (для истории)
       if(isStudentRole() && currentUser){
         const change = { id: uid(), timestamp: new Date().toISOString(), type: 'grade',
           studentEmail: currentUser.email, studentName: st.studentName, studentId: st.id,
           status: 'pending', action: isNew ? 'add' : 'update',
           subjectId: subject.id, subjectName: subject.name, gradeId: savedGradeId,
           grade: { value, type, date, comment } };
-        try{
-          await submitChangeToPending(change);
-          if(!window.__pendingHintShown){
-            window.__pendingHintShown = true;
-            alert('📤 Изменение отправлено администратору на проверку.');
-          }
-        }catch(e){ alert('⚠️ Сохранено локально, но не отправлено: ' + e.message); }
+        try{ await submitChangeToPending(change); }
+        catch(e){ console.warn('Заявка не отправлена:', e); }
       }
     });
   }
@@ -1803,6 +1804,7 @@ function openGradeModal(subjectId, gradeId){
       const subj = s.subjects.find(x => x.id === subjectId); if(!subj) return closeModal();
       subj.grades = (subj.grades || []).filter(g => g.id !== gradeId);
       DataStore.save(currentData); data = currentData; renderAll(); closeModal();
+      if(localStorage.getItem('gh_token')) setTimeout(() => publishToGitHubSilent(), 100);
     });
   }
 }
@@ -1842,6 +1844,7 @@ function openLessonModal(lessonId, day){
     if(isNew) s.schedule.push(Object.assign({ id: uid() }, payload));
     else{ const l = s.schedule.find(x => x.id === lessonId); if(l) Object.assign(l, payload); }
     DataStore.save(currentData); data = currentData; renderAll(); closeModal();
+    if(localStorage.getItem('gh_token')) setTimeout(() => publishToGitHubSilent(), 100);
   });
   const delBtn = $('m-delete');
   if(delBtn){
@@ -1851,12 +1854,13 @@ function openLessonModal(lessonId, day){
       const s = currentData.students.find(x => x.id === st.id); if(!s) return closeModal();
       s.schedule = (s.schedule || []).filter(l => l.id !== lessonId);
       DataStore.save(currentData); data = currentData; renderAll(); closeModal();
+      if(localStorage.getItem('gh_token')) setTimeout(() => publishToGitHubSilent(), 100);
     });
   }
 }
 
 /* ============================================================================
-   ДЕЙСТВИЯ С ДАННЫМИ
+   ДЕЙСТВИЯ
    ============================================================================ */
 function addSubjectPrompt(){
   if(!isAdmin()) return;
@@ -1865,10 +1869,10 @@ function addSubjectPrompt(){
   const existing = new Set((st.subjects || []).map(s => s.name.toLowerCase()));
   const available = catalog.filter(c => !existing.has(c.toLowerCase()));
   if(!catalog.length) return alert('Сначала добавьте предметы в каталог.');
-  if(!available.length) return alert('Все предметы из каталога уже добавлены.');
+  if(!available.length) return alert('Все предметы уже добавлены.');
   const opts = available.map(c => `<option value="${esc(c)}">${esc(c)}</option>`).join('');
   openModal(`
-    <h2>Добавить предмет из каталога</h2>
+    <h2>Добавить предмет</h2>
     <label><span>Предмет</span><select id="m-subject-catalog">${opts}</select></label>
     <div class="modal-actions">
       <button id="m-cancel" class="secondary">Отмена</button>
@@ -1882,9 +1886,9 @@ function addSubjectPrompt(){
     const s = currentData.students.find(x => x.id === st.id); if(!s) return closeModal();
     s.subjects = s.subjects || []; s.subjects.push({ id: uid(), name, grades: [] });
     DataStore.save(currentData); data = currentData; renderAll(); closeModal();
+    if(localStorage.getItem('gh_token')) setTimeout(() => publishToGitHubSilent(), 100);
   });
 }
-
 function deleteSubject(subjectId){
   if(!isAdmin()) return;
   const st = getCurrentStudent(); if(!st) return;
@@ -1894,6 +1898,7 @@ function deleteSubject(subjectId){
   const s = currentData.students.find(x => x.id === st.id);
   s.subjects = s.subjects.filter(x => x.id !== subjectId);
   DataStore.save(currentData); data = currentData; renderAll();
+  if(localStorage.getItem('gh_token')) setTimeout(() => publishToGitHubSilent(), 100);
 }
 function addCatalogItem(){
   if(!isAdmin() && !isStudentRole()) return;
@@ -1924,7 +1929,7 @@ function inviteUser(){
   Invites.add({ id: uid(), email, role: role_, invitedBy: currentUser.email });
   invites = Invites.all();
   $('invite-email').value = '';
-  renderCabinet();
+   renderCabinet();
 }
 function deleteInvite(id){
   if(!isAdmin()) return;
@@ -1964,7 +1969,7 @@ function importJSON(file){
       if(!raw || typeof raw !== 'object') throw new Error('Неверный формат');
       if(!confirm('Импорт заменит данные ВСЕХ учеников и пользователей. Продолжить?')) return;
       data = normalizeData(raw); DataStore.save(data);
-      if(Array.isArray(data.users) && data.users.length) Users.save(data.users);
+      if(Array.isArray(data.users)) Users.save(data.users);
       currentStudentId = data.students[0] ? data.students[0].id : null;
       renderAll(); alert('Импорт выполнен.');
     }catch(err){ alert('Ошибка: ' + err.message); }
@@ -1980,7 +1985,7 @@ function resetAll(){
 }
 
 /* ============================================================================
-   PDF-ТАБЕЛЬ
+   PDF
    ============================================================================ */
 async function exportToPDF(){
   const st = getCurrentStudent();
@@ -2007,13 +2012,11 @@ async function exportToPDF(){
         Дата: ${new Date().toLocaleDateString('ru-RU')} · Средний балл: <b>${gpa!==null?gpa.toFixed(2):'—'}</b>
       </p>
       <table style="width:100%;border-collapse:collapse;font-size:12px">
-        <thead>
-          <tr style="background:#eaeaea">
-            <th style="padding:8px 10px;text-align:left">Предмет</th>
-            <th style="padding:8px 10px;text-align:left">Оценки</th>
-            <th style="padding:8px 10px;text-align:center">Ср. балл</th>
-          </tr>
-        </thead>
+        <thead><tr style="background:#eaeaea">
+          <th style="padding:8px 10px;text-align:left">Предмет</th>
+          <th style="padding:8px 10px;text-align:left">Оценки</th>
+          <th style="padding:8px 10px;text-align:center">Ср. балл</th>
+        </tr></thead>
         <tbody>${rowsHtml}</tbody>
       </table>
       <p style="margin-top:22px;font-size:11px;color:#666;text-align:center">
@@ -2083,7 +2086,7 @@ document.addEventListener('touchend', () => {
 });
 
 /* ============================================================================
-   ГЛОБАЛЬНЫЕ ОБРАБОТЧИКИ
+   ОБРАБОТЧИКИ
    ============================================================================ */
 $('tabs').addEventListener('click', e => {
   const btn = e.target.closest('button[data-tab]'); if(!btn) return;
@@ -2097,6 +2100,7 @@ $('grades-actions').addEventListener('click', e => {
   if(e.target.closest('#add-subject-btn')) addSubjectPrompt();
   if(e.target.closest('#print-btn')) window.print();
   if(e.target.closest('#pdf-btn')) exportToPDF();
+  if(e.target.closest('#publish-quick-btn')) return publishToGitHub();
 });
 function handleGradesClick(e){
   const g = e.target.closest('.grade');
@@ -2143,7 +2147,7 @@ $('cabinet-content').addEventListener('click', e => {
   if(e.target.closest('#publish-btn')) return publishToGitHub();
   if(e.target.closest('#sync-btn')) return syncFromGitHub();
   if(e.target.closest('#forget-token-btn')){
-    if(confirm('Удалить токен?')){ localStorage.removeItem('gh_token'); alert('Удалён.'); }
+    if(confirm('Удалить сохранённый токен?')){ localStorage.removeItem('gh_token'); alert('Токен удалён.'); }
     return;
   }
   if(e.target.closest('#export-btn')) return exportJSON();
@@ -2169,6 +2173,7 @@ $('cabinet-content').addEventListener('change', e => {
     DataStore.save(currentData); data = currentData;
     if(currentUser.studentId === st.id) Users.update(currentUser.uid, { name: newName });
     renderAll();
+    if(localStorage.getItem('gh_token')) setTimeout(() => publishToGitHubSilent(), 100);
   }
 });
 $('users-content').addEventListener('change', e => {
@@ -2181,10 +2186,10 @@ $('users-content').addEventListener('change', e => {
   Users.update(uid_, { role: newRole });
   if(data.users){ const du = data.users.find(x => x.uid === uid_); if(du) du.role = newRole; }
   DataStore.save(data);
-  alert('Роль изменена. Нажмите «📤 Опубликовать».');
   renderUsersTab();
+  if(localStorage.getItem('gh_token')) setTimeout(() => publishToGitHubSilent(), 100);
 });
-$('users-content').addEventListener('click', e => {
+$('users-content').addEventListener('click', async e => {
   const del = e.target.closest('[data-del-user]'); if(!del) return;
   if(!isAdmin()) return;
   const uid_ = del.dataset.delUser;
@@ -2193,12 +2198,24 @@ $('users-content').addEventListener('click', e => {
   const src = (data.users && data.users.length) ? data.users : Users.all();
   const adminsCount = src.filter(x => x.role === 'admin').length;
   if(u.role === 'admin' && adminsCount === 1) return alert('Нельзя удалить последнего админа.');
-  if(!confirm('Удалить ' + u.email + '?')) return;
+  if(!confirm('Удалить ' + u.email + '?\n\nПользователь больше никогда не сможет войти.')) return;
+  const deletedEmail = u.email;
+  // Добавляем в blacklist — чтобы не вернулся при синхронизации
+  data.deletedEmails = data.deletedEmails || [];
+  if(!data.deletedEmails.includes(deletedEmail)) data.deletedEmails.push(deletedEmail);
+  // Удаляем из локального и из data
   Users.remove(uid_);
   if(data.users) data.users = data.users.filter(x => x.uid !== uid_);
   DataStore.save(data);
-  alert('Удалён. Нажмите «📤 Опубликовать».');
   renderUsersTab();
+  // Автопубликация
+  if(localStorage.getItem('gh_token')){
+    const ok = await publishToGitHubSilent();
+    if(ok) alert('✅ Пользователь удалён и данные опубликованы.');
+    else alert('✅ Пользователь удалён локально. Нажмите «📤 Опубликовать», чтобы удалить и на GitHub.');
+  }else{
+    alert('✅ Пользователь удалён локально. Нажмите «📤 Опубликовать», чтобы удалить и на GitHub.');
+  }
 });
 window.addEventListener('scroll', hideTip, { passive: true });
 window.addEventListener('resize', hideTip);
