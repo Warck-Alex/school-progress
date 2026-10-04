@@ -38,7 +38,16 @@
           "id": "muub2ylaqk57qrh",
           "name": "Математика",
           "order": 5,
-          "grades": []
+          "grades": [
+            {
+              "createdAt": "2026-10-04T21:37:44.656Z",
+              "value": 8,
+              "type": "Другое",
+              "date": "2026-10-05",
+              "comment": "",
+              "id": "muucdsr4351v538"
+            }
+          ]
         },
         {
           "id": "muub30fepjkfwm7",
@@ -101,7 +110,7 @@
       ],
       "createdBy": "self",
       "createdAt": "2026-10-04T20:04:07.276Z",
-      "updatedAt": "2026-10-04T21:17:28.249Z"
+      "updatedAt": "2026-10-04T21:37:44.656Z"
     },
     {
       "id": "muuc7k2wu44ubbl",
@@ -154,5 +163,5 @@
       "createdAt": "2026-10-04T21:25:08.428Z"
     }
   ],
-  "publishedAt": "2026-10-04T21:34:19.157Z"
+  "publishedAt": "2026-10-04T21:37:46.596Z"
 }
