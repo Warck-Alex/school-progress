@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#4f7cff">
+<title>Дневник успеваемости</title>
+<style>
+/* ===== Темы и переменные ===== */
+:root{
+  --a1:#4f7cff; --a2:#7c5cff; --grad:linear-gradient(135deg,#4f7cff,#7c5cff);
+  --bg:#f2f3f8; --card:#ffffff; --card2:#f7f8fc; --text:#1c1c1e; --muted:#6b7280;
+  --line:#e4e6ef; --shadow:0 6px 24px rgba(40,50,100,.08); --r:14px; --r2:10px;
+  --danger:#ef4444; --ok:#16a34a;
+}
+:root[data-theme="dark"]{
+  --bg:#0e0f14; --card:#1a1c24; --card2:#22252f; --text:#f2f2f7; --muted:#9aa0b4;
+  --line:#2c3040; --shadow:0 6px 24px rgba(0,0,0,.45);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font:15px/1.45 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;min-height:100vh;transition:background .25s,color .25s}
+button,input,select,textarea{font:inherit;color:inherit}
+h1,h2,h3{margin:0}
+.hidden{display:none!important}
+
+/* ===== Кнопки и поля ===== */
+.btn{border:0;border-radius:var(--r2);padding:9px 14px;background:var(--card2);color:var(--text);cursor:pointer;font-weight:600;transition:transform .08s,opacity .15s,background .15s;border:1px solid var(--line)}
+.btn:hover{opacity:.88}.btn:active{transform:scale(.97)}
+.btn.primary{background:var(--grad);color:#fff;border-color:transparent}
+.btn.danger{background:var(--danger);color:#fff;border-color:transparent}
+.btn.ghost{background:transparent}
+.btn.sm{padding:6px 10px;font-size:13px}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.icon{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--card);cursor:pointer;font-size:17px;display:inline-flex;align-items:center;justify-content:center}
+input,select,textarea{width:100%;padding:10px 12px;border-radius:var(--r2);border:1px solid var(--line);background:var(--card2);outline:none;transition:border .15s,box-shadow .15s}
+input:focus,select:focus,textarea:focus{border-color:var(--a1);box-shadow:0 0 0 3px rgba(79,124,255,.18)}
+label{display:block;font-size:12px;font-weight:600;color:var(--muted);margin:10px 0 4px;text-transform:uppercase;letter-spacing:.04em}
+textarea{resize:vertical}
+
+/* ===== Карточки / панели ===== */
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;box-shadow:var(--shadow);margin-bottom:14px}
+.panel>h3{font-size:16px;margin-bottom:10px;display:flex;align-items:center;gap:8px;justify-content:space-between}
+.muted{color:var(--muted)}.small{font-size:13px}
+.badge{display:inline-block;padding:2px 9px;border-radius:99px;font-size:12px;font-weight:700;color:#fff;background:var(--muted)}
+.badge.super_admin{background:var(--grad)}.badge.admin{background:#2563eb}.badge.student{background:#16a34a}.badge.viewer{background:#6b7280}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.row.sb{justify-content:space-between}
+.kv{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px dashed var(--line);font-size:14px}
+.kv:last-child{border:0}
+
+/* ===== Шапка и вкладки ===== */
+.top{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:10px 16px;background:color-mix(in srgb,var(--card) 88%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{width:38px;height:38px;border-radius:12px;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff}
+.brand b{display:block;line-height:1.1}.brand small{color:var(--muted)}
+.top-mid{flex:1;min-width:160px;display:flex;gap:6px;align-items:center;max-width:420px}
+.top-mid select{padding:8px 10px}
+.stname{font-weight:700}
+.avg{display:flex;flex-direction:column;align-items:center;line-height:1;padding:4px 12px;border-radius:12px;background:var(--card2);border:1px solid var(--line)}
+.avg b{font-size:22px}.avg small{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.top-r{margin-left:auto;display:flex;gap:8px;align-items:center}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--ok);display:inline-block}.dot.dirty{background:#f59e0b}
+.tabs{display:flex;gap:6px;padding:10px 16px 0;overflow-x:auto;max-width:1280px;margin:0 auto}
+.tab{border:0;background:transparent;padding:9px 16px;border-radius:99px;cursor:pointer;font-weight:600;color:var(--muted);white-space:nowrap}
+.tab.on{background:var(--grad);color:#fff}
+.tab .cnt{background:#ef4444;color:#fff;border-radius:99px;font-size:11px;padding:1px 7px;margin-left:6px}
+main{max-width:1280px;margin:0 auto;padding:14px 16px 60px}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
+.toolbar .sp{flex:1}
+
+/* ===== Оценки ===== */
+.grades{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
+.gh,.subj-row{display:grid;grid-template-columns:240px 1fr}
+.gh{padding:10px 14px;background:var(--card2);font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--line)}
+.subj-row{border-bottom:1px solid var(--line)}.subj-row:last-child{border:0}
+.subj-head{padding:12px 14px;display:flex;flex-direction:column;gap:6px;justify-content:center}
+.subj-name{font-weight:700;font-size:16px;word-break:break-word}
+.subj-meta{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.avgpill{padding:2px 10px;border-radius:99px;color:#fff;font-weight:700;font-size:13px;text-shadow:0 1px 2px rgba(0,0,0,.25)}
+.mini{border:1px solid var(--line);background:var(--card2);border-radius:8px;width:26px;height:26px;cursor:pointer;font-size:11px;padding:0;color:var(--muted)}
+.mini:hover{color:var(--text)}
+.subj-cells{padding:12px 14px;display:flex;flex-wrap:wrap;gap:8px;align-items:flex-start}
+.g{width:48px;height:48px;border-radius:12px;border:0;color:#fff;font-size:22px;font-weight:800;cursor:pointer;text-shadow:0 1px 2px rgba(0,0,0,.28);transition:transform .1s}
+.g:hover{transform:translateY(-2px)}
+.g.typed{width:auto;min-width:54px;padding:4px 8px;background:var(--card2)!important;border:2px solid;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:16px;text-shadow:none;line-height:1}
+.g.typed .gv{font-size:16px;font-weight:800}
+.g.typed .gb{font-size:10px;font-weight:800;padding:1px 6px;border-radius:99px;color:#fff;letter-spacing:.02em}
+.g.add{background:transparent;border:2px dashed var(--line);color:var(--muted);text-shadow:none;font-size:24px;font-weight:400}
+.g.add:hover{border-color:var(--a1);color:var(--a1)}
+.empty{padding:36px 16px;text-align:center;color:var(--muted)}
+@media(max-width:820px){
+  .gh{display:none}
+  .grades{background:transparent;border:0;box-shadow:none;overflow:visible}
+  .subj-row{grid-template-columns:1fr;background:var(--card);border:1px solid var(--line)!important;border-radius:var(--r);margin-bottom:10px;box-shadow:var(--shadow)}
+  .subj-head{flex-direction:row;align-items:center;justify-content:space-between;flex-wrap:wrap;padding-bottom:0}
+}
+
+/* ===== Расписание ===== */
+.sch-wrap{overflow-x:auto;padding-bottom:6px}
+.sch{display:grid;grid-template-columns:repeat(6,minmax(210px,1fr));gap:10px;min-width:1260px}
+@media(min-width:1300px){.sch{min-width:0}}
+.day{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:10px;display:flex;flex-direction:column;gap:8px;min-height:160px;transition:background .15s,border .15s}
+.day.over{border-color:var(--a1);background:color-mix(in srgb,var(--a1) 8%,var(--card))}
+.day h4{margin:0 0 2px;font-size:14px;text-align:center;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.lesson{background:var(--card2);border:1px solid var(--line);border-left:4px solid var(--a1);border-radius:10px;padding:8px 10px;cursor:pointer}
+.lesson[draggable=true]{cursor:grab}
+.lesson.drag{opacity:.4}
+.lesson .lt{font-size:12px;color:var(--muted);display:flex;justify-content:space-between;gap:6px}
+.lesson .ls{font-weight:700;margin:2px 0}
+.lesson .hw{font-size:12.5px;margin-top:4px;padding-top:4px;border-top:1px dashed var(--line);color:var(--muted);white-space:pre-wrap;word-break:break-word}
+.day .addl{margin-top:auto}
+
+/* ===== Кабинет ===== */
+.cab{display:grid;grid-template-columns:320px 1fr;gap:14px;align-items:start}
+@media(max-width:900px){.cab{grid-template-columns:1fr}}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:99px;background:var(--card2);border:1px solid var(--line);font-size:13px}
+.chip button{border:0;background:none;cursor:pointer;color:var(--muted);padding:0;font-size:14px}
+.chip.f{cursor:pointer;font-weight:600}.chip.f.on{background:var(--grad);color:#fff;border-color:transparent}
+.bar{display:grid;grid-template-columns:130px 1fr 44px;gap:8px;align-items:center;margin:7px 0;font-size:13px}
+.bar .tr{height:10px;border-radius:99px;background:var(--card2);overflow:hidden;border:1px solid var(--line)}
+.bar .fl{height:100%;border-radius:99px}
+.req{border:1px solid var(--line);background:var(--card2);border-radius:12px;padding:10px 12px;margin-bottom:8px;display:flex;gap:10px;justify-content:space-between;align-items:center;flex-wrap:wrap}
+.req .rt{flex:1;min-width:220px}.req .rt b{display:block}
+.reqs{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:0 12px}
+@media(max-width:480px){.reqs{grid-template-columns:1fr}}
+
+/* ===== Пользователи ===== */
+table.ut{width:100%;border-collapse:collapse;background:var(--card);border-radius:var(--r);overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow)}
+.ut th,.ut td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line);font-size:14px}
+.ut th{background:var(--card2);font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.ut select{width:auto;padding:6px 8px}
+@media(max-width:820px){
+  .ut,.ut tbody,.ut tr,.ut td{display:block;width:100%}.ut thead{display:none}
+  .ut tr{padding:10px;border-bottom:1px solid var(--line)}
+  .ut td{border:0;padding:3px 0}.ut td::before{content:attr(data-l)": ";color:var(--muted);font-size:12px}
+}
+
+/* ===== Авторизация ===== */
+.auth{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.auth .box{width:100%;max-width:400px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:26px;box-shadow:var(--shadow)}
+.auth .brand{justify-content:center;margin-bottom:16px;flex-direction:column;text-align:center}
+.auth .logo{width:56px;height:56px;font-size:28px;border-radius:18px}
+.seg{display:flex;background:var(--card2);border-radius:12px;padding:3px;margin-bottom:8px}
+.seg button{flex:1;border:0;background:transparent;padding:8px;border-radius:10px;cursor:pointer;font-weight:600;color:var(--muted)}
+.seg button.on{background:var(--card);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.err{color:var(--danger);font-size:13px;min-height:18px;margin-top:8px}
+.link{background:none;border:0;color:var(--a1);cursor:pointer;padding:6px 0;font-weight:600}
+
+/* ===== Модалки, тосты, tooltip ===== */
+.ov{position:fixed;inset:0;background:rgba(10,12,24,.5);backdrop-filter:blur(3px);z-index:100;display:flex;align-items:center;justify-content:center;padding:16px;animation:fade .15s}
+.modal{background:var(--card);border-radius:18px;padding:20px;width:100%;max-width:440px;max-height:92vh;overflow:auto;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.modal.wide{max-width:640px}
+.modal h3{margin-bottom:6px;font-size:18px}
+.mfoot{display:flex;gap:8px;justify-content:flex-end;margin-top:16px;flex-wrap:wrap}
+.mbody p{margin:8px 0;white-space:pre-line}
+.codebox{font-size:34px;letter-spacing:.3em;text-align:center;font-weight:800;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;padding:6px 0}
+#toasts{position:fixed;left:0;right:0;bottom:18px;display:flex;flex-direction:column;align-items:center;gap:8px;z-index:200;pointer-events:none;padding:0 12px}
+.toast{background:#1c1c1e;color:#fff;padding:10px 16px;border-radius:12px;font-size:14px;box-shadow:0 8px 24px rgba(0,0,0,.35);animation:fade .2s;max-width:480px}
+.toast.err{background:#b91c1c}.toast.ok{background:#15803d}
+.tip{position:fixed;z-index:300;display:none;background:#1c1c1e;color:#fff;padding:7px 11px;border-radius:10px;font-size:13px;line-height:1.35;max-width:260px;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.35);white-space:pre-line}
+.tip::after{content:"";position:absolute;left:var(--ax,50%);bottom:-5px;width:10px;height:10px;background:#1c1c1e;transform:translateX(-50%) rotate(45deg);border-radius:2px}
+.tip.below::after{bottom:auto;top:-5px}
+:root[data-theme="dark"] .tip,:root[data-theme="dark"] .tip::after{background:#3a3d4d}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="toasts"></div>
+<div id="tip" class="tip"></div>
+<!-- html2pdf.js для PDF-табеля и PDF-расписания -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
+<script>
+'use strict';
+/* ==========================================================================
+   ДНЕВНИК УСПЕВАЕМОСТИ — одностраничное приложение (SPA)
+   Хостинг: GitHub Pages. Синхронизация: GitHub API (contents).
+   ========================================================================== */
+
+/* ===== Константы (МЕНЯЙТЕ ПОД СЕБЯ — см. инструкцию) ===== */
+// Супер-админ (вшит в код). Хеш = SHA-256 от строки  "СОЛЬ:ПАРОЛЬ"
+const SUPER_ADMIN_EMAIL = 'superadmin@example.com';
+const SUPER_ADMIN_SALT = 'school_salt_superadmin_v1';
+const SUPER_ADMIN_PASSWORD_HASH = 'dd6efde15a35848a186eb7facfc08a1e8e3165f30fad07a689f11a6df41fd6a9'; // пароль по умолчанию: Admin#2026 — ЗАМЕНИТЕ!
+
+// EmailJS (необязательно). Если не настроено — код подтверждения показывается на экране.
+const EMAILJS = { serviceId: 'service_xxx', templateId: 'template_xxx', publicKey: 'xxxxxxxxxxxxxxx' };
+
+// GitHub: публичный репозиторий с приложением и данными
+const GH_OWNER = 'Warck-Alex';
+const GH_REPO  = 'school-progress';
+const GH_FILE  = 'data.json';
+const DATA_URL = 'data.json';
+
+// Служебный репозиторий с заявками. Токен ученика (доступ ТОЛЬКО к school-pending) вшит намеренно.
+const GH_PENDING = { owner: 'Warck-Alex', repo: 'school-pending', file: 'pending.json', token: 'github_pat_ВСТАВЬТЕ_СЮДА_ТОКЕН' };
+
+// Уведомления админу
+const NOTIFY = { pollInterval: 20000, telegramBot: '', telegramChat: '' };
+
+/* ===== Ключи localStorage ===== */
+const LS = {
+  users: 'schoolApp_v3_users', data: 'schoolApp_v3_data', session: 'schoolApp_v3_session',
+  invites: 'schoolApp_v3_invites', theme: 'schoolApp_v3_theme', token: 'gh_token',
+  vReg: 'schoolApp_v3_verify_register', vRes: 'schoolApp_v3_verify_reset',
+  cur: 'schoolApp_v3_cur', outbox: 'schoolApp_v3_outbox', seen: 'schoolApp_v3_seen'
+};
+
+const DAYS = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
+const DEFAULT_CATALOG = ['Математика', 'Русский язык', 'Белорусский язык', 'Литература', 'Английский язык', 'Физика', 'Химия', 'Биология', 'География', 'История', 'Информатика', 'Физкультура'];
+// Типы работ: ключ — полное название, abbr — сокращение на бейдже
+const GRADE_TYPES = [
+  { key: 'Контрольная работа', abbr: 'КР', color: '#e11d48' },
+  { key: 'Самостоятельная работа', abbr: 'СР', color: '#d97706' },
+  { key: 'Устный ответ', abbr: 'ОУ', color: '#0284c7' },
+  { key: 'Домашнее задание', abbr: 'ДЗ', color: '#0d9488' },
+  { key: 'Тест', abbr: 'Тест', color: '#7c3aed' },
+  { key: 'Проект', abbr: 'Проект', color: '#db2777' },
+  { key: 'Диктант', abbr: 'Дикт', color: '#475569' },
+  { key: 'Другое', abbr: '', color: '' }
+];
+const typeInfo = k => GRADE_TYPES.find(t => t.key === k);
+
+/* ===== Утилиты ===== */
+const $ = (s, r = document) => r.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 9);
+const nowIso = () => new Date().toISOString();
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const today = () => { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); };
+const fmtDate = s => { const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(s || ''); return m ? `${m[3]}.${m[2]}.${m[1]}` : (s || ''); };
+const fmtDT = s => { if (!s) return '—'; const d = new Date(s); return isNaN(d) ? '—' : d.toLocaleString('ru-RU', { dateStyle: 'short', timeStyle: 'short' }); };
+const lsGet = (k, d) => { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } };
+const lsSet = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { } };
+const lsRaw = k => { try { return localStorage.getItem(k); } catch (e) { return null; } };
+const lsSetRaw = (k, v) => { try { localStorage.setItem(k, v); } catch (e) { } };
+const lsDel = k => { try { localStorage.removeItem(k); } catch (e) { } };
+const normEmail = s => String(s || '').trim().toLowerCase();
+const fmtNum = n => n == null ? '—' : (Math.round(n * 100) / 100).toFixed(2).replace(/\.?0+$/, '');
+
+// Нормализация ФИО (регистр, пробелы, ё/е, Unicode) — для поиска дубликатов учеников
+function normalizeName(s) {
+  return String(s || '').trim().replace(/\s+/g, ' ').toLowerCase().replace(/ё/g, 'е').normalize('NFKC');
+}
+
+/* ===== SHA-256 (WebCrypto + запасная чистая реализация для небезопасного контекста) ===== */
+function rotr(x, n) { return (x >>> n) | (x << (32 - n)); }
+function sha256Fallback(str) {
+  const primes = []; for (let n = 2; primes.length < 64; n++) { if (primes.every(p => n % p)) primes.push(n); }
+  const frac = x => Math.floor((x - Math.floor(x)) * 4294967296);
+  const K = primes.map(p => frac(Math.cbrt(p)));
+  let H = primes.slice(0, 8).map(p => frac(Math.sqrt(p)));
+  const bytes = Array.from(new TextEncoder().encode(str));
+  const bitLen = bytes.length * 8;
+  bytes.push(0x80); while (bytes.length % 64 !== 56) bytes.push(0);
+  for (const v of [Math.floor(bitLen / 4294967296), bitLen >>> 0]) bytes.push((v >>> 24) & 255, (v >>> 16) & 255, (v >>> 8) & 255, v & 255);
+  for (let i = 0; i < bytes.length; i += 64) {
+    const w = new Array(64);
+    for (let t = 0; t < 16; t++) w[t] = ((bytes[i + 4 * t] << 24) | (bytes[i + 4 * t + 1] << 16) | (bytes[i + 4 * t + 2] << 8) | bytes[i + 4 * t + 3]) >>> 0;
+    for (let t = 16; t < 64; t++) {
+      const s0 = rotr(w[t - 15], 7) ^ rotr(w[t - 15], 18) ^ (w[t - 15] >>> 3);
+      const s1 = rotr(w[t - 2], 17) ^ rotr(w[t - 2], 19) ^ (w[t - 2] >>> 10);
+      w[t] = (w[t - 16] + s0 + w[t - 7] + s1) >>> 0;
+    }
+    let [a, b, c, d, e, f, g, h] = H;
+    for (let t = 0; t < 64; t++) {
+      const S1 = rotr(e, 6) ^ rotr(e, 11) ^ rotr(e, 25), ch = (e & f) ^ (~e & g);
+      const t1 = (h + S1 + ch + K[t] + w[t]) >>> 0;
+      const S0 = rotr(a, 2) ^ rotr(a, 13) ^ rotr(a, 22), mj = (a & b) ^ (a & c) ^ (b & c);
+      const t2 = (S0 + mj) >>> 0;
+      h = g; g = f; f = e; e = (d + t1) >>> 0; d = c; c = b; b = a; a = (t1 + t2) >>> 0;
+    }
+    const v = [a, b, c, d, e, f, g, h]; H = H.map((x, j) => (x + v[j]) >>> 0);
+  }
+  return H.map(x => x.toString(16).padStart(8, '0')).join('');
+}
+async function sha256(str) {
+  try {
+    if (window.crypto && crypto.subtle) {
+      const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+  } catch (e) { }
+  return sha256Fallback(str);
+}
+const hashPwd = (salt, pwd) => sha256(salt + ':' + pwd);
+
+/* ===== Base64 с поддержкой UTF-8 ===== */
+const b64enc = s => { const b = new TextEncoder().encode(s); let bin = ''; for (let i = 0; i < b.length; i += 0x8000) bin += String.fromCharCode.apply(null, b.subarray(i, i + 0x8000)); return btoa(bin); };
+const b64dec = s => { const bin = atob(String(s).replace(/\s/g, '')); return new TextDecoder().decode(Uint8Array.from(bin, c => c.charCodeAt(0))); };
+
+/* ===== Состояние ===== */
+let S = { students: [], deletedEmails: [], invites: [], publishedAt: null }; // данные (то, что публикуется)
+let USERS = [];            // пользователи
+let ME = null;             // текущий пользователь
+let curId = null;          // выбранный ученик
+let tab = 'grades';        // активная вкладка
+let authMode = 'login';    // login | register
+let PENDING = [];          // заявки (pending.json)
+let reqFilter = 'all';
+let dirty = false;         // есть неопубликованные изменения
+const unblocked = new Set(); // email, снятые с чёрного списка в этой сессии
+
+const isSuper = u => !!u && u.role === 'super_admin';
+const isAdm = u => !!u && (u.role === 'super_admin' || u.role === 'admin');
+
+/* ===== Хранилище ===== */
+function saveLocal() {
+  lsSet(LS.data, { students: S.students, deletedEmails: S.deletedEmails, publishedAt: S.publishedAt });
+  lsSet(LS.users, USERS);
+  lsSet(LS.invites, S.invites);
+}
+function loadLocal() {
+  const d = lsGet(LS.data, {});
+  S.students = Array.isArray(d.students) ? d.students.map(fixStudent) : [];
+  S.deletedEmails = Array.isArray(d.deletedEmails) ? d.deletedEmails : [];
+  S.publishedAt = d.publishedAt || null;
+  S.invites = lsGet(LS.invites, []);
+  USERS = lsGet(LS.users, []);
+}
+function fixStudent(s) {
+  s.subjects = Array.isArray(s.subjects) ? s.subjects : []; s.schedule = Array.isArray(s.schedule) ? s.schedule : [];
+  s.catalog = Array.isArray(s.catalog) ? s.catalog : DEFAULT_CATALOG.slice();
+  s.subjects.forEach((x, i) => { x.grades = Array.isArray(x.grades) ? x.grades : []; if (typeof x.order !== 'number') x.order = i; });
+  s.updatedAt = s.updatedAt || s.createdAt || '';
+  return s;
+}
+function newStudent(name, createdBy) {
+  const t = nowIso();
+  return { id: uid(), studentName: name.trim().replace(/\s+/g, ' '), subjects: [], schedule: [], catalog: DEFAULT_CATALOG.slice(), createdBy: createdBy || 'self', createdAt: t, updatedAt: t };
+}
+const touch = st => { st.updatedAt = nowIso(); };
+
+// Супер-админ создаётся автоматически; его данные всегда берутся из констант
+function ensureSuperAdmin() {
+  const em = normEmail(SUPER_ADMIN_EMAIL);
+  USERS.forEach(u => { if (u.role === 'super_admin' && normEmail(u.email) !== em) u.role = 'viewer'; });
+  let u = USERS.find(x => normEmail(x.email) === em);
+  if (!u) { u = { uid: 'super_admin', email: em, name: 'Супер-администратор', studentId: null, createdAt: nowIso() }; USERS.push(u); }
+  Object.assign(u, { role: 'super_admin', salt: SUPER_ADMIN_SALT, passwordHash: SUPER_ADMIN_PASSWORD_HASH });
+  S.deletedEmails = S.deletedEmails.filter(e => normEmail(e) !== em);
+}
+
+/* ===== Видимость и права ===== */
+const stById = id => S.students.find(s => s.id === id);
+function visibleStudents() {
+  if (!ME) return [];
+  if (isSuper(ME)) return S.students;
+  if (ME.role === 'admin') return S.students.filter(s => s.createdBy === ME.email || s.id === ME.studentId);
+  const s = stById(ME.studentId); return s ? [s] : [];
+}
+function curStudent() {
+  const list = visibleStudents();
+  let s = list.find(x => x.id === curId);
+  if (!s) { s = list.find(x => x.id === ME.studentId) || list[0] || null; curId = s ? s.id : null; }
+  return s;
+}
+const canDirect = () => isAdm(ME);                 // правит сразу
+const canEdit = () => isAdm(ME) || ME.role === 'student'; // правит (ученик — через заявку)
+const manages = st => isSuper(ME) || (ME.role === 'admin' && st && st.createdBy === ME.email);
+function visibleUsers() {
+  if (!isAdm(ME)) return [];
+  if (isSuper(ME)) return USERS;
+  const ids = new Set(S.students.filter(s => s.createdBy === ME.email).map(s => s.id));
+  return USERS.filter(u => u.role !== 'super_admin' && (ids.has(u.studentId) || u.email === ME.email));
+}
+
+/* ===== Оценки: расчёты ===== */
+const GRADE_COLORS = ['#e5121f', '#ee3b21', '#f0612a', '#f28a1f', '#efb01a', '#c6c91b', '#8fd024', '#4fc43b', '#1fa84a', '#2563eb'];
+function gradeColor(v) { // v: 1..10, дробные — интерполяция
+  v = Math.max(1, Math.min(10, Number(v) || 1));
+  const i = Math.floor(v), f = v - i; if (f === 0 || i >= 10) return GRADE_COLORS[i - 1];
+  const p = c => [1, 3, 5].map(k => parseInt(c.substr(k, 2), 16)), a = p(GRADE_COLORS[i - 1]), b = p(GRADE_COLORS[i]);
+  return '#' + a.map((x, k) => Math.round(x + (b[k] - x) * f).toString(16).padStart(2, '0')).join('');
+}
+const cmpGrade = (a, b) => (a.date || '').localeCompare(b.date || '') || (a.createdAt || '').localeCompare(b.createdAt || '');
+const sortSub = sub => { sub.grades.sort(cmpGrade); return sub; };
+const subjAvg = sub => sub.grades.length ? sub.grades.reduce((a, g) => a + Number(g.value), 0) / sub.grades.length : null;
+// Общий средний — среднее арифметическое средних по предметам, где есть оценки
+function overallAvg(st) { const a = st.subjects.map(subjAvg).filter(x => x != null); return a.length ? a.reduce((x, y) => x + y, 0) / a.length : null; }
+const subjectsSorted = st => st.subjects.slice().sort((a, b) => a.order - b.order);
+
+/* ===== UI: модалки, диалоги, тосты ===== */
+function modal({ title, body, buttons = [], wide = false, dismiss = true, onClose }) {
+  const ov = document.createElement('div'); ov.className = 'ov';
+  ov.innerHTML = `<div class="modal${wide ? ' wide' : ''}" role="dialog"><h3>${esc(title)}</h3><div class="mbody">${body}</div><div class="mfoot"></div></div>`;
+  const foot = ov.querySelector('.mfoot');
+  const close = () => { if (!ov.isConnected) return; ov.remove(); onClose && onClose(); };
+  buttons.forEach(b => {
+    const el = document.createElement('button'); el.className = 'btn ' + (b.cls || ''); el.textContent = b.label;
+    el.onclick = async () => { const r = b.onClick ? await b.onClick(ov, close) : undefined; if (r !== false) close(); };
+    foot.appendChild(el);
+  });
+  if (dismiss) ov.addEventListener('mousedown', e => { if (e.target === ov) close(); });
+  document.body.appendChild(ov);
+  const f = ov.querySelector('input,select,textarea'); if (f) setTimeout(() => f.focus(), 30);
+  ov.addEventListener('keydown', e => { if (e.key === 'Escape' && dismiss) close(); });
+  return { el: ov, close };
+}
+function ask(msg, { ok = 'OK', cancel = 'Отмена', danger = false, title = 'Подтверждение', dismiss = true } = {}) {
+  return new Promise(res => {
+    let done = false; const fin = v => { if (!done) { done = true; res(v); } };
+    modal({ title, body: `<p>${esc(msg)}</p>`, dismiss, onClose: () => fin(false),
+      buttons: [{ label: cancel, cls: 'ghost', onClick: () => fin(false) }, { label: ok, cls: danger ? 'danger' : 'primary', onClick: () => fin(true) }] });
+  });
+}
+function notice(msg, title = 'Сообщение') { return new Promise(res => modal({ title, body: `<p>${esc(msg)}</p>`, onClose: res, buttons: [{ label: 'OK', cls: 'primary' }] })); }
+function askText(title, label, { value = '', type = 'text', placeholder = '', ok = 'OK', hint = '' } = {}) {
+  return new Promise(res => {
+    let done = false; const fin = v => { if (!done) { done = true; res(v); } };
+    const m = modal({ title, body: `${hint ? `<p class="muted small">${esc(hint)}</p>` : ''}<label>${esc(label)}</label><input id="_at" type="${type}" value="${esc(value)}" placeholder="${esc(placeholder)}">`,
+      onClose: () => fin(null),
+      buttons: [{ label: 'Отмена', cls: 'ghost', onClick: () => fin(null) }, { label: ok, cls: 'primary', onClick: o => { fin($('#_at', o).value.trim()); } }] });
+    m.el.querySelector('#_at').addEventListener('keydown', e => { if (e.key === 'Enter') { fin(e.target.value.trim()); m.close(); } });
+  });
+}
+function toast(msg, kind = '') {
+  const t = document.createElement('div'); t.className = 'toast ' + kind; t.textContent = msg; $('#toasts').appendChild(t);
+  setTimeout(() => t.remove(), kind === 'err' ? 5500 : 3200);
+}
+
+/* ===== Подсказки (tooltip) =====
+   Для кнопок: атрибут title превращается в тёмный tooltip с задержкой 500 мс.
+   Для оценок: ПК — 800 мс, сенсор (Android) — долгое нажатие 550 мс. */
+const tipEl = () => $('#tip');
+let tipTimer = null, lastTouch = 0, longPressed = false;
+function hideTip() { clearTimeout(tipTimer); tipEl().style.display = 'none'; }
+function showTip(target, html) {
+  const t = tipEl(); t.innerHTML = html; t.style.display = 'block'; t.classList.remove('below');
+  const r = target.getBoundingClientRect(), w = t.offsetWidth, h = t.offsetHeight, vw = window.innerWidth;
+  let left = Math.max(8, Math.min(vw - w - 8, r.left + r.width / 2 - w / 2)), top = r.top - h - 10;
+  if (top < 8) { top = r.bottom + 10; t.classList.add('below'); }
+  t.style.left = left + 'px'; t.style.top = top + 'px';
+  t.style.setProperty('--ax', Math.max(14, Math.min(w - 14, r.left + r.width / 2 - left)) + 'px');
+}
+function gradeTipHtml(el) {
+  const st = curStudent(); const sub = st && st.subjects.find(s => s.id === el.dataset.sub); const g = sub && sub.grades.find(x => x.id === el.dataset.id);
+  if (!g) return '';
+  return `<b>${esc(g.value)}</b> · ${esc(g.type || 'Другое')}\n${esc(fmtDate(g.date))}${g.comment ? '\n' + esc(g.comment) : ''}`;
+}
+document.addEventListener('mouseover', e => {
+  if (Date.now() - lastTouch < 900) return;
+  const el = e.target.closest('[data-id][data-sub],[title],[data-tip]'); if (!el) return;
+  if (el.hasAttribute('title')) { el.dataset.tip = el.getAttribute('title'); el.removeAttribute('title'); }
+  const isG = el.dataset.id && el.dataset.sub; const text = isG ? null : el.dataset.tip; if (!isG && !text) return;
+  clearTimeout(tipTimer);
+  tipTimer = setTimeout(() => showTip(el, isG ? gradeTipHtml(el) : esc(text)), isG ? 800 : 500);
+});
+document.addEventListener('mouseout', e => { if (e.target.closest('[data-id][data-sub],[data-tip],[title]')) hideTip(); });
+document.addEventListener('scroll', hideTip, true);
+document.addEventListener('mousedown', hideTip);
+document.addEventListener('touchstart', e => {
+  lastTouch = Date.now(); longPressed = false;
+  const el = e.target.closest('[data-id][data-sub]'); if (!el) return;
+  clearTimeout(tipTimer);
+  tipTimer = setTimeout(() => { longPressed = true; showTip(el, gradeTipHtml(el)); setTimeout(hideTip, 3500); }, 550);
+}, { passive: true });
+['touchend', 'touchmove', 'touchcancel'].forEach(ev => document.addEventListener(ev, () => { lastTouch = Date.now(); if (!longPressed) clearTimeout(tipTimer); }, { passive: true }));
+
+/* ===== Звук и уведомления ===== */
+let audioCtx = null;
+function beep() {
+  try {
+    audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+    const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+    o.type = 'sine'; o.frequency.value = 800; g.gain.value = 0.15; o.connect(g); g.connect(audioCtx.destination);
+    o.start(); o.stop(audioCtx.currentTime + 0.15);
+  } catch (e) { }
+}
+document.addEventListener('click', function unlock() {
+  try { audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)(); if (audioCtx.state === 'suspended') audioCtx.resume(); } catch (e) { }
+  try { if (ME && isAdm(ME) && window.Notification && Notification.permission === 'default') Notification.requestPermission(); } catch (e) { }
+}, { capture: true });
+
+/* ===== Скачивание файлов (в Android WebView — через мост AndroidBridge, если он есть) ===== */
+function downloadText(name, mime, text) {
+  if (window.AndroidBridge && AndroidBridge.saveFile) { AndroidBridge.saveFile(name, mime, text); return; }
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([text], { type: mime })); a.download = name;
+  document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+}
+
+/* ==========================================================================
+   GitHub API, слияние данных, публикация
+   ========================================================================== */
+async function ghApi(method, url, token, body) {
+  const r = await fetch('https://api.github.com' + url, {
+    method, cache: 'no-store',
+    headers: Object.assign({ 'Accept': 'application/vnd.github+json', 'Authorization': 'Bearer ' + token, 'X-GitHub-Api-Version': '2022-11-28' }, body ? { 'Content-Type': 'application/json' } : {}),
+    body: body ? JSON.stringify(body) : undefined
+  });
+  if (!r.ok) { const e = new Error('GitHub ' + r.status); e.status = r.status; try { e.data = await r.json(); } catch (_) { } throw e; }
+  return r.status === 204 ? null : r.json();
+}
+// Читает JSON-файл из репозитория. Возвращает {json, sha} или null, если файла нет.
+async function ghGet(owner, repo, path, token) {
+  try {
+    const j = await ghApi('GET', `/repos/${owner}/${repo}/contents/${encodeURIComponent(path)}?t=${Date.now()}`, token);
+    return { json: JSON.parse(b64dec(j.content || '') || 'null'), sha: j.sha };
+  } catch (e) { if (e.status === 404) return null; throw e; }
+}
+async function ghPut(owner, repo, path, token, obj, sha, msg) {
+  return ghApi('PUT', `/repos/${owner}/${repo}/contents/${encodeURIComponent(path)}`, token,
+    { message: msg || 'update', content: b64enc(JSON.stringify(obj, null, 2)), ...(sha ? { sha } : {}) });
+}
+const adminToken = () => lsRaw(LS.token) || '';
+const pendingReady = () => GH_PENDING.token && !/ВСТАВЬТЕ/.test(GH_PENDING.token);
+
+/* ===== Слияние: «последняя правка побеждает» по updatedAt ===== */
+function mergeLWW(a, b, keyFn, stampFn) {
+  const m = new Map();
+  [...a, ...b].forEach(x => { const k = keyFn(x), o = m.get(k); if (!o || stampFn(x) > stampFn(o)) m.set(k, x); });
+  return [...m.values()];
+}
+const stStamp = s => s.updatedAt || s.createdAt || '';
+const usStamp = u => u.updatedAt || u.createdAt || '';
+const inviteMine = i => isSuper(ME) || i.invitedBy === ME.email;
+
+// Принять данные с GitHub в локальное состояние
+function receiveRemote(remote) {
+  const rs = (Array.isArray(remote.students) ? remote.students : []).map(fixStudent);
+  const ru = Array.isArray(remote.users) ? remote.users : [];
+  const rdel = Array.isArray(remote.deletedEmails) ? remote.deletedEmails : [];
+  const rinv = Array.isArray(remote.invites) ? remote.invites : [];
+  const before = JSON.stringify([S.students, USERS, S.invites, S.deletedEmails]);
+  if (ME && isAdm(ME)) {
+    // админ: свои неопубликованные правки (новее) сохраняются
+    S.students = mergeLWW(rs, S.students, s => s.id, stStamp);
+    S.invites = rinv.filter(i => !inviteMine(i)).concat(S.invites.filter(inviteMine));
+  } else {
+    // ученик/наблюдатель: данные с GitHub главнее; своя (ещё не одобренная) карточка ученика сохраняется
+    const keep = ME && !rs.find(s => s.id === ME.studentId) ? S.students.filter(s => s.id === ME.studentId) : [];
+    S.students = rs.concat(keep);
+    S.invites = rinv;
+  }
+  S.deletedEmails = [...new Set([...rdel, ...S.deletedEmails.filter(e => !rdel.includes(e) && ME && isAdm(ME))])];
+  const delSet = new Set(S.deletedEmails.map(normEmail));
+  let users = mergeLWW(ru, USERS, u => normEmail(u.email), usStamp).filter(u => !delSet.has(normEmail(u.email)));
+  if (!(ME && isAdm(ME))) { // «чужие» локальные записи без подтверждения не нужны — оставляем только себя
+    users = users.filter(u => ru.find(r => normEmail(r.email) === normEmail(u.email)) || (ME && normEmail(u.email) === normEmail(ME.email)));
+  }
+  USERS = users; S.publishedAt = remote.publishedAt || S.publishedAt;
+  ensureSuperAdmin(); saveLocal();
+  if (ME) { const m = USERS.find(u => u.uid === ME.uid || normEmail(u.email) === normEmail(ME.email)); if (m) ME = m; }
+  return before !== JSON.stringify([S.students, USERS, S.invites, S.deletedEmails]);
+}
+
+// loadPublishedData() — GET data.json (с cache-buster). Админ с токеном читает через API (без задержки CDN).
+async function loadPublishedData() {
+  let remote = null;
+  try {
+    const tok = adminToken();
+    if (tok && ME && isAdm(ME)) { try { const r = await ghGet(GH_OWNER, GH_REPO, GH_FILE, tok); remote = r ? r.json : null; } catch (e) { remote = null; } }
+    if (!remote) { const r = await fetch(DATA_URL + '?t=' + Date.now(), { cache: 'no-store' }); if (r.ok) remote = await r.json(); }
+  } catch (e) { return false; }
+  if (!remote || typeof remote !== 'object') return false;
+  return receiveRemote(remote);
+}
+
+// Собрать файл для публикации: слияние с тем, что сейчас лежит на GitHub
+function buildPublic(remote) {
+  remote = remote || {};
+  const rs = (Array.isArray(remote.students) ? remote.students : []).map(fixStudent);
+  const students = mergeLWW(rs, S.students, s => s.id, stStamp);
+  const deleted = [...new Set([...(remote.deletedEmails || []), ...S.deletedEmails])].filter(e => !unblocked.has(normEmail(e)));
+  const delSet = new Set(deleted.map(normEmail));
+  const users = mergeLWW(Array.isArray(remote.users) ? remote.users : [], USERS, u => normEmail(u.email), usStamp).filter(u => !delSet.has(normEmail(u.email)));
+  const invites = (Array.isArray(remote.invites) ? remote.invites : []).filter(i => !inviteMine(i)).concat(S.invites.filter(inviteMine));
+  return { students, users, deletedEmails: deleted, invites, publishedAt: nowIso() };
+}
+
+let pubTimer = null, pubBusy = false, warnedToken = false;
+function setDirty(v) { dirty = v; const d = $('#pubdot'); if (d) { d.className = 'dot' + (v ? ' dirty' : ''); d.title = v ? 'Есть неопубликованные изменения' : 'Всё опубликовано'; } }
+// Планирует тихую автопубликацию (только админы; ученик автопубликацию НЕ делает)
+function schedulePublish() {
+  if (!ME || !isAdm(ME)) return;
+  setDirty(true); clearTimeout(pubTimer); pubTimer = setTimeout(() => publishToGitHubSilent(), 1200);
+}
+async function publishToGitHubSilent({ force = false } = {}) {
+  if (!ME || !isAdm(ME)) return false;
+  const tok = adminToken();
+  if (!tok) { if (!warnedToken) { warnedToken = true; toast('Токен GitHub не введён: изменения сохранены локально. Нажмите «Опубликовать» в личном кабинете.', 'err'); } return false; }
+  if (pubBusy) { clearTimeout(pubTimer); pubTimer = setTimeout(() => publishToGitHubSilent({ force }), 1500); return false; }
+  pubBusy = true;
+  try {
+    for (let i = 0; i < 3; i++) {
+      const cur = await ghGet(GH_OWNER, GH_REPO, GH_FILE, tok);
+      const out = buildPublic(cur && cur.json);
+      try {
+        await ghPut(GH_OWNER, GH_REPO, GH_FILE, tok, out, cur ? cur.sha : undefined, 'Обновление данных ' + out.publishedAt);
+        S.students = out.students; USERS = out.users; S.deletedEmails = out.deletedEmails; S.publishedAt = out.publishedAt;
+        unblocked.clear(); ensureSuperAdmin(); saveLocal(); setDirty(false);
+        const m = USERS.find(u => normEmail(u.email) === normEmail(ME.email)); if (m) ME = m;
+        return true;
+      } catch (e) { if ((e.status === 409 || e.status === 422) && i < 2) { await sleep(400); continue; } throw e; }
+    }
+  } catch (e) {
+    if (e.status === 401 || e.status === 403) { lsDel(LS.token); warnedToken = false; toast('GitHub отклонил токен (' + e.status + '). Введите токен заново.', 'err'); }
+    else toast('Не удалось опубликовать: ' + (e.message || e), 'err');
+    return false;
+  } finally { pubBusy = false; }
+  return false;
+}
+async function ensureToken() {
+  let t = adminToken(); if (t) return t;
+  t = await askText('Токен GitHub', 'Fine-grained токен (school-progress, Contents: Read and write)', { type: 'password', placeholder: 'github_pat_…', ok: 'Сохранить', hint: 'Токен хранится только в этом браузере (localStorage).' });
+  if (t) { lsSetRaw(LS.token, t); warnedToken = false; } return t || '';
+}
+async function publishToGitHub() {
+  if (!(await ask('Опубликовать данные на GitHub (data.json)?', { ok: 'Опубликовать' }))) return;
+  if (!(await ensureToken())) return;
+  toast('Публикация…'); const ok = await publishToGitHubSilent();
+  if (ok) { toast('Опубликовано ✓', 'ok'); render(); }
+}
+async function syncFromGitHub() {
+  toast('Загрузка данных…'); const ok = await loadPublishedData();
+  toast(ok ? 'Данные обновлены ✓' : 'Не удалось загрузить data.json', ok ? 'ok' : 'err'); render();
+}
+// commit: сохранить + перерисовать + автопубликация (для админа)
+function commit(st) { if (st) touch(st); saveLocal(); render(); schedulePublish(); }
+
+/* ==========================================================================
+   Заявки (pending.json)
+   ========================================================================== */
+async function updatePending(mut) {
+  if (!pendingReady()) throw new Error('Токен заявок (GH_PENDING.token) не настроен');
+  const P = GH_PENDING;
+  for (let i = 0; i < 4; i++) {
+    const cur = await ghGet(P.owner, P.repo, P.file, P.token);
+    let list = cur && Array.isArray(cur.json) ? cur.json : [];
+    list = mut(list) || list;
+    const lim = Date.now() - 3 * 864e5; // обработанные заявки храним 3 дня
+    list = list.filter(r => r.status === 'pending' || new Date(r.processedAt || r.createdAt).getTime() > lim);
+    try { await ghPut(P.owner, P.repo, P.file, P.token, list, cur ? cur.sha : undefined, 'pending'); return list; }
+    catch (e) { if ((e.status === 409 || e.status === 422) && i < 3) { await sleep(350 * (i + 1)); continue; } throw e; }
+  }
+  throw new Error('Конфликт записи заявки');
+}
+async function sendRequest(type, st, payload, extra) {
+  const req = Object.assign({ id: uid(), type, status: 'pending', studentId: st.id, studentName: st.studentName, owner: st.createdBy, by: ME ? ME.email : '', byName: ME ? ME.name : '', createdAt: nowIso(), payload }, extra || {});
+  try { await updatePending(l => { l.push(req); }); return true; }
+  catch (e) { const ob = lsGet(LS.outbox, []); ob.push(req); lsSet(LS.outbox, ob); toast('Заявка не отправлена (' + (e.message || e) + '). Будет отправлена позже.', 'err'); return false; }
+}
+async function flushOutbox() {
+  const ob = lsGet(LS.outbox, []); if (!ob.length || !pendingReady()) return;
+  try { await updatePending(l => { ob.forEach(r => { if (!l.find(x => x.id === r.id)) l.push(r); }); }); lsSet(LS.outbox, []); } catch (e) { }
+}
+const reqVisible = r => r.status === 'pending' && isAdm(ME) && (isSuper(ME) || r.owner === ME.email);
+async function refreshPending(silentFirst) {
+  if (!ME || !pendingReady()) return;
+  try {
+    const cur = await ghGet(GH_PENDING.owner, GH_PENDING.repo, GH_PENDING.file, GH_PENDING.token);
+    PENDING = cur && Array.isArray(cur.json) ? cur.json : [];
+  } catch (e) { return; }
+  if (isAdm(ME)) {
+    const seen = new Set(lsGet(LS.seen, [])); const mine = PENDING.filter(reqVisible); const fresh = mine.filter(r => !seen.has(r.id));
+    if (fresh.length && !silentFirst) notifyNew(fresh);
+    lsSet(LS.seen, [...new Set([...seen, ...mine.map(r => r.id)])].slice(-300));
+  }
+  updateReqUi();
+}
+function notifyNew(list) {
+  beep();
+  const text = `Новые заявки: ${list.length}\n` + list.slice(0, 5).map(describeReq).join('\n');
+  try { if (window.Notification && Notification.permission === 'granted') new Notification('Дневник: новые заявки', { body: text }); } catch (e) { }
+  if (NOTIFY.telegramBot && NOTIFY.telegramChat) {
+    fetch(`https://api.telegram.org/bot${NOTIFY.telegramBot}/sendMessage`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ chat_id: NOTIFY.telegramChat, text: '📬 ' + text }) }).catch(() => { });
+  }
+  toast('📬 Новые заявки: ' + list.length);
+}
+function describeReq(r) {
+  const p = r.payload || {}, who = r.studentName || '';
+  switch (r.type) {
+    case 'grade': { const g = p.grade || {}; const op = { add: 'Добавить оценку', edit: 'Изменить оценку', delete: 'Удалить оценку' }[p.op] || p.op; return `${who}: ${op} — ${p.subjectName}${p.op !== 'delete' ? ` ${g.value} (${g.type || 'Другое'}) ${fmtDate(g.date)}` : ''}`; }
+    case 'schedule': { const l = p.lesson || {}; const op = { add: 'Добавить урок', edit: 'Изменить урок', delete: 'Удалить урок', move: 'Переместить урок' }[p.op] || p.op; return `${who}: ${op} — ${l.subject || ''} ${l.day || ''} ${l.time || ''}`; }
+    case 'catalog': return `${who}: каталог — ${p.op === 'add' ? 'добавить' : 'удалить'} «${p.name}»`;
+    case 'new_user': return `Новый пользователь ${p.user.email} (${p.user.name}) → ученик «${who}»`;
+    case 'new_student': return `Новый ученик «${who}» и пользователь ${p.user.email}`;
+    case 'password': return `Сброс пароля: ${p.email} (код подтверждения: ${p.verified === 'email' ? 'отправлен на почту' : 'показан на экране — проверьте личность!'})`;
+  }
+  return r.type;
+}
+
+/* ===== Применение операций к ученику (одни и те же для прямых правок и заявок) ===== */
+function applyGradeOp(st, p) {
+  let sub = st.subjects.find(s => s.name === p.subjectName);
+  if (!sub) { if (p.op !== 'add') return false; sub = { id: uid(), name: p.subjectName, order: st.subjects.length, grades: [] }; st.subjects.push(sub); }
+  const i = sub.grades.findIndex(g => g.id === p.gradeId);
+  if (p.op === 'delete') { if (i >= 0) sub.grades.splice(i, 1); }
+  else {
+    const g = Object.assign({ createdAt: nowIso() }, i >= 0 ? sub.grades[i] : {}, p.grade, { id: p.gradeId });
+    if (i >= 0) sub.grades[i] = g; else sub.grades.push(g);
+  }
+  sortSub(sub); touch(st); return true;
+}
+function applyScheduleOp(st, p) {
+  const l = p.lesson || {}; const i = st.schedule.findIndex(x => x.id === l.id);
+  if (p.op === 'delete') { if (i >= 0) st.schedule.splice(i, 1); }
+  else if (p.op === 'add' || p.op === 'edit') {
+    if (i >= 0) Object.assign(st.schedule[i], l);
+    else { // новый урок встаёт в день по времени
+      const idx = st.schedule.findIndex(x => x.day === l.day && l.time && x.time && x.time > l.time);
+      if (idx >= 0) st.schedule.splice(idx, 0, l); else st.schedule.push(l);
+    }
+  } else if (p.op === 'move') {
+    if (i < 0) return false; const [it] = st.schedule.splice(i, 1); it.day = l.day;
+    const b = p.beforeId ? st.schedule.findIndex(x => x.id === p.beforeId) : -1;
+    if (b >= 0) st.schedule.splice(b, 0, it);
+    else { let last = -1; st.schedule.forEach((x, k) => { if (x.day === it.day) last = k; }); st.schedule.splice(last + 1, 0, it); }
+  }
+  touch(st); return true;
+}
+function applyCatalogOp(st, p) {
+  if (p.op === 'add') { if (!st.catalog.includes(p.name)) st.catalog.push(p.name); }
+  else st.catalog = st.catalog.filter(x => x !== p.name);
+  touch(st); return true;
+}
+
+const findInvite = email => S.invites.find(i => normEmail(i.email) === normEmail(email) && !i.usedAt);
+function roleFromInvite(inv) {
+  if (!inv) return 'viewer';
+  if (inv.role === 'admin') return inv.invitedBy === normEmail(SUPER_ADMIN_EMAIL) ? 'admin' : 'student'; // админов назначает только супер-админ
+  return ['student', 'viewer'].includes(inv.role) ? inv.role : 'viewer';
+}
+
+// Применение заявки админом. Возвращает {ok, msg}
+function applyRequest(r) {
+  const p = r.payload || {};
+  if (r.type === 'new_user' || r.type === 'new_student') {
+    const email = normEmail(p.user.email);
+    if (S.deletedEmails.map(normEmail).includes(email)) return { ok: false, msg: 'Этот email в чёрном списке' };
+    let st = null;
+    if (p.student) {
+      st = stById(p.student.id) || S.students.find(s => normalizeName(s.studentName) === normalizeName(p.student.studentName));
+      if (!st) { st = fixStudent(Object.assign({}, p.student)); S.students.push(st); }
+    } else st = stById(p.user.studentId);
+    if (!st) return { ok: false, msg: 'Ученик не найден' };
+    const inv = findInvite(email) || S.invites.find(i => normEmail(i.email) === email);
+    const role = roleFromInvite(inv);
+    if (!USERS.find(u => normEmail(u.email) === email))
+      USERS.push({ uid: p.user.uid, email, name: p.user.name, role, studentId: st.id, salt: p.user.salt, passwordHash: p.user.passwordHash, createdAt: p.user.createdAt, updatedAt: nowIso() });
+    if (inv) inv.usedAt = nowIso();
+    touch(st); return { ok: true };
+  }
+  if (r.type === 'password') {
+    const u = USERS.find(x => normEmail(x.email) === normEmail(p.email));
+    if (!u || u.role === 'super_admin') return { ok: false, msg: 'Пользователь не найден' };
+    u.salt = p.salt; u.passwordHash = p.passwordHash; u.updatedAt = nowIso(); return { ok: true };
+  }
+  const st = stById(r.studentId); if (!st) return { ok: false, msg: 'Ученик не найден (обновите данные)' };
+  if (!manages(st)) return { ok: false, msg: 'Это не ваш ученик' };
+  if (r.type === 'grade') applyGradeOp(st, p); else if (r.type === 'schedule') applyScheduleOp(st, p); else if (r.type === 'catalog') applyCatalogOp(st, p);
+  return { ok: true };
+}
+async function approveRequest(id) {
+  const r = PENDING.find(x => x.id === id); if (!r) return;
+  if (!(await ensureToken())) return;
+  toast('Применяю заявку…'); await loadPublishedData();
+  const res = applyRequest(r); if (!res.ok) { toast(res.msg, 'err'); return; }
+  saveLocal(); setDirty(true);
+  if (!(await publishToGitHubSilent())) { toast('Изменения применены локально, но НЕ опубликованы — заявка осталась в списке', 'err'); render(); return; }
+  try { await updatePending(l => { const x = l.find(y => y.id === id); if (x) { x.status = 'approved'; x.processedAt = nowIso(); x.processedBy = ME.email; } }); } catch (e) { toast('Заявка применена, но не отмечена: ' + e.message, 'err'); }
+  toast('Заявка принята ✓', 'ok'); await refreshPending(true); render();
+}
+async function rejectRequest(id) {
+  const reason = await askText('Отклонить заявку', 'Причина (необязательно)', { ok: 'Отклонить' }); if (reason === null) return;
+  try { await updatePending(l => { const x = l.find(y => y.id === id); if (x) { x.status = 'rejected'; x.reason = reason; x.processedAt = nowIso(); x.processedBy = ME.email; } }); toast('Заявка отклонена'); }
+  catch (e) { toast('Ошибка: ' + e.message, 'err'); }
+  await refreshPending(true); render();
+}
+
+// Периодические задачи: опрос заявок, обновление данных
+let pollTimer = null, pollN = 0;
+function startPolling() {
+  stopPolling(); pollN = 0;
+  refreshPending(true); flushOutbox();
+  pollTimer = setInterval(async () => {
+    pollN++; await refreshPending(false);
+    if (pollN % 3 === 0 && !document.hidden) { const ch = await loadPublishedData(); if (ch && !$('.ov')) render(); }
+  }, NOTIFY.pollInterval);
+}
+function stopPolling() { clearInterval(pollTimer); pollTimer = null; }
+document.addEventListener('visibilitychange', () => { if (!document.hidden && ME) { loadPublishedData().then(ch => { if (ch && !$('.ov')) render(); }); refreshPending(true); } });
+
+/* ==========================================================================
+   Авторизация
+   ========================================================================== */
+const emailConfigured = () => !/xxx/i.test(EMAILJS.serviceId + EMAILJS.templateId + EMAILJS.publicKey);
+function genCode() { const a = new Uint32Array(1); (window.crypto || {}).getRandomValues ? crypto.getRandomValues(a) : (a[0] = Math.random() * 4e9); return 100 + (a[0] % 900); }
+async function sendCode(email, name, code) {
+  if (!emailConfigured()) return false;
+  try {
+    const r = await fetch('https://api.emailjs.com/api/v1.0/email/send', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ service_id: EMAILJS.serviceId, template_id: EMAILJS.templateId, user_id: EMAILJS.publicKey, template_params: { to_email: email, to_name: name || email, code: String(code), passcode: String(code) } }) });
+    return r.ok;
+  } catch (e) { return false; }
+}
+// Универсальное окно ввода 3-значного кода: 5 попыток, 10 минут
+function verifyCodeDialog(key, v, mailed) {
+  return new Promise(res => {
+    let done = false; const fin = x => { if (!done) { done = true; res(x); } };
+    const m = modal({ title: 'Подтверждение email', dismiss: false, onClose: () => fin(false),
+      body: `${mailed ? `<p>Код отправлен на <b>${esc(v.email)}</b>.</p>` : `<p class="muted small">Отправка писем (EmailJS) не настроена — код показан на экране:</p><div class="codebox">${v.code}</div>`}
+        <label>Введите 3-значный код</label><input id="_code" inputmode="numeric" maxlength="3" autocomplete="one-time-code"><div class="err" id="_cerr"></div>`,
+      buttons: [{ label: 'Отмена', cls: 'ghost', onClick: () => { lsDel(key); fin(false); } },
+        { label: 'Подтвердить', cls: 'primary', onClick: o => {
+          const cur = lsGet(key, null), err = $('#_cerr', o);
+          if (!cur || Date.now() > cur.expires) { lsDel(key); err.textContent = 'Код устарел. Начните заново.'; setTimeout(() => { fin(false); m.close(); }, 1200); return false; }
+          if (String($('#_code', o).value.trim()) === String(cur.code)) { lsDel(key); fin(true); return true; }
+          cur.attempts = (cur.attempts || 0) + 1; lsSet(key, cur);
+          if (cur.attempts >= 5) { lsDel(key); err.textContent = 'Слишком много попыток.'; setTimeout(() => { fin(false); m.close(); }, 1200); return false; }
+          err.textContent = `Неверный код. Осталось попыток: ${5 - cur.attempts}`; return false;
+        } }] });
+  });
+}
+async function doLogin(email, pwd) {
+  email = normEmail(email); if (!email || !pwd) return 'Введите email и пароль';
+  let u = USERS.find(x => normEmail(x.email) === email);
+  if (!u) { await loadPublishedData(); u = USERS.find(x => normEmail(x.email) === email); }
+  if (S.deletedEmails.map(normEmail).includes(email)) return 'Аккаунт удалён администратором';
+  if (!u) return 'Пользователь не найден. Если вы только зарегистрировались — дождитесь одобрения администратора.';
+  const h = await hashPwd(u.salt, pwd);
+  if (h !== u.passwordHash) return 'Неверный пароль';
+  lsSet(LS.session, { email }); ME = u; curId = lsGet(LS.cur, null); afterLogin(); return '';
+}
+function afterLogin() {
+  render(); loadPublishedData().then(ch => { if (ch) render(); });
+  if (isAdm(ME) || ME.role === 'student') startPolling();
+}
+function logout() { stopPolling(); lsDel(LS.session); ME = null; PENDING = []; authMode = 'login'; render(); }
+
+async function startRegister(email, pwd, name) {
+  email = normEmail(email); name = String(name || '').trim().replace(/\s+/g, ' ');
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return 'Некорректный email';
+  if (pwd.length < 6) return 'Пароль — не короче 6 символов';
+  if (name.length < 3) return 'Введите ФИО ученика';
+  if (email === normEmail(SUPER_ADMIN_EMAIL)) return 'Этот email зарезервирован за супер-администратором — используйте «Войти»';
+  await loadPublishedData();
+  if (S.deletedEmails.map(normEmail).includes(email)) return 'Этот email заблокирован администратором';
+  if (USERS.find(u => normEmail(u.email) === email)) return 'Этот email уже зарегистрирован';
+  const salt = uid() + uid(), hash = await hashPwd(salt, pwd), code = genCode();
+  const v = { email, name, salt, hash, code, expires: Date.now() + 10 * 60 * 1000, attempts: 0 };
+  lsSet(LS.vReg, v);
+  const mailed = await sendCode(email, name, code);
+  if (!(await verifyCodeDialog(LS.vReg, v, mailed))) return 'Регистрация отменена';
+  await finalizeRegistration(v); return '';
+}
+async function finalizeRegistration(v) {
+  const inv = findInvite(v.email); const role = roleFromInvite(inv);
+  let st = inv && inv.studentId ? stById(inv.studentId) : null;
+  if (!st) st = S.students.find(s => normalizeName(s.studentName) === normalizeName(v.name)); // поиск по нормализованному ФИО
+  let isNew = false;
+  if (!st) { isNew = true; st = newStudent(v.name, role === 'admin' ? v.email : (inv ? inv.invitedBy : 'self')); S.students.push(st); }
+  const user = { uid: uid(), email: v.email, name: v.name, role, studentId: st.id, salt: v.salt, passwordHash: v.hash, createdAt: nowIso(), updatedAt: nowIso() };
+  USERS.push(user); saveLocal();
+  lsSet(LS.session, { email: v.email }); ME = user; curId = st.id; afterLogin();
+  // Заявка на подтверждение регистрации
+  if (pendingReady()) {
+    const ok = await sendRequest(isNew ? 'new_student' : 'new_user', st, { user: { uid: user.uid, email: user.email, name: user.name, studentId: st.id, salt: user.salt, passwordHash: user.passwordHash, createdAt: user.createdAt }, student: isNew ? st : null });
+    if (ok) toast('📤 Заявка отправлена администратору', 'ok');
+  } else toast('Токен заявок не настроен: регистрация сохранена только на этом устройстве', 'err');
+}
+async function forgotPassword() {
+  const email = normEmail(await askText('Сброс пароля', 'Email аккаунта', { ok: 'Далее' })); if (!email) return;
+  if (email === normEmail(SUPER_ADMIN_EMAIL)) return notice('Пароль супер-администратора меняется только в коде (SUPER_ADMIN_PASSWORD_HASH).');
+  await loadPublishedData();
+  const u = USERS.find(x => normEmail(x.email) === email); if (!u) return notice('Пользователь не найден');
+  const code = genCode(), v = { email, code, expires: Date.now() + 10 * 60 * 1000, attempts: 0 }; lsSet(LS.vRes, v);
+  const mailed = await sendCode(email, u.name, code);
+  if (!(await verifyCodeDialog(LS.vRes, v, mailed))) return;
+  const p1 = await askText('Новый пароль', 'Новый пароль (от 6 символов)', { type: 'password', ok: 'Сохранить' }); if (!p1) return;
+  if (p1.length < 6) return notice('Пароль слишком короткий');
+  const salt = uid() + uid(), hash = await hashPwd(salt, p1);
+  u.salt = salt; u.passwordHash = hash; u.updatedAt = nowIso(); saveLocal();
+  if (pendingReady()) {
+    const st = stById(u.studentId) || { id: u.studentId || '', studentName: u.name, createdBy: 'self' };
+    await sendRequest('password', st, { email, salt, passwordHash: hash, verified: mailed ? 'email' : 'screen' });
+    notice('Пароль изменён на этом устройстве. Чтобы войти с других устройств, администратор должен подтвердить заявку.');
+  } else notice('Пароль изменён только на этом устройстве (токен заявок не настроен).');
+}
+
+/* ==========================================================================
+   Отрисовка
+   ========================================================================== */
+let authDraft = { email: '', name: '' };
+let lastPendSig = '';
+function applyTheme(t) {
+  document.documentElement.dataset.theme = t;
+  const m = document.querySelector('meta[name=theme-color]'); if (m) m.content = t === 'dark' ? '#0e0f14' : '#4f7cff';
+}
+const themeIcon = () => document.documentElement.dataset.theme === 'dark' ? '☀️' : '🌙';
+function toggleTheme() { const t = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'; lsSetRaw(LS.theme, t); applyTheme(t); render(); }
+
+function render() {
+  const y = window.scrollY;
+  $('#app').innerHTML = ME ? appHtml() : authHtml();
+  window.scrollTo(0, y); hideTip();
+}
+
+/* ----- Экран входа ----- */
+function authHtml() {
+  const reg = authMode === 'register';
+  return `<div class="auth"><div class="box">
+    <div class="brand"><div class="logo">📘</div><h2>Дневник успеваемости</h2><small class="muted">Учёт оценок и расписания</small></div>
+    <div class="seg"><button class="${reg ? '' : 'on'}" data-act="authtab" data-m="login">Вход</button><button class="${reg ? 'on' : ''}" data-act="authtab" data-m="register">Регистрация</button></div>
+    <label>Email</label><input id="a_email" type="email" autocomplete="username" value="${esc(authDraft.email)}">
+    <label>Пароль</label><input id="a_pwd" type="password" autocomplete="${reg ? 'new-password' : 'current-password'}">
+    ${reg ? `<label>ФИО ученика</label><input id="a_name" autocomplete="name" placeholder="Иванов Иван" value="${esc(authDraft.name)}">
+      <label>Файл-приглашение (если есть)</label><input id="a_inv" type="file" accept=".json,application/json" data-change="invfile">` : ''}
+    <div class="err" id="a_err"></div>
+    <button class="btn primary" style="width:100%;margin-top:6px" data-act="${reg ? 'register' : 'login'}" title="${reg ? 'Создать аккаунт' : 'Войти в аккаунт'}">${reg ? 'Зарегистрироваться' : 'Войти'}</button>
+    <div class="row sb" style="margin-top:8px">${reg ? '<span></span>' : '<button class="link" data-act="forgot" title="Восстановить пароль">Забыли пароль?</button>'}
+      <button class="icon" data-act="theme" title="Переключить тему">${themeIcon()}</button></div>
+  </div></div>`;
+}
+
+/* ----- Каркас приложения ----- */
+function appHtml() {
+  const st = curStudent(), avg = st ? overallAvg(st) : null, list = visibleStudents();
+  const cnt = PENDING.filter(reqVisible).length;
+  if (tab === 'users' && !isAdm(ME)) tab = 'grades';
+  const sel = isAdm(ME)
+    ? `<select data-change="stsel" title="Выбрать ученика">${list.map(s => `<option value="${s.id}" ${st && s.id === st.id ? 'selected' : ''}>${esc(s.studentName)}</option>`).join('') || '<option>— нет учеников —</option>'}</select><button class="icon" data-act="student-add" title="Добавить ученика">＋</button>`
+    : `<span class="stname">${esc(st ? st.studentName : ME.name)}</span>`;
+  const tabs = [['grades', 'Оценки'], ['schedule', 'Расписание'], ['cabinet', 'Личный кабинет']].concat(isAdm(ME) ? [['users', 'Пользователи']] : []);
+  let body = '';
+  if (tab === 'grades') body = gradesHtml(st); else if (tab === 'schedule') body = scheduleHtml(st);
+  else if (tab === 'cabinet') body = cabinetHtml(st); else body = usersHtml();
+  return `<header class="top">
+      <div class="brand"><div class="logo">📘</div><div><b>Дневник</b><small>успеваемость</small></div></div>
+      <div class="top-mid">${sel}</div>
+      <div class="avg" title="Общий средний балл"><b style="color:${avg == null ? 'var(--muted)' : gradeColor(avg)}">${fmtNum(avg)}</b><small>средний</small></div>
+      <div class="top-r">${isAdm(ME) ? `<span id="pubdot" class="dot${dirty ? ' dirty' : ''}" title="${dirty ? 'Есть неопубликованные изменения' : 'Всё опубликовано'}"></span>` : ''}
+        <button class="icon" data-act="theme" title="Переключить тему">${themeIcon()}</button>
+        <button class="btn ghost sm" data-act="logout" title="Выйти из аккаунта">Выйти</button></div>
+    </header>
+    <nav class="tabs">${tabs.map(([k, n]) => `<button class="tab ${tab === k ? 'on' : ''}" data-act="tab" data-tab="${k}">${n}${k === 'cabinet' && cnt ? `<span class="cnt">${cnt}</span>` : ''}</button>`).join('')}</nav>
+    <main>${body}</main>
+    <input type="file" id="impf" class="hidden" accept=".json,application/json" data-change="import">`;
+}
+const noStudentHtml = () => `<div class="panel empty">${isAdm(ME) ? 'Пока нет ни одного ученика.<br>Нажмите «＋» в шапке, чтобы добавить.' : 'Данные ученика ещё не загружены. Если вы только зарегистрировались — дождитесь одобрения администратора и нажмите «Обновить с GitHub» в личном кабинете.'}</div>`;
+
+/* ----- Оценки ----- */
+function gradeCellHtml(sub, g) {
+  const ti = typeInfo(g.type), col = gradeColor(g.value), at = `data-act="grade-edit" data-sub="${sub.id}" data-id="${g.id}"`;
+  if (ti && ti.abbr) return `<button class="g typed" style="border-color:${col};color:${col}" ${at}><span class="gv">${esc(g.value)}</span><span class="gb" style="background:${ti.color}">${esc(ti.abbr)}</span></button>`;
+  return `<button class="g" style="background:${col}" ${at}>${esc(g.value)}</button>`;
+}
+function gradesHtml(st) {
+  if (!st) return noStudentHtml();
+  const subs = subjectsSorted(st), adm = canDirect();
+  const rows = subs.map((s, i) => {
+    const a = subjAvg(s);
+    return `<div class="subj-row"><div class="subj-head"><div class="subj-name">${esc(s.name)}</div>
+      <div class="subj-meta"><span class="avgpill" style="background:${a == null ? 'var(--muted)' : gradeColor(a)}" title="Средний балл по предмету">${fmtNum(a)}</span>
+      ${adm ? `<button class="mini" data-act="sub-up" data-sub="${s.id}" title="Переместить вверх" ${i === 0 ? 'disabled' : ''}>▲</button><button class="mini" data-act="sub-down" data-sub="${s.id}" title="Переместить вниз" ${i === subs.length - 1 ? 'disabled' : ''}>▼</button><button class="mini" data-act="sub-del" data-sub="${s.id}" title="Удалить предмет">✕</button>` : ''}
+      </div></div>
+      <div class="subj-cells">${sortSub(s).grades.map(g => gradeCellHtml(s, g)).join('')}${canEdit() ? `<button class="g add" data-act="grade-add" data-sub="${s.id}" title="Добавить оценку">+</button>` : ''}</div></div>`;
+  }).join('');
+  return `<div class="toolbar">
+      ${adm ? '<button class="btn primary" data-act="sub-add" title="Добавить предмет из каталога">+ Предмет</button>' : ''}
+      <button class="btn" data-act="pdf-grades" title="Скачать в PDF">📄 PDF</button>
+      ${adm ? '<button class="btn" data-act="pub-quick" title="Отправить данные на GitHub">📤</button>' : ''}
+      <span class="sp"></span><span class="muted small">${ME.role === 'student' ? 'Ваши правки уходят администратору заявкой' : ''}</span></div>
+    ${subs.length ? `<div class="grades"><div class="gh"><div>Предмет</div><div>Оценки</div></div>${rows}</div>` : `<div class="panel empty">Предметов пока нет.${adm ? '<br>Нажмите «+ Предмет», чтобы добавить из каталога.' : ''}</div>`}`;
+}
+function gradeModal(subId, gradeId) {
+  const st = curStudent(), sub = st.subjects.find(s => s.id === subId), g = gradeId ? sub.grades.find(x => x.id === gradeId) : null;
+  const vals = Array.from({ length: 10 }, (_, i) => i + 1);
+  modal({ title: (g ? 'Изменить оценку' : 'Новая оценка') + ' · ' + sub.name,
+    body: `<label>Оценка</label><select id="g_v">${vals.map(v => `<option ${v === Number(g ? g.value : 8) ? 'selected' : ''}>${v}</option>`).join('')}</select>
+      <label>Тип работы</label><select id="g_t">${GRADE_TYPES.map(t => `<option ${t.key === ((g && g.type) || 'Другое') ? 'selected' : ''}>${t.key}</option>`).join('')}</select>
+      <label>Дата</label><input id="g_d" type="date" value="${esc(g ? g.date : today())}">
+      <label>Описание</label><textarea id="g_c" rows="3" placeholder="Тема, комментарий…">${esc(g ? g.comment : '')}</textarea>`,
+    buttons: [].concat(g ? [{ label: 'Удалить', cls: 'danger', onClick: async () => { if (!(await ask('Удалить эту оценку?', { ok: 'Удалить', danger: true }))) return false; doGradeOp({ op: 'delete', subjectName: sub.name, gradeId: g.id }); } }] : [],
+      [{ label: 'Отмена', cls: 'ghost' }, { label: 'Сохранить', cls: 'primary', onClick: o => {
+        const date = $('#g_d', o).value || today();
+        doGradeOp({ op: g ? 'edit' : 'add', subjectName: sub.name, gradeId: g ? g.id : uid(), grade: { value: Number($('#g_v', o).value), type: $('#g_t', o).value, date, comment: $('#g_c', o).value.trim() } });
+      } }]) });
+}
+function afterStudentEdit(st, type, payload) {
+  if (canDirect()) { commit(st); return; }
+  saveLocal(); render();
+  sendRequest(type, st, payload).then(ok => { if (ok) toast('📤 Заявка отправлена администратору', 'ok'); refreshPending(true); });
+}
+function doGradeOp(p) { const st = curStudent(); if (!st) return; applyGradeOp(st, p); afterStudentEdit(st, 'grade', p); }
+function doScheduleOp(p) { const st = curStudent(); if (!st) return; applyScheduleOp(st, p); afterStudentEdit(st, 'schedule', p); }
+function doCatalogOp(p) { const st = curStudent(); if (!st) return; applyCatalogOp(st, p); afterStudentEdit(st, 'catalog', p); }
+
+/* ----- Расписание ----- */
+function scheduleHtml(st) {
+  if (!st) return noStudentHtml();
+  const ed = canEdit();
+  const cols = DAYS.map(d => {
+    const ls = st.schedule.filter(l => l.day === d);
+    return `<div class="day" data-day="${d}"><h4>${d}</h4>${ls.map(l => `<div class="lesson" data-lid="${l.id}" ${ed ? 'draggable="true"' : ''} data-act="les-edit">
+        <div class="lt"><span>${esc(l.time)}</span><span>${l.room ? 'каб. ' + esc(l.room) : ''}</span></div><div class="ls">${esc(l.subject)}</div>${l.homework ? `<div class="hw">📝 ${esc(l.homework)}</div>` : ''}</div>`).join('')}
+      ${ed ? `<button class="btn sm addl" data-act="les-add" data-day="${d}" title="Добавить урок в этот день">+ Урок</button>` : ''}</div>`;
+  }).join('');
+  return `<div class="toolbar"><button class="btn" data-act="pdf-sched" title="Скачать в PDF">📄 PDF</button><span class="sp"></span><span class="muted small">${ed ? 'Уроки можно перетаскивать между днями' : ''}</span></div><div class="sch-wrap"><div class="sch">${cols}</div></div>`;
+}
+function lessonModal(day, lessonId) {
+  const st = curStudent(), l = lessonId ? st.schedule.find(x => x.id === lessonId) : null;
+  const cat = st.catalog.slice(); if (l && l.subject && !cat.includes(l.subject)) cat.unshift(l.subject);
+  modal({ title: l ? 'Изменить урок' : 'Новый урок',
+    body: `<label>День</label><select id="l_d">${DAYS.map(d => `<option ${d === (l ? l.day : day) ? 'selected' : ''}>${d}</option>`).join('')}</select>
+      <label>Предмет</label><select id="l_s">${cat.map(c => `<option ${l && l.subject === c ? 'selected' : ''}>${esc(c)}</option>`).join('') || '<option value="">— сначала добавьте предметы в каталог —</option>'}</select>
+      <label>Время</label><input id="l_t" placeholder="08:30" value="${esc(l ? l.time : '')}">
+      <label>Кабинет</label><input id="l_r" value="${esc(l ? l.room : '')}">
+      <label>Домашнее задание</label><textarea id="l_h" rows="3">${esc(l ? l.homework : '')}</textarea>`,
+    buttons: [].concat(l ? [{ label: 'Удалить', cls: 'danger', onClick: async () => { if (!(await ask('Удалить урок?', { ok: 'Удалить', danger: true }))) return false; doScheduleOp({ op: 'delete', lesson: { id: l.id, subject: l.subject, day: l.day, time: l.time } }); } }] : [],
+      [{ label: 'Отмена', cls: 'ghost' }, { label: 'Сохранить', cls: 'primary', onClick: o => {
+        const subject = $('#l_s', o).value; if (!subject) { toast('Выберите предмет', 'err'); return false; }
+        doScheduleOp({ op: l ? 'edit' : 'add', lesson: { id: l ? l.id : uid(), day: $('#l_d', o).value, time: $('#l_t', o).value.trim(), subject, room: $('#l_r', o).value.trim(), homework: $('#l_h', o).value.trim() } });
+      } }]) });
+}
+// Drag&drop уроков (между днями и внутри дня)
+let dragId = null;
+document.addEventListener('dragstart', e => { const l = e.target.closest && e.target.closest('.lesson[draggable=true]'); if (!l) return; dragId = l.dataset.lid; l.classList.add('drag'); try { e.dataTransfer.setData('text/plain', dragId); e.dataTransfer.effectAllowed = 'move'; } catch (_) { } hideTip(); });
+document.addEventListener('dragend', () => { dragId = null; document.querySelectorAll('.drag,.over').forEach(x => x.classList.remove('drag', 'over')); });
+document.addEventListener('dragover', e => { const d = e.target.closest && e.target.closest('.day'); if (!d || !dragId) return; e.preventDefault(); document.querySelectorAll('.over').forEach(x => x !== d && x.classList.remove('over')); d.classList.add('over'); });
+document.addEventListener('drop', e => {
+  const d = e.target.closest && e.target.closest('.day'); if (!d || !dragId) return; e.preventDefault();
+  const st = curStudent(), l = st.schedule.find(x => x.id === dragId); if (!l) return;
+  const day = d.dataset.day, card = e.target.closest('.lesson'); let before = null;
+  if (card && card.dataset.lid !== dragId) {
+    const r = card.getBoundingClientRect(), below = e.clientY > r.top + r.height / 2;
+    const dl = st.schedule.filter(x => x.day === day && x.id !== dragId), i = dl.findIndex(x => x.id === card.dataset.lid);
+    before = below ? (dl[i + 1] ? dl[i + 1].id : null) : card.dataset.lid;
+  }
+  dragId = null; doScheduleOp({ op: 'move', lesson: { id: l.id, day, subject: l.subject, time: l.time }, beforeId: before });
+});
+
+/* ----- Личный кабинет ----- */
+function reqCardHtml(r) {
+  return `<div class="req"><div class="rt"><b>${esc(describeReq(r))}</b><span class="muted small">${esc(r.byName || r.by)} · ${fmtDT(r.createdAt)}</span></div>
+    <div class="row"><button class="btn sm primary" data-act="req-approve" data-id="${r.id}" title="Применить изменение">✅ Принять</button><button class="btn sm" data-act="req-reject" data-id="${r.id}" title="Отклонить заявку">✖ Отклонить</button></div></div>`;
+}
+function reqPanelHtml() {
+  if (!isAdm(ME)) return '';
+  const all = PENDING.filter(reqVisible); if (!all.length) return '';
+  const F = { all: () => true, users: r => ['new_user', 'new_student', 'password'].includes(r.type), grades: r => r.type === 'grade', sched: r => r.type === 'schedule' || r.type === 'catalog' };
+  const list = all.filter(F[reqFilter] || F.all);
+  const chip = (k, n) => `<button class="chip f ${reqFilter === k ? 'on' : ''}" data-act="req-filter" data-f="${k}">${n} ${all.filter(F[k]).length}</button>`;
+  return `<div class="panel" id="reqPanel"><h3>🔔 Заявки <span class="badge" style="background:#ef4444">${all.length}</span></h3>
+    <div class="chips">${chip('all', 'Все')}${chip('users', 'Пользователи')}${chip('grades', 'Оценки')}${chip('sched', 'Расписание')}</div>
+    <div class="reqs">${list.map(reqCardHtml).join('') || '<span class="muted">Нет заявок в этой категории</span>'}</div></div>`;
+}
+function myReqHtml() {
+  const mine = PENDING.filter(r => r.by === ME.email).sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, 8);
+  if (!mine.length) return '';
+  const lbl = { pending: '⏳ на рассмотрении', approved: '✅ принята', rejected: '✖ отклонена' };
+  return `<div class="panel"><h3>📨 Мои заявки</h3>${mine.map(r => `<div class="kv"><span>${esc(describeReq(r))}${r.reason ? `<br><span class="muted small">Причина: ${esc(r.reason)}</span>` : ''}</span><span class="small">${lbl[r.status] || r.status}</span></div>`).join('')}</div>`;
+}
+const roleName = { super_admin: 'Супер-админ', admin: 'Админ', student: 'Ученик', viewer: 'Наблюдатель' };
+function cabinetHtml(st) {
+  const adm = isAdm(ME), ed = canEdit();
+  const left = `
+    <div class="panel"><h3>👤 Профиль</h3><div class="kv"><span>Email</span><b>${esc(ME.email)}</b></div><div class="kv"><span>Роль</span><span class="badge ${ME.role}">${roleName[ME.role]}</span></div></div>
+    <div class="panel"><h3>🎓 Ученик</h3>${st ? `
+      ${adm ? `<label>ФИО</label><div class="row" style="flex-wrap:nowrap"><input id="st_name" value="${esc(st.studentName)}"><button class="btn sm primary" data-act="name-save" title="Сохранить ФИО">OK</button></div>` : `<div class="kv"><span>ФИО</span><b>${esc(st.studentName)}</b></div>`}
+      <div class="kv"><span>Предметов</span><b>${st.subjects.length}</b></div><div class="kv"><span>Уроков</span><b>${st.schedule.length}</b></div>
+      <div class="kv"><span>Последняя публикация</span><b>${fmtDT(S.publishedAt)}</b></div>` : '<span class="muted">Нет данных</span>'}</div>
+    ${adm ? `<div class="panel"><h3>📤 Публикация</h3><div class="row"><button class="btn primary" data-act="publish" title="Отправить данные на GitHub">📤 Опубликовать</button>
+      <button class="btn" data-act="sync" title="Загрузить свежие данные">🔄 Обновить с GitHub</button><button class="btn ghost" data-act="forget-token" title="Удалить токен с устройства">Забыть токен</button></div>
+      <p class="muted small" style="margin-bottom:0">Токен: ${adminToken() ? '✅ сохранён на устройстве' : '❌ не введён'}</p></div>` : `<div class="panel"><h3>🔄 Данные</h3><button class="btn" data-act="sync" title="Загрузить свежие данные">🔄 Обновить с GitHub</button></div>`}
+    <div class="panel"><h3>💾 Данные</h3><div class="row"><button class="btn" data-act="export" title="Сохранить данные в файл">Экспорт JSON</button>
+      ${adm ? `<button class="btn" data-act="import" title="Загрузить данные из файла">Импорт JSON</button><button class="btn danger" data-act="reset" title="УДАЛИТЬ ВСЕ ДАННЫЕ">💾 Сбросить всё</button>` : ''}</div></div>`;
+  const right = st ? `
+    <div class="panel"><h3>📚 Каталог предметов</h3><div class="chips">${st.catalog.map(c => `<span class="chip">${esc(c)}${ed ? `<button data-act="cat-del" data-name="${esc(c)}" title="Удалить из каталога">✕</button>` : ''}</span>`).join('') || '<span class="muted">Каталог пуст</span>'}</div>
+      ${ed ? `<div class="row" style="flex-wrap:nowrap"><input id="cat_in" placeholder="Новый предмет"><button class="btn primary" data-act="cat-add" title="Добавить в каталог">Добавить</button></div>` : ''}</div>
+    <div class="panel"><h3>📊 Статистика по предметам</h3>${subjectsSorted(st).map(s => { const a = subjAvg(s); return `<div class="bar"><span>${esc(s.name)}</span><div class="tr"><div class="fl" style="width:${a == null ? 0 : a * 10}%;background:${a == null ? 'transparent' : gradeColor(a)}"></div></div><b>${fmtNum(a)}</b></div>`; }).join('') || '<span class="muted">Нет данных</span>'}</div>
+    ${!adm ? myReqHtml() : ''}
+    ${adm ? invitesHtml() : ''}` : '';
+  return `${reqPanelHtml()}<div class="cab"><div>${left}</div><div>${right}</div></div>`;
+}
+function invitesHtml() {
+  const mine = S.invites.filter(inviteMine), stl = visibleStudents();
+  return `<div class="panel"><h3>✉️ Приглашение участников</h3>
+    <div class="row" style="flex-wrap:wrap"><div style="flex:2;min-width:180px"><label>Email</label><input id="inv_email" type="email" placeholder="user@mail.com"></div>
+      <div style="flex:1;min-width:130px"><label>Роль</label><select id="inv_role"><option value="viewer">Наблюдатель</option><option value="student">Ученик</option>${isSuper(ME) ? '<option value="admin">Админ</option>' : ''}</select></div>
+      <div style="flex:2;min-width:160px"><label>Ученик</label><select id="inv_st">${stl.map(s => `<option value="${s.id}" ${s.id === curId ? 'selected' : ''}>${esc(s.studentName)}</option>`).join('')}</select></div></div>
+    <button class="btn primary" style="margin-top:10px" data-act="inv-create" title="Создать приглашение">Создать приглашение</button>
+    <div style="margin-top:12px">${mine.map(i => `<div class="kv"><span>${esc(i.email)} · <span class="badge ${i.role}">${roleName[i.role] || i.role}</span> · ${esc(i.studentName || '')} ${i.usedAt ? '<span class="muted small">(использовано)</span>' : ''}</span>
+      <span class="row"><button class="btn sm" data-act="inv-dl" data-id="${i.id}" title="Скачать файл-приглашение">📥 Скачать</button><button class="btn sm" data-act="inv-del" data-id="${i.id}" title="Удалить приглашение">🗑</button></span></div>`).join('') || '<span class="muted small">Приглашений пока нет</span>'}</div></div>`;
+}
+
+/* ----- Пользователи ----- */
+function usersHtml() {
+  const list = visibleUsers();
+  const rows = list.map(u => {
+    const self = u.email === ME.email, sup = u.role === 'super_admin';
+    const canRole = !self && !sup && (isSuper(ME) || u.role !== 'admin');
+    const canDel = !self && !sup && (isSuper(ME) || u.role !== 'admin');
+    const opts = ['viewer', 'student'].concat(isSuper(ME) || u.role === 'admin' ? ['admin'] : []);
+    return `<tr><td data-l="Email">${esc(u.email)}</td><td data-l="ФИО">${esc(u.name)}</td>
+      <td data-l="Роль">${canRole ? `<select data-change="role" data-uid="${u.uid}">${opts.map(r => `<option value="${r}" ${u.role === r ? 'selected' : ''}>${roleName[r]}</option>`).join('')}</select>` : `<span class="badge ${u.role}">${roleName[u.role]}</span>`}</td>
+      <td data-l="Дата">${fmtDT(u.createdAt)}</td>
+      <td data-l="Действия">${canDel ? `<button class="btn sm" data-act="user-del" data-uid="${u.uid}" title="Удалить аккаунт">🗑</button>` : '<span class="muted small">—</span>'}</td></tr>`;
+  }).join('');
+  return `<div class="toolbar"><b>${isSuper(ME) ? 'Все пользователи системы' : 'Пользователи ваших учеников'}</b><span class="muted small">(${list.length})</span></div>
+    <table class="ut"><thead><tr><th>Email</th><th>ФИО</th><th>Роль</th><th>Дата регистрации</th><th>Действия</th></tr></thead><tbody>${rows || '<tr><td colspan="5" class="muted">Пока никого нет</td></tr>'}</tbody></table>`;
+}
+function updateReqUi() {
+  const sig = JSON.stringify(PENDING.map(r => r.id + r.status));
+  if (sig === lastPendSig) return; lastPendSig = sig;
+  const ae = document.activeElement;
+  if (!$('.ov') && !(ae && /INPUT|TEXTAREA|SELECT/.test(ae.tagName))) render();
+}
+
+/* ==========================================================================
+   PDF (html2pdf.js)
+   ========================================================================== */
+const pdfName = (p, st) => `${p}-${(st.studentName || 'ученик').replace(/[^\p{L}\p{N}]+/gu, '_')}-${today()}.pdf`;
+async function savePdf(el, filename, orientation) {
+  if (typeof html2pdf === 'undefined') { toast('html2pdf.js не загружен (проверьте интернет)', 'err'); return; }
+  toast('Готовлю PDF…');
+  try {
+    const w = html2pdf().set({ margin: 10, filename, image: { type: 'jpeg', quality: 0.96 }, html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff' }, jsPDF: { unit: 'mm', format: 'a4', orientation }, pagebreak: { mode: ['css', 'legacy'] } }).from(el);
+    if (window.AndroidBridge && AndroidBridge.savePdf) { const uri = await w.outputPdf('datauristring'); AndroidBridge.savePdf(uri, filename); }
+    else await w.save();
+    toast('PDF готов ✓', 'ok');
+  } catch (e) { toast('Ошибка PDF: ' + (e.message || e), 'err'); }
+}
+function pdfGrades() {
+  const st = curStudent(); if (!st) return; const avg = overallAvg(st);
+  const el = document.createElement('div'); el.style.cssText = 'font-family:Arial,Helvetica,sans-serif;color:#111;width:190mm;background:#fff';
+  el.innerHTML = `<h2 style="margin:0 0 4px">Табель успеваемости</h2>
+    <div style="color:#555;margin-bottom:10px">Ученик: <b>${esc(st.studentName)}</b> · Дата: ${fmtDate(today())} · Общий средний балл: <b style="color:${avg == null ? '#555' : gradeColor(avg)}">${fmtNum(avg)}</b></div>
+    <table style="width:100%;border-collapse:collapse;font-size:12px"><tr style="background:#eef0f7"><th style="text-align:left;padding:6px;border:1px solid #d5d8e5;width:28%">Предмет</th><th style="text-align:left;padding:6px;border:1px solid #d5d8e5">Оценки</th><th style="padding:6px;border:1px solid #d5d8e5;width:12%">Средний</th></tr>
+    ${subjectsSorted(st).map(s => { const a = subjAvg(s); return `<tr style="page-break-inside:avoid"><td style="padding:6px;border:1px solid #d5d8e5;font-weight:700">${esc(s.name)}</td><td style="padding:4px;border:1px solid #d5d8e5">${sortSub(s).grades.map(g => { const ti = typeInfo(g.type); return `<span style="display:inline-block;margin:2px;padding:2px 6px;border-radius:6px;background:${gradeColor(g.value)};color:#fff;font-weight:700">${esc(g.value)}${ti && ti.abbr ? `<small style="font-weight:400"> ${esc(ti.abbr)}</small>` : ''}</span>`; }).join('')}</td><td style="padding:6px;border:1px solid #d5d8e5;text-align:center;font-weight:700;color:${a == null ? '#555' : gradeColor(a)}">${fmtNum(a)}</td></tr>`; }).join('')}</table>`;
+  savePdf(el, pdfName('tabel', st), 'portrait');
+}
+function pdfSchedule() {
+  const st = curStudent(); if (!st) return;
+  const el = document.createElement('div'); el.style.cssText = 'font-family:Arial,Helvetica,sans-serif;color:#111;width:277mm;background:#fff';
+  el.innerHTML = `<h2 style="margin:0 0 4px">Расписание уроков</h2><div style="color:#555;margin-bottom:10px">Ученик: <b>${esc(st.studentName)}</b> · ${fmtDate(today())}</div>
+    <table style="width:100%;border-collapse:collapse;font-size:11px;table-layout:fixed"><tr>${DAYS.map(d => `<th style="background:#eef0f7;padding:6px;border:1px solid #d5d8e5">${d}</th>`).join('')}</tr>
+    <tr>${DAYS.map(d => `<td style="vertical-align:top;padding:5px;border:1px solid #d5d8e5">${st.schedule.filter(l => l.day === d).map(l => `<div style="margin-bottom:6px;padding:5px;border-left:3px solid #4f7cff;background:#f6f7fb"><div style="color:#666">${esc(l.time)}${l.room ? ' · каб. ' + esc(l.room) : ''}</div><div style="font-weight:700">${esc(l.subject)}</div>${l.homework ? `<div style="color:#444;margin-top:2px">ДЗ: ${esc(l.homework)}</div>` : ''}</div>`).join('') || '<span style="color:#aaa">—</span>'}</td>`).join('')}</tr></table>`;
+  savePdf(el, pdfName('raspisanie', st), 'landscape');
+}
+
+/* ==========================================================================
+   Действия (делегирование событий)
+   ========================================================================== */
+const ACT = {
+  theme: toggleTheme, logout,
+  tab: t => { tab = t.dataset.tab; render(); },
+  authtab: t => { authDraft.email = ($('#a_email') || {}).value || ''; authDraft.name = ($('#a_name') || {}).value || ''; authMode = t.dataset.m; render(); },
+  login: async () => { const e = $('#a_err'); e.textContent = ''; const err = await doLogin($('#a_email').value, $('#a_pwd').value); if (err) e.textContent = err; },
+  register: async () => {
+    authDraft.email = $('#a_email').value; authDraft.name = $('#a_name').value; const e = $('#a_err'); e.textContent = '';
+    const err = await startRegister($('#a_email').value, $('#a_pwd').value, $('#a_name').value); if (err && $('#a_err')) $('#a_err').textContent = err;
+  },
+  forgot: forgotPassword,
+  'student-add': async () => {
+    const name = await askText('Новый ученик', 'ФИО ученика', { placeholder: 'Иванов Иван', ok: 'Добавить' }); if (!name) return;
+    const ex = S.students.find(s => normalizeName(s.studentName) === normalizeName(name));
+    if (ex) { if (visibleStudents().includes(ex)) { curId = ex.id; lsSet(LS.cur, curId); render(); return toast('Такой ученик уже есть — выбран'); } return notice('Ученик с таким ФИО уже есть у другого администратора.'); }
+    const st = newStudent(name, ME.email); S.students.push(st); curId = st.id; lsSet(LS.cur, curId); commit(st);
+  },
+  'name-save': () => {
+    const st = curStudent(), v = $('#st_name').value.trim().replace(/\s+/g, ' '); if (!st || v.length < 3) return toast('Слишком короткое ФИО', 'err');
+    const dup = S.students.find(s => s.id !== st.id && normalizeName(s.studentName) === normalizeName(v)); if (dup) return toast('Ученик с таким ФИО уже существует', 'err');
+    st.studentName = v; commit(st); toast('ФИО сохранено', 'ok');
+  },
+  'sub-add': () => {
+    const st = curStudent(), have = new Set(st.subjects.map(s => s.name)), opts = st.catalog.filter(c => !have.has(c));
+    if (!opts.length) return notice('Все предметы из каталога уже добавлены. Добавьте новые предметы в каталог (Личный кабинет).');
+    modal({ title: 'Добавить предмет', body: `<label>Из каталога</label><select id="sa">${opts.map(o => `<option>${esc(o)}</option>`).join('')}</select>`,
+      buttons: [{ label: 'Отмена', cls: 'ghost' }, { label: 'Добавить', cls: 'primary', onClick: o => { st.subjects.push({ id: uid(), name: $('#sa', o).value, order: st.subjects.length, grades: [] }); commit(st); } }] });
+  },
+  'sub-up': t => moveSubject(t.dataset.sub, -1), 'sub-down': t => moveSubject(t.dataset.sub, 1),
+  'sub-del': async t => {
+    const st = curStudent(), s = st.subjects.find(x => x.id === t.dataset.sub);
+    if (!(await ask(`Удалить предмет «${s.name}» вместе со всеми оценками?`, { ok: 'Удалить', danger: true }))) return;
+    st.subjects = st.subjects.filter(x => x !== s); subjectsSorted(st).forEach((x, i) => x.order = i); commit(st);
+  },
+  'grade-add': t => gradeModal(t.dataset.sub, null),
+  'grade-edit': t => { if (longPressed) { longPressed = false; return; } if (!canEdit()) { showTip(t, gradeTipHtml(t)); setTimeout(hideTip, 3000); return; } gradeModal(t.dataset.sub, t.dataset.id); },
+  'les-add': t => lessonModal(t.dataset.day, null),
+  'les-edit': t => { if (canEdit()) lessonModal(null, t.dataset.lid); },
+  'pdf-grades': pdfGrades, 'pdf-sched': pdfSchedule,
+  'pub-quick': async () => { if (!(await ensureToken())) return; toast('Публикация…'); const ok = await publishToGitHubSilent(); if (ok) { toast('Опубликовано ✓', 'ok'); render(); } },
+  publish: publishToGitHub, sync: syncFromGitHub,
+  'forget-token': async () => { if (await ask('Удалить токен GitHub с этого устройства?', { ok: 'Удалить' })) { lsDel(LS.token); toast('Токен удалён'); render(); } },
+  export: () => {
+    const all = isAdm(ME) ? { students: isSuper(ME) ? S.students : visibleStudents(), users: visibleUsers(), invites: S.invites.filter(inviteMine), deletedEmails: S.deletedEmails } : { students: visibleStudents() };
+    downloadText(`school-backup-${today()}.json`, 'application/json', JSON.stringify(Object.assign({ exportedAt: nowIso() }, all), null, 2));
+  },
+  import: () => { const f = $('#impf'); f.value = ''; f.click(); },
+  reset: resetAll,
+  'cat-add': () => { const v = $('#cat_in').value.trim(); if (!v) return; const st = curStudent(); if (st.catalog.some(c => c.toLowerCase() === v.toLowerCase())) return toast('Такой предмет уже есть', 'err'); doCatalogOp({ op: 'add', name: v }); },
+  'cat-del': t => doCatalogOp({ op: 'remove', name: t.dataset.name }),
+  'req-approve': t => approveRequest(t.dataset.id), 'req-reject': t => rejectRequest(t.dataset.id),
+  'req-filter': t => { reqFilter = t.dataset.f; render(); },
+  'inv-create': () => {
+    const email = normEmail($('#inv_email').value), role = $('#inv_role').value, sid = $('#inv_st').value, st = stById(sid);
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return toast('Некорректный email', 'err'); if (!st) return toast('Выберите ученика', 'err');
+    if (email === normEmail(SUPER_ADMIN_EMAIL)) return toast('Этот email зарезервирован', 'err');
+    if (role === 'admin' && !isSuper(ME)) return toast('Админов приглашает только супер-админ', 'err');
+    S.invites = S.invites.filter(i => !(normEmail(i.email) === email && !i.usedAt));
+    S.deletedEmails = S.deletedEmails.filter(e => normEmail(e) !== email); unblocked.add(email); // повторное приглашение снимает блокировку
+    S.invites.push({ id: uid(), email, role, studentId: st.id, studentName: st.studentName, invitedBy: ME.email, createdAt: nowIso() });
+    saveLocal(); render(); schedulePublish(); toast('Приглашение создано', 'ok');
+  },
+  'inv-dl': t => { const i = S.invites.find(x => x.id === t.dataset.id); if (i) downloadText(`invite-${i.email}.json`, 'application/json', JSON.stringify({ type: 'school-invite', app: location.href.split('#')[0], ...i }, null, 2)); },
+  'inv-del': async t => { if (!(await ask('Удалить приглашение?', { ok: 'Удалить', danger: true }))) return; S.invites = S.invites.filter(i => i.id !== t.dataset.id); saveLocal(); render(); schedulePublish(); },
+  'user-del': async t => {
+    const u = USERS.find(x => x.uid === t.dataset.uid); if (!u) return;
+    if (u.email === ME.email) return toast('Себя удалить нельзя', 'err');
+    if (u.role === 'super_admin') return toast('Супер-админа удалить нельзя', 'err');
+    if (u.role === 'admin' && !isSuper(ME)) return toast('Удалять админов может только супер-админ', 'err');
+    if (u.role === 'admin' && USERS.filter(x => x.role === 'admin' || x.role === 'super_admin').length < 2) return toast('Нельзя удалить последнего админа', 'err');
+    if (!(await ask(`Удалить аккаунт ${u.email}? Email попадёт в чёрный список.`, { ok: 'Удалить', danger: true }))) return;
+    USERS = USERS.filter(x => x !== u); S.deletedEmails.push(normEmail(u.email)); unblocked.delete(normEmail(u.email)); saveLocal(); render(); schedulePublish();
+  }
+};
+function moveSubject(id, d) {
+  const st = curStudent(), l = subjectsSorted(st), i = l.findIndex(s => s.id === id), j = i + d; if (j < 0 || j >= l.length) return;
+  [l[i], l[j]] = [l[j], l[i]]; l.forEach((s, k) => s.order = k); commit(st);
+}
+async function resetAll() {
+  const sup = isSuper(ME);
+  const m1 = `⚠️ ВНИМАНИЕ!\n\nВы собираетесь удалить ВСЕ данные приложения${sup ? '' : ' ваших учеников'}:\n• Все оценки ${sup ? 'всех' : 'ваших'} учеников\n• Всё расписание\n• Весь каталог предметов\n• Все приглашения\n• Все данные учеников (кроме аккаунтов пользователей)\n• Файл data.json на GitHub будет перезаписан\n\nДействие НЕОБРАТИМО.\nПродолжить?`;
+  if (!(await ask(m1, { ok: 'Продолжить', title: '⚠️ Сброс данных', danger: true, dismiss: false }))) return;
+  if (!(await ask('🚨 ПОСЛЕДНЕЕ ПРЕДУПРЕЖДЕНИЕ\n\nВСЕ ДАННЫЕ БУДУТ УДАЛЕНЫ НАВСЕГДА.\nОтменить это будет невозможно.\n\nВы ТОЧНО уверены?', { ok: 'Да, удалить всё', cancel: 'Отмена', title: '🚨 Последнее предупреждение', danger: true, dismiss: false }))) return;
+  S.students.filter(s => sup || s.createdBy === ME.email).forEach(s => { s.subjects = []; s.schedule = []; s.catalog = []; touch(s); });
+  S.invites = sup ? [] : S.invites.filter(i => !inviteMine(i));
+  saveLocal(); render();
+  if (!(await ensureToken())) { toast('Данные сброшены локально. Введите токен и нажмите «Опубликовать», чтобы сбросить на GitHub.', 'err'); return; }
+  if (await publishToGitHubSilent()) toast('Все данные сброшены и опубликованы', 'ok');
+}
+
+// change-события (select, file)
+document.addEventListener('change', async e => {
+  const t = e.target, k = t.dataset && t.dataset.change; if (!k) return;
+  if (k === 'stsel') { curId = t.value; lsSet(LS.cur, curId); render(); }
+  else if (k === 'role') {
+    const u = USERS.find(x => x.uid === t.dataset.uid); if (!u || u.email === ME.email || u.role === 'super_admin') return render();
+    if (t.value === 'admin' && !isSuper(ME)) { toast('Назначать админов может только супер-админ', 'err'); return render(); }
+    if (u.role === 'admin' && !isSuper(ME)) return render();
+    if (u.role === 'admin' && t.value !== 'admin' && USERS.filter(x => x.role === 'admin' || x.role === 'super_admin').length < 2) { toast('Нельзя понизить последнего админа', 'err'); return render(); }
+    u.role = t.value; u.updatedAt = nowIso(); saveLocal(); render(); schedulePublish();
+  }
+  else if (k === 'invfile') { // файл-приглашение на экране регистрации
+    const f = t.files[0]; if (!f) return;
+    try {
+      const j = JSON.parse(await f.text()); if (j.type !== 'school-invite' || !j.email) throw 0;
+      if (!S.invites.find(i => i.id === j.id)) { const { type, app, ...inv } = j; S.invites.push(inv); saveLocal(); }
+      $('#a_email').value = j.email; toast('Приглашение загружено', 'ok');
+    } catch (_) { toast('Это не файл-приглашение', 'err'); }
+  }
+  else if (k === 'import') {
+    const f = t.files[0]; if (!f) return;
+    try {
+      const j = JSON.parse(await f.text()); if (!Array.isArray(j.students)) throw new Error('нет списка students');
+      if (!(await ask(`Импортировать данные из файла (учеников: ${j.students.length})? Ученики с теми же id будут заменены.`, { ok: 'Импортировать', danger: true }))) return;
+      const t0 = nowIso(); j.students.forEach(s => { fixStudent(s); s.updatedAt = t0; if (!isSuper(ME)) s.createdBy = ME.email; });
+      S.students = mergeLWW(S.students, j.students, s => s.id, stStamp);
+      (j.users || []).forEach(u => { if (u.role !== 'super_admin' && !USERS.find(x => normEmail(x.email) === normEmail(u.email))) USERS.push(Object.assign({}, u, { role: u.role === 'admin' && !isSuper(ME) ? 'student' : u.role, updatedAt: t0 })); });
+      (j.invites || []).forEach(i => { if (!S.invites.find(x => x.id === i.id)) S.invites.push(Object.assign({}, i, { invitedBy: isSuper(ME) ? i.invitedBy : ME.email })); });
+      saveLocal(); render(); schedulePublish(); toast('Импорт выполнен ✓', 'ok');
+    } catch (err) { toast('Ошибка импорта: ' + err.message, 'err'); }
+  }
+});
+document.addEventListener('click', e => {
+  const t = e.target.closest('[data-act]'); if (!t) return;
+  if (t.classList.contains('lesson') && e.target.closest('button')) return;
+  const f = ACT[t.dataset.act]; if (f) { e.preventDefault(); Promise.resolve(f(t, e)).catch(err => { console.error(err); toast('Ошибка: ' + (err.message || err), 'err'); }); }
+});
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Enter' || ME || !e.target.matches('#app input')) return;
+  const b = $('.auth .btn.primary'); if (b) b.click();
+});
+
+/* ==========================================================================
+   Запуск
+   ========================================================================== */
+async function init() {
+  applyTheme(lsRaw(LS.theme) || (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+  loadLocal(); ensureSuperAdmin(); saveLocal();
+  const ses = lsGet(LS.session, null);
+  if (ses) { const u = USERS.find(x => normEmail(x.email) === normEmail(ses.email)); if (u && !S.deletedEmails.map(normEmail).includes(normEmail(u.email))) { ME = u; curId = lsGet(LS.cur, null); } }
+  render();
+  if (ME) { if (isAdm(ME) || ME.role === 'student') startPolling(); }
+  const ch = await loadPublishedData();
+  if (ME && !USERS.find(u => u.email === ME.email)) { toast('Ваш аккаунт удалён администратором', 'err'); return logout(); }
+  if (ch || !ME) render();
+}
+init();
+</script>
+</body>
+</html>
