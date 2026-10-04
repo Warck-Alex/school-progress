@@ -100,8 +100,8 @@
             {
               "id": "nkmefe46",
               "value": 7,
-              "type": "",
-              "date": "2026-09-29",
+              "type": "Другое",
+              "date": "2026-09-22",
               "comment": ""
             }
           ]
@@ -549,5 +549,5 @@
     }
   ],
   "deletedEmails": [],
-  "publishedAt": "2026-10-04T15:05:13.228Z"
+  "publishedAt": "2026-10-04T15:07:29.176Z"
 }
