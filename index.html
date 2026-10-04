@@ -402,7 +402,22 @@ const GH_PENDING = {
   file:  'pending.json',
   token: 'github_pat_ВСТАВЬТЕ_СЮДА_ТОКЕН'   // ⚠️ student-token
 };
-
+/* ============================================================================
+   УВЕДОМЛЕНИЯ АДМИНУ
+   ============================================================================
+   Telegram (опционально):
+   1. Откройте @BotFather в Telegram → /newbot → получите токен бота.
+   2. Напишите боту что угодно. Откройте https://api.telegram.org/bot<ТОКЕН>/getUpdates
+      и найдите chat_id. Вставьте ниже.
+   3. Все уведомления будут приходить в этот чат.
+   ============================================================================ */
+const NOTIFY = {
+  pollInterval: 20000,   // как часто проверять pending (мс)
+  telegramBot:  '',      // токен бота, например '123456:ABC-DEF...'
+  telegramChat: ''       // ваш chat_id, например '123456789'
+};
+let notifyTimer = null;
+let lastSeenPendingIds = new Set();
 /* ============================================================================
    КОНСТАНТЫ
    ============================================================================ */
@@ -476,7 +491,7 @@ const isAdmin       = () => role() === 'admin';
 const isStudentRole = () => role() === 'student';
 const canAddGrade   = () => isAdmin() || isStudentRole();
 const canEditSchedule = () => isAdmin() || isStudentRole();
-const canPublish    = () => isAdmin() || isStudentRole();
+const canPublish    = () => isAdmin();
 const roleLabel = r => ({admin:'Администратор', student:'Ученик', viewer:'Наблюдатель'}[r] || r);
 
 /* ============================================================================
@@ -782,12 +797,82 @@ async function refreshPending(){
   try{
     const { list } = await fetchPending();
     pendingChanges = list.filter(x => x.status === 'pending');
+    // Ищем новые (которых не было в прошлый раз)
+    const newOnes = pendingChanges.filter(c => !lastSeenPendingIds.has(c.id));
+    if(newOnes.length && lastSeenPendingIds.size > 0){
+      newOnes.forEach(c => {
+        const who = c.studentName || c.studentEmail || 'кто-то';
+        const what =
+          c.type === 'new_student'   ? '🆕 Зарегистрировался новый ученик' :
+          c.type === 'new_user'      ? '👤 Новый пользователь' :
+          c.type === 'password_reset'? '🔑 Сброс пароля' :
+          c.action === 'add'         ? '➕ Новая оценка' :
+          c.action === 'update'      ? '✏️ Изменение оценки' :
+          c.action === 'delete'      ? '🗑️ Удаление оценки' : '📝 Изменение';
+        notifyAdmin('Новая заявка', `${what}\nот ${who}`);
+      });
+    }
+    lastSeenPendingIds = new Set(pendingChanges.map(c => c.id));
     updatePendingBadge();
     if($('tab-cabinet').classList.contains('active')) renderCabinet();
   }catch(e){
     console.warn('Pending недоступен:', e);
     pendingChanges = []; updatePendingBadge();
   }
+}
+function requestNotifyPermission(){
+  if(!('Notification' in window)) return;
+  if(Notification.permission === 'default'){
+    Notification.requestPermission().catch(()=>{});
+  }
+}
+
+function notifyAdmin(title, body){
+  // 1. Браузерное уведомление
+  try{
+    if('Notification' in window && Notification.permission === 'granted'){
+      new Notification(title, { body: body });
+    }
+  }catch(e){ console.warn('Browser notify:', e); }
+
+  // 2. Telegram (если настроен)
+  if(NOTIFY.telegramBot && NOTIFY.telegramChat){
+    fetch(`https://api.telegram.org/bot${NOTIFY.telegramBot}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: NOTIFY.telegramChat,
+        text: title + '\n\n' + body
+      })
+    }).catch(e => console.warn('Telegram:', e));
+  }
+
+  // 3. Звуковой сигнал
+  try{
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.frequency.value = 800;
+    gain.gain.value = 0.1;
+    osc.start();
+    osc.stop(ctx.currentTime + 0.15);
+  }catch(e){}
+}
+
+function startPendingPolling(){
+  if(notifyTimer) clearInterval(notifyTimer);
+  if(!isAdmin()) return;
+  requestNotifyPermission();
+  refreshPending();
+  notifyTimer = setInterval(() => {
+    if(!isAdmin()){ stopPendingPolling(); return; }
+    refreshPending();
+  }, NOTIFY.pollInterval);
+}
+
+function stopPendingPolling(){
+  if(notifyTimer){ clearInterval(notifyTimer); notifyTimer = null; }
 }
 function updatePendingBadge(){
   const btn = document.querySelector('nav.tabs button[data-tab="cabinet"]');
@@ -963,8 +1048,8 @@ async function register(email, password, studentName){
     });
   }catch(e){ console.warn('Заявка не отправлена:', e); }
 
-  // Автопубликация (если есть токен)
-  if(localStorage.getItem('gh_token')){
+  // Автопубликация — только для админа
+  if(isAdmin() && localStorage.getItem('gh_token')){
     setTimeout(() => publishToGitHubSilent(), 100);
   }
 
@@ -1005,8 +1090,9 @@ async function login(email, password){
 }
 
 function logout(){
+  stopPendingPolling();
   Session.clear(); currentUser = null; currentStudentId = null;
-  invites = []; pendingChanges = [];
+  invites = []; pendingChanges = []; lastSeenPendingIds = new Set();
   showAuth();
 }
 function showAuth(){
@@ -1033,7 +1119,7 @@ $('btn-login').addEventListener('click', async () => {
     currentStudentId = r.studentId;
     invites = Invites.all();
     showApp(); renderAll();
-    if(isAdmin()) refreshPending();
+    if(isAdmin()) startPendingPolling();
   }catch(e){ $('auth-error').textContent = e.message; }
   finally{ $('btn-login').disabled = false; }
 });
@@ -1068,7 +1154,7 @@ $('btn-register').addEventListener('click', async () => {
       currentStudentId = user.studentId;
       invites = Invites.all();
       showApp(); renderAll();
-      if(isAdmin()) refreshPending();
+      if(isAdmin()) startPendingPolling();
       alert('✅ Аккаунт создан!');
     }catch(e){ $('auth-error').textContent = e.message; }
     finally{ $('btn-register').disabled = false; }
@@ -1231,7 +1317,7 @@ async function bootSession(){
   }
   invites = Invites.all();
   showApp(); renderAll();
-  if(isAdmin()) refreshPending();
+  if(isAdmin()) startPendingPolling();
 }
 function applyEmbeddedInvite(){
   if(!window.__APP_INVITE) return;
@@ -1779,19 +1865,24 @@ function openGradeModal(subjectId, gradeId){
         if(g){ g.value = value; g.type = type; g.date = date; g.comment = comment; }
       }
       DataStore.save(currentData); data = currentData; renderAll(); closeModal();
-      // Автопубликация
-      if(localStorage.getItem('gh_token')){
+          // Автопубликация — только для админа
+      if(isAdmin() && localStorage.getItem('gh_token')){
         setTimeout(() => publishToGitHubSilent(), 100);
       }
-      // Отправка заявки для ученика (для истории)
+      // Ученик — отправляет заявку админу
       if(isStudentRole() && currentUser){
         const change = { id: uid(), timestamp: new Date().toISOString(), type: 'grade',
           studentEmail: currentUser.email, studentName: st.studentName, studentId: st.id,
           status: 'pending', action: isNew ? 'add' : 'update',
           subjectId: subject.id, subjectName: subject.name, gradeId: savedGradeId,
           grade: { value, type, date, comment } };
-        try{ await submitChangeToPending(change); }
-        catch(e){ console.warn('Заявка не отправлена:', e); }
+        try{
+          await submitChangeToPending(change);
+          alert('📤 Заявка отправлена администратору.\n\nОценка появится у всех после одобрения.');
+        }catch(e){
+          alert('⚠️ Не удалось отправить заявку администратору:\n' + e.message +
+                '\n\nОценка сохранена только на этом устройстве.');
+        }
       }
     });
   }
@@ -1803,9 +1894,22 @@ function openGradeModal(subjectId, gradeId){
       const s = currentData.students.find(x => x.id === st.id); if(!s) return closeModal();
       const subj = s.subjects.find(x => x.id === subjectId); if(!subj) return closeModal();
       subj.grades = (subj.grades || []).filter(g => g.id !== gradeId);
-      DataStore.save(currentData); data = currentData; renderAll(); closeModal();
-      if(localStorage.getItem('gh_token')) setTimeout(() => publishToGitHubSilent(), 100);
-    });
+    DataStore.save(currentData); data = currentData; renderAll(); closeModal();
+    if(isAdmin() && localStorage.getItem('gh_token')) setTimeout(() => publishToGitHubSilent(), 100);
+    if(isStudentRole() && currentUser){
+      try{
+        await submitChangeToPending({
+          id: uid(), timestamp: new Date().toISOString(), type: 'schedule',
+          status: 'pending', action: isNew ? 'add' : 'update',
+          studentEmail: currentUser.email, studentName: st.studentName, studentId: st.id,
+          lessonId: lessonId || null, lesson: payload
+        });
+        alert('📤 Заявка на изменение расписания отправлена администратору.');
+      }catch(e){
+        alert('⚠️ Расписание сохранено локально, но заявка не отправлена:\n' + e.message);
+      }
+    }
+  });
   }
 }
 
@@ -1835,7 +1939,7 @@ function openLessonModal(lessonId, day){
     </div>
   `);
   $('m-cancel').addEventListener('click', closeModal);
-  $('m-save').addEventListener('click', () => {
+  $('m-save').addEventListener('click', async () => {
     const payload = { day: $('m-day').value, subject: $('m-subject').value,
       time: $('m-time').value.trim(), room: $('m-room').value.trim(), homework: $('m-hw').value.trim() };
     const currentData = DataStore.get();
