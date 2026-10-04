@@ -212,7 +212,7 @@
             },
             {
               "id": "mutyx1sd850cqf",
-              "value": 7,
+              "value": 8,
               "type": "Другое",
               "date": "2026-10-04",
               "comment": ""
@@ -563,5 +563,5 @@
     }
   ],
   "deletedEmails": [],
-  "publishedAt": "2026-10-04T15:20:48.667Z"
+  "publishedAt": "2026-10-04T15:21:01.914Z"
 }
