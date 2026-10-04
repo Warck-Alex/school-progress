@@ -93,8 +93,8 @@
             {
               "id": "1thlb0jf",
               "value": 3,
-              "type": "",
-              "date": "2026-09-29",
+              "type": "Другое",
+              "date": "2026-09-11",
               "comment": ""
             },
             {
@@ -549,5 +549,5 @@
     }
   ],
   "deletedEmails": [],
-  "publishedAt": "2026-10-04T15:04:52.993Z"
+  "publishedAt": "2026-10-04T15:05:13.228Z"
 }
