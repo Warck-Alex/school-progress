@@ -240,15 +240,14 @@
   ],
   "users": [
     {
-      "uid": "muu91ecsvv7n2aa",
+      "uid": "super_admin",
       "email": "warck@mail.ru",
-      "name": "Михайлов Даниил",
+      "name": "Супер-администратор",
+      "studentId": null,
+      "createdAt": "2026-10-05T09:14:53.993Z",
       "role": "super_admin",
-      "studentId": "muu91ecs2xn7yt5",
       "salt": "mySchool_Salt_2026_xK9p",
-      "passwordHash": "6b76ad10ed5efb8fe5460703a99a46625a5018aff23b7f3bb4ca58c5db77786c",
-      "createdAt": "2026-10-04T20:04:07.276Z",
-      "updatedAt": "2026-10-04T20:04:07.276Z"
+      "passwordHash": "6b76ad10ed5efb8fe5460703a99a46625a5018aff23b7f3bb4ca58c5db77786c"
     }
   ],
   "deletedEmails": [
@@ -265,5 +264,5 @@
       "createdAt": "2026-10-04T21:25:08.428Z"
     }
   ],
-  "publishedAt": "2026-10-05T11:04:11.438Z"
+  "publishedAt": "2026-10-05T12:29:53.566Z"
 }
