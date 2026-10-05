@@ -87,6 +87,12 @@
           "name": "Всемирная история",
           "order": 13,
           "grades": []
+        },
+        {
+          "id": "muvauw45v4uuv5k",
+          "name": "История Беларуси",
+          "order": 14,
+          "grades": []
         }
       ],
       "schedule": [],
@@ -109,7 +115,7 @@
       ],
       "createdBy": "self",
       "createdAt": "2026-10-04T20:04:07.276Z",
-      "updatedAt": "2026-10-05T13:42:46.534Z"
+      "updatedAt": "2026-10-05T13:42:49.109Z"
     },
     {
       "id": "muuc7k2wu44ubbl",
@@ -183,5 +189,5 @@
       "createdAt": "2026-10-04T21:25:08.428Z"
     }
   ],
-  "publishedAt": "2026-10-05T13:42:48.134Z"
+  "publishedAt": "2026-10-05T13:42:50.742Z"
 }
