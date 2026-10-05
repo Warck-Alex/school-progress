@@ -117,7 +117,7 @@ main{max-width:1280px;margin:0 auto;padding:14px 16px 60px}
 .chip{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:99px;background:var(--card2);border:1px solid var(--line);font-size:13px}
 .chip button{border:0;background:none;cursor:pointer;color:var(--muted);padding:0;font-size:14px}
 .chip.f{cursor:pointer;font-weight:600}.chip.f.on{background:var(--grad);color:#fff;border-color:transparent}
-.bar{display:grid;grid-template-columns:130px 1fr 44px;gap:8px;align-items:center;margin:7px 0;font-size:13px}
+.bar{display:grid;grid-template-columns:180px 1fr 50px;gap:10px;align-items:center;margin:8px 0;font-size:14px}
 .bar .tr{height:10px;border-radius:99px;background:var(--card2);overflow:hidden;border:1px solid var(--line)}
 .bar .fl{height:100%;border-radius:99px}
 .req{border:1px solid var(--line);background:var(--card2);border-radius:12px;padding:10px 12px;margin-bottom:8px;display:flex;gap:10px;justify-content:space-between;align-items:center;flex-wrap:wrap}
@@ -130,7 +130,7 @@ table.ut{width:100%;border-collapse:collapse;background:var(--card);border-radiu
 .ut th,.ut td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line);font-size:14px}
 .ut th{background:var(--card2);font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
 .ut select{width:auto;padding:6px 8px}
-@media(max-width:820px){
+@media(max-width:820px).bar{grid-template-columns:130px 1fr 42px;font-size:13px}{
   .ut,.ut tbody,.ut tr,.ut td{display:block;width:100%}.ut thead{display:none}
   .ut tr{padding:10px;border-bottom:1px solid var(--line)}
   .ut td{border:0;padding:3px 0}.ut td::before{content:attr(data-l)": ";color:var(--muted);font-size:12px}
@@ -356,7 +356,14 @@ const stById = id => S.students.find(s => s.id === id);
 function visibleStudents() {
   if (!ME) return [];
   if (isSuper(ME)) return S.students;
-  if (ME.role === 'admin') return S.students.filter(s => s.createdBy === ME.email || s.id === ME.studentId);
+  if (ME.role === 'admin') {
+    // Свои ученики + все с таким же нормализованным ФИО
+    const myNames = new Set();
+    const myStudent = stById(ME.studentId);
+    if (myStudent) myNames.add(normalizeName(myStudent.studentName));
+    S.students.filter(s => s.createdBy === ME.email).forEach(s => myNames.add(normalizeName(s.studentName)));
+    return S.students.filter(s => myNames.has(normalizeName(s.studentName)));
+  }
   const s = stById(ME.studentId); return s ? [s] : [];
 }
 function curStudent() {
@@ -371,10 +378,14 @@ const manages = st => isSuper(ME) || (ME.role === 'admin' && st && st.createdBy 
 function visibleUsers() {
   if (!isAdm(ME)) return [];
   if (isSuper(ME)) return USERS;
-  const ids = new Set(S.students.filter(s => s.createdBy === ME.email).map(s => s.id));
+  // Все пользователи, привязанные к ученикам с таким же ФИО, как у этого админа
+  const myNames = new Set();
+  const myStudent = stById(ME.studentId);
+  if (myStudent) myNames.add(normalizeName(myStudent.studentName));
+  S.students.filter(s => s.createdBy === ME.email).forEach(s => myNames.add(normalizeName(s.studentName)));
+  const ids = new Set(S.students.filter(s => myNames.has(normalizeName(s.studentName))).map(s => s.id));
   return USERS.filter(u => u.role !== 'super_admin' && (ids.has(u.studentId) || u.email === ME.email));
 }
-
 /* ===== Оценки: расчёты ===== */
 const GRADE_COLORS = ['#e5121f', '#ee3b21', '#f0612a', '#f28a1f', '#efb01a', '#c6c91b', '#8fd024', '#4fc43b', '#1fa84a', '#2563eb'];
 function gradeColor(v) { // v: 1..10, дробные — интерполяция
@@ -654,7 +665,29 @@ async function flushOutbox() {
   const ob = lsGet(LS.outbox, []); if (!ob.length || !pendingReady()) return;
   try { await updatePending(l => { ob.forEach(r => { if (!l.find(x => x.id === r.id)) l.push(r); }); }); lsSet(LS.outbox, []); } catch (e) { }
 }
-const reqVisible = r => r.status === 'pending' && isAdm(ME) && (isSuper(ME) || r.owner === ME.email);
+const isStale = r => (Date.now() - new Date(r.createdAt).getTime()) > 2 * 3600 * 1000;
+function hasResponsibleAdmin(r) {
+  const st = stById(r.studentId); if (!st) return false;
+  const name = normalizeName(st.studentName);
+  return USERS.some(u => {
+    if (u.role !== 'admin') return false;
+    if (u.email === r.owner) return true;
+    const us = stById(u.studentId);
+    return us && normalizeName(us.studentName) === name;
+  });
+}
+const reqVisible = r => {
+  if (r.status !== 'pending' || !isAdm(ME)) return false;
+  if (isSuper(ME)) return !hasResponsibleAdmin(r) || isStale(r);   // супер видит только «бесхозные» и просроченные
+  // обычный админ — заявки по своим ученикам (по ФИО)
+  const myNames = new Set();
+  const myStudent = stById(ME.studentId);
+  if (myStudent) myNames.add(normalizeName(myStudent.studentName));
+  S.students.filter(s => s.createdBy === ME.email).forEach(s => myNames.add(normalizeName(s.studentName)));
+  const st = stById(r.studentId);
+  if (!st) return r.owner === ME.email;
+  return myNames.has(normalizeName(st.studentName)) || r.owner === ME.email;
+};
 async function refreshPending(silentFirst) {
   if (!ME || !pendingReady()) return;
   try {
