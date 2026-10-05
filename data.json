@@ -119,7 +119,16 @@
           "id": "muub32dmtblbex4",
           "name": "Химия",
           "order": 7,
-          "grades": []
+          "grades": [
+            {
+              "createdAt": "2026-10-05T19:26:57.645Z",
+              "value": 3,
+              "type": "Другое",
+              "date": "2026-09-11",
+              "comment": "",
+              "id": "muvn5gmlresei00"
+            }
+          ]
         },
         {
           "id": "muub38kwvci1k21",
@@ -184,7 +193,7 @@
       ],
       "createdBy": "self",
       "createdAt": "2026-10-04T20:04:07.276Z",
-      "updatedAt": "2026-10-05T19:26:46.835Z"
+      "updatedAt": "2026-10-05T19:26:57.645Z"
     },
     {
       "id": "muuc7k2wu44ubbl",
@@ -250,5 +259,5 @@
       "usedAt": "2026-10-05T18:06:39.671Z"
     }
   ],
-  "publishedAt": "2026-10-05T19:26:48.426Z"
+  "publishedAt": "2026-10-05T19:26:59.266Z"
 }
