@@ -328,6 +328,14 @@
           "subject": "Математика",
           "room": "",
           "homework": ""
+        },
+        {
+          "id": "muvnjr5cc3yvi0t",
+          "day": "Понедельник",
+          "time": "",
+          "subject": "Всемирная история",
+          "room": "",
+          "homework": ""
         }
       ],
       "catalog": [
@@ -349,7 +357,7 @@
       ],
       "createdBy": "self",
       "createdAt": "2026-10-04T20:04:07.276Z",
-      "updatedAt": "2026-10-05T19:37:58.712Z"
+      "updatedAt": "2026-10-05T19:38:04.464Z"
     },
     {
       "id": "muuc7k2wu44ubbl",
@@ -415,5 +423,5 @@
       "usedAt": "2026-10-05T18:06:39.671Z"
     }
   ],
-  "publishedAt": "2026-10-05T19:38:00.329Z"
+  "publishedAt": "2026-10-05T19:38:06.058Z"
 }
