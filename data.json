@@ -60,7 +60,7 @@
         {
           "id": "muub2c50x8sdxmw",
           "name": "Белорусский язык",
-          "order": 4,
+          "order": 5,
           "grades": [
             {
               "createdAt": "2026-10-05T19:25:55.759Z",
@@ -75,7 +75,7 @@
         {
           "id": "muub2hbgxwdwzlj",
           "name": "Белорусская литература",
-          "order": 5,
+          "order": 6,
           "grades": [
             {
               "createdAt": "2026-10-05T19:26:10.780Z",
@@ -90,7 +90,7 @@
         {
           "id": "muub2lpiaiqrv0d",
           "name": "Английский язык",
-          "order": 6,
+          "order": 4,
           "grades": [
             {
               "createdAt": "2026-10-05T19:27:53.760Z",
@@ -557,7 +557,7 @@
       ],
       "createdBy": "self",
       "createdAt": "2026-10-04T20:04:07.276Z",
-      "updatedAt": "2026-10-05T19:44:48.808Z"
+      "updatedAt": "2026-10-05T19:45:54.728Z"
     },
     {
       "id": "muuc7k2wu44ubbl",
@@ -623,5 +623,5 @@
       "usedAt": "2026-10-05T18:06:39.671Z"
     }
   ],
-  "publishedAt": "2026-10-05T19:44:54.421Z"
+  "publishedAt": "2026-10-05T19:45:54.903Z"
 }
