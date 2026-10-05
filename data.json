@@ -35,7 +35,16 @@
           "id": "muub2hbgxwdwzlj",
           "name": "Белорусская литература",
           "order": 3,
-          "grades": []
+          "grades": [
+            {
+              "createdAt": "2026-10-05T19:26:10.780Z",
+              "value": 4,
+              "type": "Другое",
+              "date": "2026-09-08",
+              "comment": "",
+              "id": "muvn4ggs54ojfg7"
+            }
+          ]
         },
         {
           "id": "muub2lpiaiqrv0d",
@@ -150,7 +159,7 @@
       ],
       "createdBy": "self",
       "createdAt": "2026-10-04T20:04:07.276Z",
-      "updatedAt": "2026-10-05T19:25:55.759Z"
+      "updatedAt": "2026-10-05T19:26:10.780Z"
     },
     {
       "id": "muuc7k2wu44ubbl",
@@ -216,5 +225,5 @@
       "usedAt": "2026-10-05T18:06:39.671Z"
     }
   ],
-  "publishedAt": "2026-10-05T19:25:57.355Z"
+  "publishedAt": "2026-10-05T19:26:12.393Z"
 }
