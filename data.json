@@ -151,22 +151,12 @@
       "role": "super_admin",
       "salt": "mySchool_Salt_2026_xK9p",
       "passwordHash": "6b76ad10ed5efb8fe5460703a99a46625a5018aff23b7f3bb4ca58c5db77786c"
-    },
-    {
-      "uid": "muv9eyjbcxxih39",
-      "email": "irina@mail.ru",
-      "name": "Михайлов Даниил",
-      "role": "admin",
-      "studentId": "muu91ecs2xn7yt5",
-      "salt": "muv9evfszybiyyemuv9evfsi7p3zwr",
-      "passwordHash": "695adc753aafca8331c27ecb6d8612843f43ae07d64bf9cd2caf0509fec0b419",
-      "createdAt": "2026-10-05T13:02:26.135Z",
-      "updatedAt": "2026-10-05T13:03:06.074Z"
     }
   ],
   "deletedEmails": [
     "superadmin@example.com",
-    "warck@tut.by"
+    "warck@tut.by",
+    "irina@mail.ru"
   ],
   "invites": [
     {
@@ -179,5 +169,5 @@
       "createdAt": "2026-10-04T21:25:08.428Z"
     }
   ],
-  "publishedAt": "2026-10-05T13:43:01.263Z"
+  "publishedAt": "2026-10-05T13:43:04.340Z"
 }
