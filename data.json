@@ -153,17 +153,6 @@
       "passwordHash": "6b76ad10ed5efb8fe5460703a99a46625a5018aff23b7f3bb4ca58c5db77786c"
     },
     {
-      "uid": "muv8a79di6b7p59",
-      "email": "warck@tut.by",
-      "name": "Михайлов Даниил",
-      "role": "student",
-      "studentId": "muu91ecs2xn7yt5",
-      "salt": "muv8a4ihwelbksfmuv8a4ihpu7uqnj",
-      "passwordHash": "e6e38b4bc47cf02cab0f221ee486c7c0ce776f09cb20f12be3f41afe26ac7cde",
-      "createdAt": "2026-10-05T12:30:44.545Z",
-      "updatedAt": "2026-10-05T12:31:17.219Z"
-    },
-    {
       "uid": "muv9eyjbcxxih39",
       "email": "irina@mail.ru",
       "name": "Михайлов Даниил",
@@ -176,7 +165,8 @@
     }
   ],
   "deletedEmails": [
-    "superadmin@example.com"
+    "superadmin@example.com",
+    "warck@tut.by"
   ],
   "invites": [
     {
@@ -189,5 +179,5 @@
       "createdAt": "2026-10-04T21:25:08.428Z"
     }
   ],
-  "publishedAt": "2026-10-05T13:42:50.742Z"
+  "publishedAt": "2026-10-05T13:43:01.263Z"
 }
