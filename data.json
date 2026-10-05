@@ -13,7 +13,7 @@
         {
           "id": "muub27eqfrr0do0",
           "name": "Русская литература",
-          "order": 4,
+          "order": 3,
           "grades": [
             {
               "createdAt": "2026-10-05T19:26:23.969Z",
@@ -90,7 +90,7 @@
         {
           "id": "muub2lpiaiqrv0d",
           "name": "Английский язык",
-          "order": 3,
+          "order": 4,
           "grades": [
             {
               "createdAt": "2026-10-05T19:27:53.760Z",
@@ -557,7 +557,7 @@
       ],
       "createdBy": "self",
       "createdAt": "2026-10-04T20:04:07.276Z",
-      "updatedAt": "2026-10-05T19:45:56.036Z"
+      "updatedAt": "2026-10-05T19:45:58.311Z"
     },
     {
       "id": "muuc7k2wu44ubbl",
@@ -623,5 +623,5 @@
       "usedAt": "2026-10-05T18:06:39.671Z"
     }
   ],
-  "publishedAt": "2026-10-05T19:45:57.649Z"
+  "publishedAt": "2026-10-05T19:45:59.913Z"
 }
