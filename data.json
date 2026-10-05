@@ -296,7 +296,16 @@
           "grades": []
         }
       ],
-      "schedule": [],
+      "schedule": [
+        {
+          "id": "muvnjeeekjioo6y",
+          "day": "Понедельник",
+          "time": "",
+          "subject": "Русский язык",
+          "room": "",
+          "homework": ""
+        }
+      ],
       "catalog": [
         "Математика",
         "Русский язык",
@@ -316,7 +325,7 @@
       ],
       "createdBy": "self",
       "createdAt": "2026-10-04T20:04:07.276Z",
-      "updatedAt": "2026-10-05T19:36:43.956Z"
+      "updatedAt": "2026-10-05T19:37:47.942Z"
     },
     {
       "id": "muuc7k2wu44ubbl",
@@ -382,5 +391,5 @@
       "usedAt": "2026-10-05T18:06:39.671Z"
     }
   ],
-  "publishedAt": "2026-10-05T19:36:47.599Z"
+  "publishedAt": "2026-10-05T19:37:49.499Z"
 }
