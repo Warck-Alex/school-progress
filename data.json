@@ -352,6 +352,14 @@
           "subject": "Математика",
           "room": "",
           "homework": ""
+        },
+        {
+          "id": "muvnk5xmpn9zje6",
+          "day": "Вторник",
+          "time": "",
+          "subject": "Физкультура",
+          "room": "",
+          "homework": ""
         }
       ],
       "catalog": [
@@ -373,7 +381,7 @@
       ],
       "createdBy": "self",
       "createdAt": "2026-10-04T20:04:07.276Z",
-      "updatedAt": "2026-10-05T19:38:18.012Z"
+      "updatedAt": "2026-10-05T19:38:23.626Z"
     },
     {
       "id": "muuc7k2wu44ubbl",
@@ -439,5 +447,5 @@
       "usedAt": "2026-10-05T18:06:39.671Z"
     }
   ],
-  "publishedAt": "2026-10-05T19:38:19.629Z"
+  "publishedAt": "2026-10-05T19:38:25.233Z"
 }
