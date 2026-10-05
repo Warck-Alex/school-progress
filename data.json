@@ -75,7 +75,16 @@
           "id": "muub2lpiaiqrv0d",
           "name": "Английский язык",
           "order": 4,
-          "grades": []
+          "grades": [
+            {
+              "createdAt": "2026-10-05T19:27:53.760Z",
+              "value": 6,
+              "type": "Другое",
+              "date": "2026-09-25",
+              "comment": "",
+              "id": "muvn6nxcgsem3ht"
+            }
+          ]
         },
         {
           "id": "muub2ylaqk57qrh",
@@ -226,7 +235,7 @@
       ],
       "createdBy": "self",
       "createdAt": "2026-10-04T20:04:07.276Z",
-      "updatedAt": "2026-10-05T19:27:44.546Z"
+      "updatedAt": "2026-10-05T19:27:53.760Z"
     },
     {
       "id": "muuc7k2wu44ubbl",
@@ -292,5 +301,5 @@
       "usedAt": "2026-10-05T18:06:39.671Z"
     }
   ],
-  "publishedAt": "2026-10-05T19:27:46.142Z"
+  "publishedAt": "2026-10-05T19:27:56.469Z"
 }
