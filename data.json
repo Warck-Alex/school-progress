@@ -14,7 +14,16 @@
           "id": "muub27eqfrr0do0",
           "name": "Русская литература",
           "order": 1,
-          "grades": []
+          "grades": [
+            {
+              "createdAt": "2026-10-05T19:26:23.969Z",
+              "value": 5,
+              "type": "Другое",
+              "date": "2026-09-09",
+              "comment": "",
+              "id": "muvn4qn4elfec7q"
+            }
+          ]
         },
         {
           "id": "muub2c50x8sdxmw",
@@ -159,7 +168,7 @@
       ],
       "createdBy": "self",
       "createdAt": "2026-10-04T20:04:07.276Z",
-      "updatedAt": "2026-10-05T19:26:10.780Z"
+      "updatedAt": "2026-10-05T19:26:23.969Z"
     },
     {
       "id": "muuc7k2wu44ubbl",
@@ -225,5 +234,5 @@
       "usedAt": "2026-10-05T18:06:39.671Z"
     }
   ],
-  "publishedAt": "2026-10-05T19:26:12.393Z"
+  "publishedAt": "2026-10-05T19:26:25.557Z"
 }
