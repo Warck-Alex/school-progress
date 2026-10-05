@@ -464,6 +464,14 @@
           "subject": "Биология",
           "room": "",
           "homework": ""
+        },
+        {
+          "id": "muvnlt4mhtz8p1o",
+          "day": "Четверг",
+          "time": "",
+          "subject": "Физика",
+          "room": "",
+          "homework": ""
         }
       ],
       "catalog": [
@@ -485,7 +493,7 @@
       ],
       "createdBy": "self",
       "createdAt": "2026-10-04T20:04:07.276Z",
-      "updatedAt": "2026-10-05T19:39:36.684Z"
+      "updatedAt": "2026-10-05T19:39:40.342Z"
     },
     {
       "id": "muuc7k2wu44ubbl",
@@ -551,5 +559,5 @@
       "usedAt": "2026-10-05T18:06:39.671Z"
     }
   ],
-  "publishedAt": "2026-10-05T19:39:38.395Z"
+  "publishedAt": "2026-10-05T19:39:41.937Z"
 }
