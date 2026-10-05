@@ -408,6 +408,14 @@
           "subject": "Русская литература",
           "room": "",
           "homework": ""
+        },
+        {
+          "id": "muvnl40qa7u1n0j",
+          "day": "Среда",
+          "time": "",
+          "subject": "Русский язык",
+          "room": "",
+          "homework": ""
         }
       ],
       "catalog": [
@@ -429,7 +437,7 @@
       ],
       "createdBy": "self",
       "createdAt": "2026-10-04T20:04:07.276Z",
-      "updatedAt": "2026-10-05T19:39:02.738Z"
+      "updatedAt": "2026-10-05T19:39:07.802Z"
     },
     {
       "id": "muuc7k2wu44ubbl",
@@ -495,5 +503,5 @@
       "usedAt": "2026-10-05T18:06:39.671Z"
     }
   ],
-  "publishedAt": "2026-10-05T19:39:04.337Z"
+  "publishedAt": "2026-10-05T19:39:09.422Z"
 }
