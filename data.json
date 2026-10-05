@@ -71,16 +71,7 @@
           "id": "muub3crm6gpxdv7",
           "name": "География",
           "order": 9,
-          "grades": [
-            {
-              "createdAt": "2026-10-04T21:37:56.046Z",
-              "value": 10,
-              "type": "Другое",
-              "date": "2026-10-05",
-              "comment": "",
-              "id": "muuce1ji9pthdwj"
-            }
-          ]
+          "grades": []
         },
         {
           "id": "muub3eyibh52r60",
@@ -119,7 +110,7 @@
       ],
       "createdBy": "self",
       "createdAt": "2026-10-04T20:04:07.276Z",
-      "updatedAt": "2026-10-05T12:33:34.649Z"
+      "updatedAt": "2026-10-05T12:33:39.504Z"
     },
     {
       "id": "muuc7k2wu44ubbl",
@@ -183,5 +174,5 @@
       "usedAt": "2026-10-05T12:31:17.219Z"
     }
   ],
-  "publishedAt": "2026-10-05T12:33:34.991Z"
+  "publishedAt": "2026-10-05T12:33:39.864Z"
 }
