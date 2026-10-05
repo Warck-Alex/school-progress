@@ -29,7 +29,16 @@
           "id": "muub2c50x8sdxmw",
           "name": "Белорусский язык",
           "order": 2,
-          "grades": []
+          "grades": [
+            {
+              "createdAt": "2026-10-05T13:10:40.384Z",
+              "value": 8,
+              "type": "Другое",
+              "date": "2026-10-05",
+              "comment": "",
+              "id": "muv9pjwg28q45qf"
+            }
+          ]
         },
         {
           "id": "muub2hbgxwdwzlj",
@@ -136,7 +145,7 @@
       ],
       "createdBy": "self",
       "createdAt": "2026-10-04T20:04:07.276Z",
-      "updatedAt": "2026-10-05T13:03:56.746Z"
+      "updatedAt": "2026-10-05T13:10:40.384Z"
     },
     {
       "id": "muuc7k2wu44ubbl",
@@ -210,5 +219,5 @@
       "createdAt": "2026-10-04T21:25:08.428Z"
     }
   ],
-  "publishedAt": "2026-10-05T13:04:03.673Z"
+  "publishedAt": "2026-10-05T13:10:42.023Z"
 }
