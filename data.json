@@ -274,7 +274,7 @@
         {
           "id": "muub3h4u6ztqu1u",
           "name": "Физкультура",
-          "order": 12,
+          "order": 14,
           "grades": []
         },
         {
@@ -286,13 +286,13 @@
         {
           "id": "muvauu4m9nrvccv",
           "name": "Всемирная история",
-          "order": 13,
+          "order": 12,
           "grades": []
         },
         {
           "id": "muvauw45v4uuv5k",
           "name": "История Беларуси",
-          "order": 14,
+          "order": 13,
           "grades": []
         }
       ],
@@ -557,7 +557,7 @@
       ],
       "createdBy": "self",
       "createdAt": "2026-10-04T20:04:07.276Z",
-      "updatedAt": "2026-10-05T19:41:29.902Z"
+      "updatedAt": "2026-10-05T19:44:22.124Z"
     },
     {
       "id": "muuc7k2wu44ubbl",
@@ -623,5 +623,5 @@
       "usedAt": "2026-10-05T18:06:39.671Z"
     }
   ],
-  "publishedAt": "2026-10-05T19:41:31.486Z"
+  "publishedAt": "2026-10-05T19:44:23.688Z"
 }
