@@ -167,7 +167,16 @@
       "studentName": "Михайлов Даниил",
       "invitedBy": "warck@mail.ru",
       "createdAt": "2026-10-04T21:25:08.428Z"
+    },
+    {
+      "id": "muvjm5q63r6ks0v",
+      "email": "ngshord@gmail.com",
+      "role": "student",
+      "studentId": "muu91ecs2xn7yt5",
+      "studentName": "Михайлов Даниил",
+      "invitedBy": "warck@mail.ru",
+      "createdAt": "2026-10-05T17:47:58.206Z"
     }
   ],
-  "publishedAt": "2026-10-05T16:49:44.210Z"
+  "publishedAt": "2026-10-05T17:47:59.964Z"
 }
