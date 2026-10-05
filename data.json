@@ -115,7 +115,7 @@
       ],
       "createdBy": "self",
       "createdAt": "2026-10-04T20:04:07.276Z",
-      "updatedAt": "2026-10-05T13:42:49.109Z"
+      "updatedAt": "2026-10-05T18:06:39.671Z"
     },
     {
       "id": "muuc7k2wu44ubbl",
@@ -151,6 +151,17 @@
       "role": "super_admin",
       "salt": "mySchool_Salt_2026_xK9p",
       "passwordHash": "6b76ad10ed5efb8fe5460703a99a46625a5018aff23b7f3bb4ca58c5db77786c"
+    },
+    {
+      "uid": "muvjtk1njrwcb3p",
+      "email": "ngshord@gmail.com",
+      "name": "Даниил Михайлов",
+      "role": "student",
+      "studentId": "muu91ecs2xn7yt5",
+      "salt": "muvjt4fw37utvtumuvjt4fwydmls43",
+      "passwordHash": "f93fc131fe9bf4335b1c19ccfde754dca59304d9b28310e728b202d0785113e3",
+      "createdAt": "2026-10-05T17:53:43.355Z",
+      "updatedAt": "2026-10-05T18:06:39.671Z"
     }
   ],
   "deletedEmails": [
@@ -166,8 +177,9 @@
       "studentId": "muu91ecs2xn7yt5",
       "studentName": "Михайлов Даниил",
       "invitedBy": "warck@mail.ru",
-      "createdAt": "2026-10-05T17:47:58.206Z"
+      "createdAt": "2026-10-05T17:47:58.206Z",
+      "usedAt": "2026-10-05T18:06:39.671Z"
     }
   ],
-  "publishedAt": "2026-10-05T17:48:07.070Z"
+  "publishedAt": "2026-10-05T18:06:40.024Z"
 }
