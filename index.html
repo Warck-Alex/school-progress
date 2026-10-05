@@ -1075,7 +1075,9 @@ document.addEventListener('drop', e => {
 
 /* ----- Личный кабинет ----- */
 function reqCardHtml(r) {
-  return `<div class="req"><div class="rt"><b>${esc(describeReq(r))}</b><span class="muted small">${esc(r.byName || r.by)} · ${fmtDT(r.createdAt)}</span></div>
+  const stale = isStale(r) && !hasResponsibleAdmin(r) === false && isSuper(ME); // помечаем только у супера
+  const badge = isSuper(ME) && isStale(r) ? ' <span class="badge" style="background:#ef4444">⏰ просрочено</span>' : '';
+  return `<div class="req"><div class="rt"><b>${esc(describeReq(r))}${badge}</b><span class="muted small">${esc(r.byName || r.by)} · ${fmtDT(r.createdAt)}</span></div>
     <div class="row"><button class="btn sm primary" data-act="req-approve" data-id="${r.id}" title="Применить изменение">✅ Принять</button><button class="btn sm" data-act="req-reject" data-id="${r.id}" title="Отклонить заявку">✖ Отклонить</button></div></div>`;
 }
 function reqPanelHtml() {
@@ -1111,7 +1113,7 @@ function cabinetHtml(st) {
   const right = st ? `
     <div class="panel"><h3>📚 Каталог предметов</h3><div class="chips">${st.catalog.map(c => `<span class="chip">${esc(c)}${ed ? `<button data-act="cat-del" data-name="${esc(c)}" title="Удалить из каталога">✕</button>` : ''}</span>`).join('') || '<span class="muted">Каталог пуст</span>'}</div>
       ${ed ? `<div class="row" style="flex-wrap:nowrap"><input id="cat_in" placeholder="Новый предмет"><button class="btn primary" data-act="cat-add" title="Добавить в каталог">Добавить</button></div>` : ''}</div>
-    <div class="panel"><h3>📊 Статистика по предметам</h3>${subjectsSorted(st).map(s => { const a = subjAvg(s); return `<div class="bar"><span>${esc(s.name)}</span><div class="tr"><div class="fl" style="width:${a == null ? 0 : a * 10}%;background:${a == null ? 'transparent' : gradeColor(a)}"></div></div><b>${fmtNum(a)}</b></div>`; }).join('') || '<span class="muted">Нет данных</span>'}</div>
+   <div class="panel"><h3>📊 Статистика по предметам</h3>${subjectsSorted(st).slice().sort((a, b) => { const aa = subjAvg(a), bb = subjAvg(b); if (aa == null && bb == null) return 0; if (aa == null) return 1; if (bb == null) return -1; return bb - aa; }).map(s => { const a = subjAvg(s); return `<div class="bar"><span title="${esc(s.name)}">${esc(s.name)}</span><div class="tr"><div class="fl" style="width:${a == null ? 0 : a * 10}%;background:${a == null ? 'transparent' : gradeColor(a)}"></div></div><b>${fmtNum(a)}</b></div>`; }).join('') || '<span class="muted">Нет данных</span>'}</div>
     ${!adm ? myReqHtml() : ''}
     ${adm ? invitesHtml() : ''}` : '';
   return `${reqPanelHtml()}<div class="cab"><div>${left}</div><div>${right}</div></div>`;
