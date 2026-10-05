@@ -81,6 +81,12 @@
           "name": "Обществоведение",
           "order": 11,
           "grades": []
+        },
+        {
+          "id": "muvauu4m9nrvccv",
+          "name": "Всемирная история",
+          "order": 13,
+          "grades": []
         }
       ],
       "schedule": [],
@@ -103,7 +109,7 @@
       ],
       "createdBy": "self",
       "createdAt": "2026-10-04T20:04:07.276Z",
-      "updatedAt": "2026-10-05T13:42:20.296Z"
+      "updatedAt": "2026-10-05T13:42:46.534Z"
     },
     {
       "id": "muuc7k2wu44ubbl",
@@ -177,5 +183,5 @@
       "createdAt": "2026-10-04T21:25:08.428Z"
     }
   ],
-  "publishedAt": "2026-10-05T13:42:25.102Z"
+  "publishedAt": "2026-10-05T13:42:48.134Z"
 }
