@@ -87,7 +87,16 @@
           "id": "muub30fepjkfwm7",
           "name": "Физика",
           "order": 6,
-          "grades": []
+          "grades": [
+            {
+              "createdAt": "2026-10-05T13:40:25.223Z",
+              "value": 7,
+              "type": "Другое",
+              "date": "2026-10-05",
+              "comment": "",
+              "id": "muvaluqh5ilmfyk"
+            }
+          ]
         },
         {
           "id": "muub32dmtblbex4",
@@ -204,7 +213,7 @@
       ],
       "createdBy": "self",
       "createdAt": "2026-10-04T20:04:07.276Z",
-      "updatedAt": "2026-10-05T13:18:19.296Z"
+      "updatedAt": "2026-10-05T13:40:25.223Z"
     },
     {
       "id": "muuc7k2wu44ubbl",
@@ -278,5 +287,5 @@
       "createdAt": "2026-10-04T21:25:08.428Z"
     }
   ],
-  "publishedAt": "2026-10-05T13:18:55.516Z"
+  "publishedAt": "2026-10-05T13:40:25.582Z"
 }
