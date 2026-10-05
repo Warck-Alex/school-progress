@@ -8,16 +8,7 @@
           "id": "muub21j8mnvxbxx",
           "name": "Русский язык",
           "order": 0,
-          "grades": [
-            {
-              "createdAt": "2026-10-05T13:03:43.129Z",
-              "value": 4,
-              "type": "Другое",
-              "date": "2026-10-05",
-              "comment": "",
-              "id": "muv9gly14k3fkso"
-            }
-          ]
+          "grades": []
         },
         {
           "id": "muub27eqfrr0do0",
@@ -213,7 +204,7 @@
       ],
       "createdBy": "self",
       "createdAt": "2026-10-04T20:04:07.276Z",
-      "updatedAt": "2026-10-05T13:40:25.223Z"
+      "updatedAt": "2026-10-05T13:41:11.683Z"
     },
     {
       "id": "muuc7k2wu44ubbl",
@@ -287,5 +278,5 @@
       "createdAt": "2026-10-04T21:25:08.428Z"
     }
   ],
-  "publishedAt": "2026-10-05T13:40:25.582Z"
+  "publishedAt": "2026-10-05T13:41:13.383Z"
 }
