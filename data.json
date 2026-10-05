@@ -153,12 +153,12 @@
       "uid": "muv9eyjbcxxih39",
       "email": "irina@mail.ru",
       "name": "Михайлов Даниил",
-      "role": "viewer",
+      "role": "admin",
       "studentId": "muu91ecs2xn7yt5",
       "salt": "muv9evfszybiyyemuv9evfsi7p3zwr",
       "passwordHash": "695adc753aafca8331c27ecb6d8612843f43ae07d64bf9cd2caf0509fec0b419",
       "createdAt": "2026-10-05T13:02:26.135Z",
-      "updatedAt": "2026-10-05T13:02:50.792Z"
+      "updatedAt": "2026-10-05T13:03:06.074Z"
     }
   ],
   "deletedEmails": [
@@ -175,5 +175,5 @@
       "createdAt": "2026-10-04T21:25:08.428Z"
     }
   ],
-  "publishedAt": "2026-10-05T13:02:51.177Z"
+  "publishedAt": "2026-10-05T13:03:07.712Z"
 }
