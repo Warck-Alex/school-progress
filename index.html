@@ -374,7 +374,18 @@ function curStudent() {
 }
 const canDirect = () => isAdm(ME);                 // правит сразу
 const canEdit = () => isAdm(ME) || ME.role === 'student'; // правит (ученик — через заявку)
-const manages = st => isSuper(ME) || (ME.role === 'admin' && st && st.createdBy === ME.email);
+const manages = st => {
+  if (!st) return false;
+  if (isSuper(ME)) return true;
+  if (ME.role !== 'admin') return false;
+  if (st.createdBy === ME.email) return true;
+  // Разрешаем, если ФИО совпадает с ФИО учеников этого админа
+  const myNames = new Set();
+  const myStudent = stById(ME.studentId);
+  if (myStudent) myNames.add(normalizeName(myStudent.studentName));
+  S.students.filter(s => s.createdBy === ME.email).forEach(s => myNames.add(normalizeName(s.studentName)));
+  return myNames.has(normalizeName(st.studentName));
+};
 function visibleUsers() {
   if (!isAdm(ME)) return [];
   if (isSuper(ME)) return USERS;
