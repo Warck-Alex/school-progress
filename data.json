@@ -472,6 +472,14 @@
           "subject": "Физика",
           "room": "",
           "homework": ""
+        },
+        {
+          "id": "muvnlvxyc1m7c8g",
+          "day": "Четверг",
+          "time": "",
+          "subject": "Английский язык",
+          "room": "",
+          "homework": ""
         }
       ],
       "catalog": [
@@ -493,7 +501,7 @@
       ],
       "createdBy": "self",
       "createdAt": "2026-10-04T20:04:07.276Z",
-      "updatedAt": "2026-10-05T19:39:40.342Z"
+      "updatedAt": "2026-10-05T19:39:43.990Z"
     },
     {
       "id": "muuc7k2wu44ubbl",
@@ -559,5 +567,5 @@
       "usedAt": "2026-10-05T18:06:39.671Z"
     }
   ],
-  "publishedAt": "2026-10-05T19:39:41.937Z"
+  "publishedAt": "2026-10-05T19:39:45.604Z"
 }
