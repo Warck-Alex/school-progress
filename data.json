@@ -70,14 +70,6 @@
           "order": 10,
           "grades": [
             {
-              "createdAt": "2026-10-05T13:15:48.545Z",
-              "value": 6,
-              "type": "Другое",
-              "date": "2026-10-05",
-              "comment": "",
-              "id": "muv9l54grqcozxg"
-            },
-            {
               "createdAt": "2026-10-05T13:15:53.867Z",
               "value": 8,
               "type": "Другое",
@@ -144,7 +136,7 @@
       ],
       "createdBy": "self",
       "createdAt": "2026-10-04T20:04:07.276Z",
-      "updatedAt": "2026-10-05T13:41:28.891Z"
+      "updatedAt": "2026-10-05T13:41:31.623Z"
     },
     {
       "id": "muuc7k2wu44ubbl",
@@ -218,5 +210,5 @@
       "createdAt": "2026-10-04T21:25:08.428Z"
     }
   ],
-  "publishedAt": "2026-10-05T13:41:30.497Z"
+  "publishedAt": "2026-10-05T13:41:33.256Z"
 }
