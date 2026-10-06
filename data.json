@@ -620,7 +620,16 @@
       "studentName": "Михайлов Даниил",
       "invitedBy": "warck@mail.ru",
       "createdAt": "2026-10-04T21:25:08.428Z"
+    },
+    {
+      "id": "muwybb44k13q91e",
+      "email": "irina.daniluk.blt@gmail.com",
+      "role": "viewer",
+      "studentId": "muu91ecs2xn7yt5",
+      "studentName": "Михайлов Даниил",
+      "invitedBy": "warck@mail.ru",
+      "createdAt": "2026-10-06T17:27:12.388Z"
     }
   ],
-  "publishedAt": "2026-10-06T08:17:24.643Z"
+  "publishedAt": "2026-10-06T17:27:13.986Z"
 }
