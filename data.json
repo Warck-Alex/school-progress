@@ -300,7 +300,7 @@
         {
           "id": "muvnjeeekjioo6y",
           "day": "Понедельник",
-          "time": "",
+          "time": "8.30-9.15",
           "subject": "Русский язык",
           "room": "",
           "homework": ""
@@ -557,7 +557,7 @@
       ],
       "createdBy": "self",
       "createdAt": "2026-10-04T20:04:07.276Z",
-      "updatedAt": "2026-10-06T06:02:05.519Z"
+      "updatedAt": "2026-10-06T08:17:22.931Z"
     },
     {
       "id": "muuc7k2wu44ubbl",
@@ -622,5 +622,5 @@
       "createdAt": "2026-10-04T21:25:08.428Z"
     }
   ],
-  "publishedAt": "2026-10-06T06:02:07.232Z"
+  "publishedAt": "2026-10-06T08:17:24.643Z"
 }
