@@ -8,7 +8,24 @@
           "id": "muub21j8mnvxbxx",
           "name": "Русский язык",
           "order": 2,
-          "grades": []
+          "grades": [
+            {
+              "createdAt": "2026-10-08T18:00:41.762Z",
+              "value": 6,
+              "type": "Диктант",
+              "date": "2026-10-07",
+              "comment": "",
+              "id": "muzue2w2yqwdbzn"
+            },
+            {
+              "createdAt": "2026-10-08T18:00:51.810Z",
+              "value": 4,
+              "type": "Диктант",
+              "date": "2026-10-07",
+              "comment": "",
+              "id": "muzuean5ifgca22"
+            }
+          ]
         },
         {
           "id": "muub27eqfrr0do0",
@@ -69,6 +86,14 @@
               "date": "2026-09-07",
               "comment": "",
               "id": "muvn44vjc0ardet"
+            },
+            {
+              "createdAt": "2026-10-08T17:59:28.607Z",
+              "value": 6,
+              "type": "Другое",
+              "date": "2026-10-06",
+              "comment": "",
+              "id": "muzucifybocvo8d"
             }
           ]
         },
@@ -557,7 +582,7 @@
       ],
       "createdBy": "self",
       "createdAt": "2026-10-04T20:04:07.276Z",
-      "updatedAt": "2026-10-06T08:17:22.931Z"
+      "updatedAt": "2026-10-08T18:00:51.810Z"
     },
     {
       "id": "muuc7k2wu44ubbl",
@@ -589,7 +614,7 @@
       "email": "warck@mail.ru",
       "name": "Супер-администратор",
       "studentId": null,
-      "createdAt": "2026-10-05T16:48:09.516Z",
+      "createdAt": "2026-10-08T17:56:36.470Z",
       "role": "super_admin",
       "salt": "mySchool_Salt_2026_xK9p",
       "passwordHash": "6b76ad10ed5efb8fe5460703a99a46625a5018aff23b7f3bb4ca58c5db77786c"
@@ -631,5 +656,5 @@
       "createdAt": "2026-10-06T17:27:12.388Z"
     }
   ],
-  "publishedAt": "2026-10-06T17:27:13.986Z"
+  "publishedAt": "2026-10-08T18:01:25.828Z"
 }
