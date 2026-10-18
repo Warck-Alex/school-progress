@@ -614,7 +614,7 @@
       "email": "warck@mail.ru",
       "name": "Супер-администратор",
       "studentId": null,
-      "createdAt": "2026-10-08T17:56:36.470Z",
+      "createdAt": "2026-10-18T20:03:51.475Z",
       "role": "super_admin",
       "salt": "mySchool_Salt_2026_xK9p",
       "passwordHash": "6b76ad10ed5efb8fe5460703a99a46625a5018aff23b7f3bb4ca58c5db77786c"
@@ -625,10 +625,10 @@
       "name": "Даниил Михайлов",
       "role": "student",
       "studentId": "muu91ecs2xn7yt5",
-      "salt": "muvjt4fw37utvtumuvjt4fwydmls43",
-      "passwordHash": "f93fc131fe9bf4335b1c19ccfde754dca59304d9b28310e728b202d0785113e3",
+      "salt": "mvcg91cn7ut877hmvcg91coxop4r1x",
+      "passwordHash": "4653a4f44ebe50c56c97eb919ddf2afee24c97cb6c475cbaaea55b00d84d78d3",
       "createdAt": "2026-10-05T17:53:43.355Z",
-      "updatedAt": "2026-10-05T18:06:39.671Z"
+      "updatedAt": "2026-10-18T20:05:10.053Z"
     }
   ],
   "deletedEmails": [
@@ -656,5 +656,5 @@
       "createdAt": "2026-10-06T17:27:12.388Z"
     }
   ],
-  "publishedAt": "2026-10-08T18:03:57.185Z"
+  "publishedAt": "2026-10-18T20:05:11.098Z"
 }
