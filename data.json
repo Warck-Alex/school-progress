@@ -361,6 +361,12 @@
               "id": "mve8vi78k6kzqhd"
             }
           ]
+        },
+        {
+          "id": "mveb4weses0aopc",
+          "name": "Искусство",
+          "order": 15,
+          "grades": []
         }
       ],
       "schedule": [
@@ -626,7 +632,7 @@
       ],
       "createdBy": "self",
       "createdAt": "2026-10-04T20:04:07.276Z",
-      "updatedAt": "2026-10-18T20:12:05.455Z"
+      "updatedAt": "2026-10-18T20:58:13.396Z"
     },
     {
       "id": "muuc7k2wu44ubbl",
@@ -700,5 +706,5 @@
       "createdAt": "2026-10-06T17:27:12.388Z"
     }
   ],
-  "publishedAt": "2026-10-18T20:58:04.489Z"
+  "publishedAt": "2026-10-18T20:58:15.038Z"
 }
