@@ -342,7 +342,16 @@
           "id": "muvauw45v4uuv5k",
           "name": "История Беларуси",
           "order": 13,
-          "grades": []
+          "grades": [
+            {
+              "createdAt": "2026-10-18T20:11:40.575Z",
+              "value": 8,
+              "type": "Устный ответ",
+              "date": "2026-10-01",
+              "comment": "",
+              "id": "mve8vi78k6kzqhd"
+            }
+          ]
         }
       ],
       "schedule": [
@@ -608,7 +617,7 @@
       ],
       "createdBy": "self",
       "createdAt": "2026-10-04T20:04:07.276Z",
-      "updatedAt": "2026-10-18T20:11:35.163Z"
+      "updatedAt": "2026-10-18T20:11:40.930Z"
     },
     {
       "id": "muuc7k2wu44ubbl",
@@ -682,5 +691,5 @@
       "createdAt": "2026-10-06T17:27:12.388Z"
     }
   ],
-  "publishedAt": "2026-10-18T20:11:35.764Z"
+  "publishedAt": "2026-10-18T20:11:40.955Z"
 }
