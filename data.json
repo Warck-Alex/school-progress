@@ -628,7 +628,7 @@
       "salt": "mvcg91cn7ut877hmvcg91coxop4r1x",
       "passwordHash": "4653a4f44ebe50c56c97eb919ddf2afee24c97cb6c475cbaaea55b00d84d78d3",
       "createdAt": "2026-10-05T17:53:43.355Z",
-      "updatedAt": "2026-10-18T20:05:10.053Z"
+      "updatedAt": "2026-10-18T20:05:11.332Z"
     }
   ],
   "deletedEmails": [
@@ -656,5 +656,5 @@
       "createdAt": "2026-10-06T17:27:12.388Z"
     }
   ],
-  "publishedAt": "2026-10-18T20:05:11.098Z"
+  "publishedAt": "2026-10-18T20:05:13.282Z"
 }
