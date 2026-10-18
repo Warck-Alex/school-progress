@@ -336,7 +336,16 @@
           "id": "muvauu4m9nrvccv",
           "name": "Всемирная история",
           "order": 12,
-          "grades": []
+          "grades": [
+            {
+              "createdAt": "2026-10-18T20:11:46.770Z",
+              "value": 9,
+              "type": "Устный ответ",
+              "date": "2026-10-05",
+              "comment": "",
+              "id": "mve8xfd655d16wj"
+            }
+          ]
         },
         {
           "id": "muvauw45v4uuv5k",
@@ -617,7 +626,7 @@
       ],
       "createdBy": "self",
       "createdAt": "2026-10-04T20:04:07.276Z",
-      "updatedAt": "2026-10-18T20:11:40.930Z"
+      "updatedAt": "2026-10-18T20:11:46.770Z"
     },
     {
       "id": "muuc7k2wu44ubbl",
@@ -691,5 +700,5 @@
       "createdAt": "2026-10-06T17:27:12.388Z"
     }
   ],
-  "publishedAt": "2026-10-18T20:11:42.861Z"
+  "publishedAt": "2026-10-18T20:11:47.178Z"
 }
