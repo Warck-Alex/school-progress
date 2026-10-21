@@ -99,7 +99,7 @@
               "createdAt": "2026-10-21T12:04:47.583Z",
               "value": 8,
               "type": "Другое",
-              "date": "2026-10-20",
+              "date": "2026-10-19",
               "comment": "",
               "id": "mvgnm6me0ojf1py"
             }
@@ -656,7 +656,7 @@
       ],
       "createdBy": "self",
       "createdAt": "2026-10-04T20:04:07.276Z",
-      "updatedAt": "2026-10-21T12:04:47.583Z"
+      "updatedAt": "2026-10-21T12:04:53.547Z"
     },
     {
       "id": "muuc7k2wu44ubbl",
@@ -730,5 +730,5 @@
       "createdAt": "2026-10-06T17:27:12.388Z"
     }
   ],
-  "publishedAt": "2026-10-21T12:04:47.983Z"
+  "publishedAt": "2026-10-21T12:04:54.034Z"
 }
