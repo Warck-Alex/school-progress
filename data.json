@@ -368,6 +368,14 @@
               "date": "2026-10-05",
               "comment": "",
               "id": "mve8xfd655d16wj"
+            },
+            {
+              "createdAt": "2026-10-21T12:04:59.961Z",
+              "value": 8,
+              "type": "Устный ответ",
+              "date": "2026-10-20",
+              "comment": "",
+              "id": "mvgnmk8s9wgbxo2"
             }
           ]
         },
@@ -656,7 +664,7 @@
       ],
       "createdBy": "self",
       "createdAt": "2026-10-04T20:04:07.276Z",
-      "updatedAt": "2026-10-21T12:04:53.547Z"
+      "updatedAt": "2026-10-21T12:04:59.961Z"
     },
     {
       "id": "muuc7k2wu44ubbl",
@@ -730,5 +738,5 @@
       "createdAt": "2026-10-06T17:27:12.388Z"
     }
   ],
-  "publishedAt": "2026-10-21T12:04:54.034Z"
+  "publishedAt": "2026-10-21T12:05:00.473Z"
 }
