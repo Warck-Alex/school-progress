@@ -343,6 +343,14 @@
               "date": "2026-09-30",
               "comment": "",
               "id": "mve8uegz0jx3x9x"
+            },
+            {
+              "createdAt": "2026-10-21T12:05:13.821Z",
+              "value": 4,
+              "type": "Самостоятельная работа",
+              "date": "2026-10-07",
+              "comment": "",
+              "id": "mvgnpohp3kg56tl"
             }
           ]
         },
@@ -672,7 +680,7 @@
       ],
       "createdBy": "self",
       "createdAt": "2026-10-04T20:04:07.276Z",
-      "updatedAt": "2026-10-21T12:05:07.464Z"
+      "updatedAt": "2026-10-21T12:05:13.821Z"
     },
     {
       "id": "muuc7k2wu44ubbl",
@@ -746,5 +754,5 @@
       "createdAt": "2026-10-06T17:27:12.388Z"
     }
   ],
-  "publishedAt": "2026-10-21T12:05:07.948Z"
+  "publishedAt": "2026-10-21T12:05:14.309Z"
 }
