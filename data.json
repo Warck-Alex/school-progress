@@ -132,6 +132,14 @@
               "date": "2026-09-29",
               "comment": "",
               "id": "muvnboru4jo8r85"
+            },
+            {
+              "createdAt": "2026-10-21T12:04:16.832Z",
+              "value": 8,
+              "type": "Другое",
+              "date": "2026-10-20",
+              "comment": "",
+              "id": "mvgnkn7z1rvqy4f"
             }
           ]
         },
@@ -632,7 +640,7 @@
       ],
       "createdBy": "self",
       "createdAt": "2026-10-04T20:04:07.276Z",
-      "updatedAt": "2026-10-18T20:58:13.396Z"
+      "updatedAt": "2026-10-21T12:04:16.838Z"
     },
     {
       "id": "muuc7k2wu44ubbl",
@@ -706,5 +714,5 @@
       "createdAt": "2026-10-06T17:27:12.388Z"
     }
   ],
-  "publishedAt": "2026-10-18T21:01:12.428Z"
+  "publishedAt": "2026-10-21T12:04:17.259Z"
 }
